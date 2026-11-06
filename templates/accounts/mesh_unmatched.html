@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}Вас нет в списках{% endblock %}
+{% block content %}
+<div class="login-box card">
+  <h1>Вас пока нет в списках</h1>
+  <p>Вход через МЭШ прошёл, но мы не нашли вас среди студентов колледжа. Администратор получил запрос и привяжет вашу учётную запись.</p>
+  <p class="muted">Если вы студент колледжа — обратитесь к куратору или в студсовет.</p>
+  <a class="btn secondary block" href="{% url 'accounts:login' %}">На страницу входа</a>
+</div>
+{% endblock %}

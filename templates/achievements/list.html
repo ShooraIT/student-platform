@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Достижения{% endblock %}
+{% block content %}
+<h1>Достижения</h1>
+<div class="pill-tabs"><a href="{% url 'achievements:rating' %}">Студенты</a><a href="{% url 'achievements:groups' %}">Группы</a><a class="active" href="{% url 'achievements:list' %}">Достижения</a></div>
+<div class="grid">
+{% for i in items %}
+  <div class="card achv {% if not i.got %}locked{% endif %}">
+    <div class="icon">{{ i.a.icon }}</div>
+    <h3>{{ i.a.title }}</h3>
+    <p class="muted small">{{ i.a.description }}{% if i.a.reward %} · +{{ i.a.reward }}{% endif %}</p>
+    {% if i.got %}<span class="badge ok">получено {{ i.got.created_at|date:"d.m.Y" }}</span>
+    {% elif i.a.kind != 'manual' %}<div class="progress"><div style="width:{{ i.percent }}%"></div></div><span class="muted small">{{ i.cur }} / {{ i.target }}</span>
+    {% else %}<span class="badge gray">выдаётся организаторами</span>{% endif %}
+  </div>
+{% empty %}<p class="muted">Достижения скоро появятся</p>{% endfor %}
+</div>
+{% endblock %}

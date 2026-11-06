@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}Уведомления{% endblock %}
+{% block content %}
+<div class="spread"><h1>Уведомления</h1>
+  <div class="row"><a class="btn secondary small" href="{% url 'notifications:settings' %}">⚙️ Настройки и пуш</a>
+  <form method="post" action="{% url 'notifications:read_all' %}">{% csrf_token %}<button class="btn secondary small">Прочитать все</button></form></div>
+</div>
+<div class="card">
+  {% for n in items %}
+  <a class="list-item" href="{% url 'notifications:open' n.pk %}" style="color:inherit;text-decoration:none">
+    <span>{% if not n.is_read %}🔵{% else %}⚪{% endif %}</span>
+    <div style="flex:1">{% if not n.is_read %}<b>{{ n.text }}</b>{% else %}{{ n.text }}{% endif %}<div class="muted small">{{ n.created_at|date:"d.m.Y H:i" }}</div></div>
+  </a>
+  {% empty %}<p class="muted">Уведомлений пока нет</p>{% endfor %}
+</div>
+{% endblock %}

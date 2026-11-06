@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Рейтинг{% endblock %}
+{% block content %}
+<h1>Рейтинг</h1>
+<div class="pill-tabs"><a class="active" href="{% url 'achievements:rating' %}">Студенты</a><a href="{% url 'achievements:groups' %}">Группы</a><a href="{% url 'achievements:list' %}">Достижения</a></div>
+<div class="pill-tabs">{% for k, l in periods %}<a href="?period={{ k }}&scope={{ scope }}" class="{% if k == period %}active{% endif %}">{{ l }}</a>{% endfor %}</div>
+<div class="pill-tabs"><a href="?period={{ period }}&scope=all" class="{% if scope == 'all' %}active{% endif %}">Весь колледж</a><a href="?period={{ period }}&scope=course" class="{% if scope == 'course' %}active{% endif %}">Мой курс</a><a href="?period={{ period }}&scope=group" class="{% if scope == 'group' %}active{% endif %}">Моя группа</a></div>
+{% if user.is_student %}<div class="hero">{% if my_place %}Ваше место: <b class="stat">{{ my_place }}</b> из {{ total }}{% else %}Заработайте первые степы, чтобы попасть в рейтинг{% endif %}</div>{% endif %}
+<div class="card">
+  <p class="muted small">Считаются заработанные степы за период — покупки место не снижают.</p>
+  {% for r in top %}
+  <div class="list-item" {% if r.id == user.pk %}style="background:#eef0ff;border-radius:8px;padding-left:.5rem"{% endif %}>
+    <b style="width:2rem">{% if r.place == 1 %}🥇{% elif r.place == 2 %}🥈{% elif r.place == 3 %}🥉{% else %}{{ r.place }}{% endif %}</b>
+    <div style="flex:1">{% if r.hide_from_rating and r.id != user.pk %}<span class="muted">Скрыт</span>{% else %}{{ r.first_name }} {{ r.last_name }}{% endif %} <span class="muted small">{{ r.group__name|default:"" }}</span></div>
+    <span class="reward">{{ r.earned }}</span>
+  </div>
+  {% empty %}<p class="muted">За этот период пока никто не заработал степы</p>{% endfor %}
+</div>
+{% endblock %}

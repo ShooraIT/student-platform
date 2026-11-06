@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Проверка заданий{% endblock %}
+{% block content %}
+<h1>Очередь проверки</h1>
+<div class="pill-tabs"><a href="?" class="{% if not task_id %}active{% endif %}">Все</a>{% for t in tasks %}<a href="?task={{ t.pk }}" class="{% if task_id == t.pk|stringformat:'s' %}active{% endif %}">{{ t.title }}</a>{% endfor %}</div>
+
+{% if subs %}
+<form method="post" class="card row" id="bulk">{% csrf_token %}
+  <span class="muted">Отмеченные:</span>
+  <button class="btn ok small" name="decision" value="approve">Принять с полной наградой</button>
+</form>
+{% endif %}
+
+{% for s in subs %}
+<div class="card">
+  <div class="spread">
+    <label class="choice" style="margin:0"><input type="checkbox" name="ids" value="{{ s.pk }}" form="bulk"> <b>{{ s.user.full_name }}</b> <span class="muted">{{ s.user.group|default:"" }}</span></label>
+    <span class="muted small">{{ s.task.title }} · {{ s.submitted_at|date:"d.m H:i" }}</span>
+  </div>
+  {% if s.text %}<p style="white-space:pre-line">{{ s.text }}</p>{% endif %}
+  {% if s.link %}<p><a href="{{ s.link }}" target="_blank" rel="noopener">{{ s.link }}</a></p>{% endif %}
+  <div class="row">{% for f in s.files.all %}{% if f.is_image %}<a href="{{ f.file.url }}" target="_blank"><img src="{{ f.file.url }}" alt="" style="height:120px;border-radius:8px"></a>{% else %}<a href="{{ f.file.url }}" target="_blank">📎 {{ f }}</a>{% endif %}{% endfor %}</div>
+  <form method="post" class="row" style="margin-top:.75rem">{% csrf_token %}
+    <input type="hidden" name="sub" value="{{ s.pk }}">
+    <input type="number" name="amount" value="{{ s.task.reward }}" min="0" max="{{ s.task.reward }}" style="width:90px" title="Сколько начислить">
+    <input type="text" name="comment" placeholder="Комментарий (обязателен при отклонении)" style="flex:1;min-width:200px">
+    <button class="btn ok small" name="decision" value="approve">Принять</button>
+    <button class="btn secondary small" name="decision" value="revision">На доработку</button>
+    <button class="btn danger small" name="decision" value="reject">Отклонить</button>
+  </form>
+</div>
+{% empty %}<div class="card"><p class="muted">Все ответы проверены 🎉</p></div>{% endfor %}
+{% endblock %}

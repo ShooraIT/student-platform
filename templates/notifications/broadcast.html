@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Объявление{% endblock %}
+{% block content %}
+<h1>Объявление студентам</h1>
+<div class="grid-2">
+<form method="post" class="card">{% csrf_token %}
+  <p class="muted small">Придёт на сайт и пушем тем, у кого включены «Объявления администрации». Осталось на сегодня: <b>{{ left }}</b>.</p>
+  <label>Текст (до 300 символов)</label><textarea name="text" maxlength="300" required></textarea>
+  <label>Ссылка внутри платформы (необязательно)</label><input type="text" name="url" placeholder="/events/12/">
+  <label>Курсы (если ничего не выбрано — всем)</label>
+  <div class="row">{% for c in "1234" %}<label class="choice"><input type="checkbox" name="courses" value="{{ c }}"> {{ c }} курс</label>{% endfor %}</div>
+  <label>Группы</label>
+  <select name="groups" multiple size="6">{% for g in groups %}<option value="{{ g.pk }}">{{ g.name }}</option>{% endfor %}</select>
+  <p><button class="btn" onclick="return confirm('Отправить объявление?')">Отправить</button></p>
+</form>
+<div class="card"><h2 style="margin-top:0">Последние объявления</h2>
+  {% for b in recent %}<div class="list-item"><div style="flex:1">{{ b.text }}<div class="muted small">{{ b.created_at|date:"d.m.Y H:i" }} · {{ b.audience }} · {{ b.recipients }} получателей · {{ b.author }}</div></div></div>
+  {% empty %}<p class="muted">Пока не было</p>{% endfor %}
+</div>
+</div>
+{% endblock %}

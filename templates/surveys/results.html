@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}Результаты: {{ survey.title }}{% endblock %}
+{% block content %}
+<p><a href="{% url 'surveys:detail' survey.pk %}">← {{ survey.title }}</a></p>
+<div class="spread"><h1>Результаты</h1><a class="btn" href="?export=1{% if group_id %}&group={{ group_id }}{% endif %}{% if course %}&course={{ course }}{% endif %}">Скачать Excel</a></div>
+<div class="grid">
+  <div class="card"><div class="muted">Ответили</div><div class="stat">{{ survey.completions.count }}</div></div>
+  <div class="card"><div class="muted">Целевая аудитория</div><div class="stat">{{ audience }}</div></div>
+  <div class="card"><div class="muted">Охват</div><div class="stat">{{ coverage }}%</div></div>
+</div>
+
+{% if survey.kind == 'survey' %}
+<form class="card row" method="get">
+  <div><label>Курс</label><select name="course"><option value="">все</option>{% for c in "1234" %}<option {% if course == c %}selected{% endif %}>{{ c }}</option>{% endfor %}</select></div>
+  <div><label>Группа</label><select name="group"><option value="">все</option>{% for g in groups %}<option value="{{ g.pk }}" {% if group_id == g.pk|stringformat:"s" %}selected{% endif %}>{{ g.name }}</option>{% endfor %}</select></div>
+  <div style="align-self:flex-end"><button class="btn secondary">Применить</button></div>
+</form>
+{% for item in summary %}
+<div class="card">
+  <h3>{{ forloop.counter }}. {{ item.q.text }}</h3>
+  <p class="muted small">{{ item.q.get_kind_display }} · ответов: {{ item.count }}{% if item.avg %} · среднее: <b>{{ item.avg }}</b>{% endif %}</p>
+  {% if item.options %}
+    {% for o in item.options %}<div class="bar-row"><span>{{ o.label }}</span><div class="progress"><div style="width:{{ o.percent }}%"></div></div><span>{{ o.count }} · {{ o.percent }}%</span></div>{% endfor %}
+  {% else %}
+    {% for t in item.texts|slice:":30" %}<div class="list-item">{{ t }}</div>{% empty %}<p class="muted">Нет ответов</p>{% endfor %}
+    {% if item.texts|length > 30 %}<p class="muted">Все ответы — в Excel</p>{% endif %}
+  {% endif %}
+</div>
+{% endfor %}
+{% else %}
+<div class="card"><h2 style="margin-top:0">Итоги голосования · участников {{ total }}</h2>
+  {% for r in results %}<div class="bar-row"><span>{{ r.option.title }}</span><div class="progress"><div style="width:{{ r.percent }}%"></div></div><span><b>{{ r.count }}</b> · {{ r.percent }}%</span></div>{% endfor %}
+  {% if survey.secret %}<p class="muted small">🔒 Тайное голосование: связь «студент — вариант» не хранится.</p>{% endif %}
+</div>
+{% endif %}
+
+<div class="card"><h2 style="margin-top:0">Ответили по группам</h2>
+  <div class="row">{% for g in by_group %}<span class="badge gray">{{ g.user__group__name|default:"без группы" }}: {{ g.n }}</span>{% endfor %}</div>
+</div>
+{% endblock %}

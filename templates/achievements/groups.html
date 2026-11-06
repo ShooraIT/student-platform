@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Рейтинг групп{% endblock %}
+{% block content %}
+<h1>Рейтинг</h1>
+<div class="pill-tabs"><a href="{% url 'achievements:rating' %}">Студенты</a><a class="active" href="{% url 'achievements:groups' %}">Группы</a><a href="{% url 'achievements:list' %}">Достижения</a></div>
+<div class="pill-tabs">{% for k, l in periods %}<a href="?period={{ k }}" class="{% if k == period %}active{% endif %}">{{ l }}</a>{% endfor %}</div>
+<div class="card table-wrap">
+  <p class="muted small">Сравниваем среднее число заработанных степов на студента — так у больших групп нет преимущества.</p>
+  <table><tr><th>#</th><th>Группа</th><th>В среднем на студента</th><th>Всего</th><th>Активных</th></tr>
+  {% for r in rows %}<tr {% if r.group.pk == user.group_id %}style="background:#eef0ff"{% endif %}><td>{{ forloop.counter }}</td><td><b>{{ r.group.name }}</b> <span class="muted small">{{ r.group.course }} курс</span></td><td class="reward">{{ r.avg }}</td><td>{{ r.total }}</td><td>{{ r.active_pct }}%</td></tr>
+  {% empty %}<tr><td colspan="5" class="muted">Нет данных</td></tr>{% endfor %}</table>
+</div>
+{% endblock %}

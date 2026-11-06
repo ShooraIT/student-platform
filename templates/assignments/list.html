@@ -1,0 +1,17 @@
+{% extends "base.html" %}{% load platform %}
+{% block title %}Задания{% endblock %}
+{% block content %}
+<div class="spread"><h1>Задания</h1>{% if user.is_staff_role %}<a class="btn secondary" href="{% url 'assignments:review' %}">Очередь проверки</a>{% endif %}</div>
+<div class="pill-tabs"><a class="active" href="/tasks/">Задания</a><a href="/surveys/">Опросы и голосования</a></div>
+<div class="grid">
+{% for t in active %}{% with sub=subs|get_item:t.pk %}
+  <a class="card" href="{% url 'assignments:detail' t.pk %}" style="color:inherit;text-decoration:none">
+    <div class="spread"><span class="badge gray">{{ t.get_kind_display }}</span><span class="reward">+{{ t.reward }}</span></div>
+    <h3 style="margin-top:.5rem">{{ t.title }}</h3>
+    <div class="muted small">до {{ t.deadline|date:"j E, H:i" }}</div>
+    {% if sub %}<div style="margin-top:.4rem">{% include "assignments/_status.html" %}</div>{% endif %}
+  </a>
+{% endwith %}{% empty %}<p class="muted">Активных заданий пока нет</p>{% endfor %}
+</div>
+{% if past %}<h2>Завершённые</h2><div class="card">{% for t in past %}<div class="list-item"><a href="{% url 'assignments:detail' t.pk %}" style="flex:1">{{ t.title }}</a><span class="muted small">{{ t.deadline|date:"d.m.Y" }}</span></div>{% endfor %}</div>{% endif %}
+{% endblock %}

@@ -1,0 +1,54 @@
+{% extends "base.html" %}{% load platform %}
+{% block title %}Профиль{% endblock %}
+{% block content %}
+<div class="hero">
+  <div class="spread">
+    <div>
+      <h1 style="margin:0">{{ user.full_name }}</h1>
+      <div>{{ user.group|default:"" }}{% if user.group %} · {{ user.group.course }} курс{% endif %}</div>
+    </div>
+    {% if user.is_student %}<div style="text-align:right"><div class="stat">{{ user.balance }} {{ site.currency_icon }}</div><div class="small">на балансе</div></div>{% endif %}
+  </div>
+</div>
+
+<div class="pill-tabs">
+  <a href="{% url 'achievements:list' %}">🏅 Достижения</a>
+  <a href="{% url 'achievements:rating' %}">🏆 Рейтинг</a>
+  <a href="{% url 'notifications:settings' %}">🔔 Уведомления на телефон</a>
+  <a href="{% url 'accounts:password_change' %}">🔑 Сменить пароль</a>
+</div>
+
+{% if achievements %}
+<div class="card"><h2 style="margin-top:0">Мои достижения</h2>
+  <div class="row">{% for ua in achievements %}<span class="badge" title="{{ ua.achievement.description }}">{{ ua.achievement.icon }} {{ ua.achievement.title }}</span>{% endfor %}</div>
+</div>
+{% endif %}
+
+{% if orders %}
+<div class="card"><h2 style="margin-top:0">Мои заказы и призы</h2>
+  {% for o in orders %}
+  <div class="list-item">
+    <div style="flex:1"><a href="{% url 'shop:order' o.pk %}">{{ o.item_title }}</a><div class="muted small">{{ o.created_at|date:"d.m.Y" }} · код <b>{{ o.pickup_code }}</b></div></div>
+    <span class="badge {% if o.status == 'issued' %}gray{% elif o.status == 'ready' %}ok{% elif o.status == 'cancelled' %}err{% endif %}">{{ o.get_status_display }}</span>
+  </div>
+  {% endfor %}
+</div>
+{% endif %}
+
+<div class="card"><h2 style="margin-top:0">История операций</h2>
+  {% for t in transactions %}
+  <div class="list-item">
+    <div style="flex:1">{{ t.reason }}<div class="muted small">{{ t.created_at|date:"d.m.Y H:i" }} · {{ t.get_kind_display }}</div></div>
+    <b style="color:{% if t.amount > 0 %}var(--ok){% else %}var(--err){% endif %}">{% if t.amount > 0 %}+{% endif %}{{ t.amount }}</b>
+  </div>
+  {% empty %}<p class="muted">Пока операций нет. Посетите мероприятие или выполните задание!</p>{% endfor %}
+</div>
+
+<div class="card">
+  <div class="spread">
+    <div>Показывать меня в публичном рейтинге: <b>{% if user.hide_from_rating %}нет{% else %}да{% endif %}</b></div>
+    <form method="post" action="{% url 'core:toggle_rating' %}">{% csrf_token %}<button class="btn secondary small">Изменить</button></form>
+  </div>
+  <form method="post" action="{% url 'accounts:logout' %}" style="margin-top:1rem">{% csrf_token %}<button class="btn danger small">Выйти</button></form>
+</div>
+{% endblock %}

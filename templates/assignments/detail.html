@@ -1,0 +1,68 @@
+{% extends "base.html" %}{% load platform %}
+{% block title %}{{ task.title }}{% endblock %}
+{% block content %}
+<p><a href="{% url 'assignments:list' %}">← Задания</a></p>
+<div class="card">
+  {% if task.cover %}<img src="{{ task.cover.url }}" alt="" style="border-radius:10px;margin-bottom:.75rem">{% endif %}
+  <div class="row"><span class="badge gray">{{ task.get_kind_display }}</span><span class="reward">до +{{ task.reward|steps }}</span>{% if task.reward_limit %}<span class="badge warn">наград осталось: {{ task.rewards_left }}</span>{% endif %}</div>
+  <h1 style="margin:.5rem 0">{{ task.title }}</h1>
+  <p class="muted">Дедлайн: {{ task.deadline|date:"j E Y, H:i" }}</p>
+  <div style="white-space:pre-line">{{ task.description }}</div>
+</div>
+
+{% if sub %}
+<div class="card">
+  <div class="spread"><b>Ваш результат</b>{% include "assignments/_status.html" %}</div>
+  {% if sub.comment %}<p><b>Комментарий:</b> {{ sub.comment }}</p>{% endif %}
+  {% if task.kind == 'auto' %}<p class="muted">Лучший результат: {{ sub.best_percent }}% · попыток: {{ sub.attempts_used }} из {{ task.attempts }}</p>{% endif %}
+  {% if task.kind == 'manual' and sub.status != 'revision' %}
+    {% if sub.text %}<p style="white-space:pre-line">{{ sub.text }}</p>{% endif %}
+    {% if sub.link %}<p><a href="{{ sub.link }}" target="_blank" rel="noopener">{{ sub.link }}</a></p>{% endif %}
+    {% for f in sub.files.all %}<div><a href="{{ f.file.url }}" target="_blank">📎 {{ f }}</a></div>{% endfor %}
+  {% endif %}
+</div>
+{% endif %}
+
+{% if user.is_student and task.is_open and sub.status != 'approved' and sub.status != 'submitted' and sub.status != 'failed' and sub.status != 'rejected' %}
+<div class="card">
+  {% if task.kind == 'manual' %}
+    <h2 style="margin-top:0">{% if sub.status == 'revision' %}Исправить и отправить снова{% else %}Ваш ответ{% endif %}</h2>
+    <form method="post" action="{% url 'assignments:submit' task.pk %}" enctype="multipart/form-data">{% csrf_token %}
+      {% if task.allow_text %}<label>Текст</label><textarea name="text">{{ sub.text|default:"" }}</textarea>{% endif %}
+      {% if task.allow_link %}<label>Ссылка</label><input type="url" name="link" value="{{ sub.link|default:'' }}" placeholder="https://">{% endif %}
+      {% if task.allow_files %}<label>Файлы или фото (до 5 шт., до 10 МБ)</label><input type="file" name="files" multiple accept=".jpg,.jpeg,.png,.heic,.pdf,.docx,.pptx,.xlsx,.zip">{% endif %}
+      <p><button class="btn">Отправить на проверку</button></p>
+    </form>
+  {% elif task.kind == 'auto' %}
+    <h2 style="margin-top:0">Викторина</h2>
+    <p class="muted">Нужно {{ task.pass_percent }}% правильных ответов. Попыток: {{ task.attempts }}.</p>
+    <form method="post" action="{% url 'assignments:submit' task.pk %}">{% csrf_token %}
+      {% for q in questions %}
+      <div style="margin:1rem 0"><b>{{ forloop.counter }}. {{ q.text }}</b>
+        {% if q.kind == 'text' %}<input type="text" name="q{{ q.pk }}" autocomplete="off">
+        {% else %}{% for o in q.option_list %}<label class="choice"><input type="{% if q.kind == 'multi' %}checkbox{% else %}radio{% endif %}" name="q{{ q.pk }}" value="{{ o }}"> {{ o }}</label>{% endfor %}{% endif %}
+      </div>
+      {% endfor %}
+      <button class="btn">Проверить</button>
+    </form>
+  {% else %}
+    {% if quest_q %}
+      <h2 style="margin-top:0">Квест: шаг {{ quest_step }} из {{ quest_total }}</h2>
+      <div class="progress" style="margin-bottom:1rem"><div style="width:{% widthratio quest_step|add:'-1' quest_total 100 %}%"></div></div>
+      <p><b>{{ quest_q.text }}</b></p>
+      <form method="post" action="{% url 'assignments:submit' task.pk %}">{% csrf_token %}
+        {% if quest_q.kind == 'text' %}<input type="text" name="answer" autocomplete="off" required>
+        {% else %}{% for o in quest_q.option_list %}<label class="choice"><input type="radio" name="answer" value="{{ o }}" required> {{ o }}</label>{% endfor %}{% endif %}
+        <p><button class="btn">Ответить</button></p>
+      </form>
+    {% endif %}
+  {% endif %}
+</div>
+{% endif %}
+
+{% if reveal %}
+<div class="card"><h2 style="margin-top:0">Правильные ответы</h2>
+  {% for q in questions %}<p><b>{{ q.text }}</b><br>{{ q.correct|linebreaksbr }}</p>{% endfor %}
+</div>
+{% endif %}
+{% endblock %}

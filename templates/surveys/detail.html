@@ -1,0 +1,56 @@
+{% extends "base.html" %}{% load platform %}
+{% block title %}{{ survey.title }}{% endblock %}
+{% block content %}
+<p><a href="{% url 'surveys:list' %}">← Опросы</a></p>
+<div class="card">
+  <div class="row"><span class="badge {% if survey.kind == 'vote' %}warn{% else %}gray{% endif %}">{{ survey.get_kind_display }}</span>{% if survey.secret %}<span class="badge">🔒 Тайное</span>{% endif %}{% if survey.reward %}<span class="reward">+{{ survey.reward|steps }}</span>{% endif %}</div>
+  <h1 style="margin:.5rem 0">{{ survey.title }}</h1>
+  <p class="muted">Принимается до {{ survey.closes_at|date:"j E Y, H:i" }}</p>
+  {% if survey.description %}<div style="white-space:pre-line">{{ survey.description }}</div>{% endif %}
+  {% if user.is_staff_role %}<p><a class="btn secondary small" href="{% url 'surveys:results' survey.pk %}">Результаты и выгрузка</a></p>{% endif %}
+</div>
+
+{% if voted %}
+  <div class="card"><span class="badge ok">✔ Спасибо, ваш ответ учтён</span></div>
+{% elif user.is_student and survey.is_open %}
+<form method="post" action="{% url 'surveys:submit' survey.pk %}" class="card">{% csrf_token %}
+  {% if survey.kind == 'vote' %}
+    <p class="muted">{% if survey.max_choices > 1 %}Можно выбрать до {{ survey.max_choices }} вариантов.{% else %}Выберите один вариант.{% endif %} Переголосовать нельзя.</p>
+    <div class="grid">
+    {% for o in options %}
+      <label class="card choice" style="margin:0;cursor:pointer">
+        <input type="{% if survey.max_choices > 1 %}checkbox{% else %}radio{% endif %}" name="option" value="{{ o.pk }}">
+        <span>{% if o.photo %}<img src="{{ o.photo.url }}" alt="" style="border-radius:8px;margin-bottom:.4rem">{% endif %}<b>{{ o.title }}</b>{% if o.description %}<br><span class="muted small">{{ o.description }}</span>{% endif %}</span>
+      </label>
+    {% endfor %}
+    </div>
+    <p><button class="btn" onclick="return confirm('Подтвердить голос? Изменить его будет нельзя.')">Проголосовать</button></p>
+  {% else %}
+    {% for q in questions %}
+    <div style="margin:1rem 0">
+      <b>{{ forloop.counter }}. {{ q.text }}{% if q.required %} <span style="color:var(--err)">*</span>{% endif %}</b>
+      {% if q.kind == 'single' or q.kind == 'multi' %}
+        {% for o in q.option_list %}<label class="choice"><input type="{% if q.kind == 'multi' %}checkbox{% else %}radio{% endif %}" name="q{{ q.pk }}" value="{{ o }}"> {{ o }}</label>{% endfor %}
+      {% elif q.kind == 'select' %}
+        <select name="q{{ q.pk }}"><option value="">— выберите —</option>{% for o in q.option_list %}<option>{{ o }}</option>{% endfor %}</select>
+      {% elif q.kind == 'scale5' or q.kind == 'scale10' %}
+        <div class="row">{% for i in q.scale_range %}<label class="choice"><input type="radio" name="q{{ q.pk }}" value="{{ i }}"> {{ i }}</label>{% endfor %}</div>
+      {% elif q.kind == 'short' %}<input type="text" name="q{{ q.pk }}" maxlength="300">
+      {% else %}<textarea name="q{{ q.pk }}"></textarea>{% endif %}
+    </div>
+    {% endfor %}
+    <button class="btn">Отправить ответы</button>
+  {% endif %}
+</form>
+{% elif not survey.is_open %}
+  <div class="card"><p class="muted">{% if survey.is_closed %}Приём ответов завершён.{% else %}Ещё не началось.{% endif %}</p></div>
+{% endif %}
+
+{% if results %}
+<div class="card"><h2 style="margin-top:0">{% if survey.is_closed %}Итоги{% else %}Промежуточные итоги{% endif %} · проголосовало {{ total }}</h2>
+  {% for r in results %}
+  <div class="bar-row"><span>{{ r.option.title }}</span><div class="progress"><div style="width:{{ r.percent }}%"></div></div><span><b>{{ r.count }}</b> · {{ r.percent }}%</span></div>
+  {% endfor %}
+</div>
+{% endif %}
+{% endblock %}

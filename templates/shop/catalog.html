@@ -1,0 +1,15 @@
+{% extends "base.html" %}{% load platform %}
+{% block title %}Магазин{% endblock %}
+{% block content %}
+<div class="spread"><h1>Магазин</h1>{% if user.is_student %}<span class="balance">{{ user.balance|steps }}</span>{% else %}<a class="btn secondary" href="{% url 'shop:issue' %}">Выдача заказов</a>{% endif %}</div>
+<div class="pill-tabs"><a class="active" href="/shop/">Мерч</a><a href="/draws/">🎁 Розыгрыши</a></div>
+<div class="grid shop-grid">
+{% for p in products %}
+  <a class="card" href="{% url 'shop:product' p.pk %}" style="color:inherit;text-decoration:none">
+    <div class="product-photo">{% if p.photo %}<img src="{{ p.photo.url }}" alt="">{% else %}🎁{% endif %}</div>
+    <h3>{{ p.title }}</h3>
+    <div class="spread"><span class="reward">{{ p.price|steps }}</span>{% with s=p.total_stock %}{% if s %}<span class="muted small">осталось {{ s }}</span>{% else %}<span class="badge err">нет в наличии</span>{% endif %}{% endwith %}</div>
+  </a>
+{% empty %}<p class="muted">Товары скоро появятся</p>{% endfor %}
+</div>
+{% endblock %}

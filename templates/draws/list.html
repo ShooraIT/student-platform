@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Розыгрыши{% endblock %}
+{% block content %}
+<h1>Розыгрыши</h1>
+<div class="pill-tabs"><a href="/shop/">Мерч</a><a class="active" href="/draws/">🎁 Розыгрыши</a></div>
+<p class="muted">Участие бесплатное: выполните условия и нажмите «Участвую». Победителей выберет система в назначенное время.</p>
+<div class="grid shop-grid">
+{% for d in active %}
+  <a class="card" href="{% url 'draws:detail' d.pk %}" style="color:inherit;text-decoration:none">
+    <div class="product-photo">{% if d.photo %}<img src="{{ d.photo.url }}" alt="">{% else %}🎁{% endif %}</div>
+    <h3>{{ d.title }}</h3>
+    <div class="muted small">{% for p in d.prizes.all %}{{ p.title }} ×{{ p.quantity }}{% if not forloop.last %}, {% endif %}{% endfor %}</div>
+    <div class="muted small">заявки до {{ d.entries_close|date:"j E" }} · розыгрыш {{ d.draw_at|date:"j E, H:i" }}</div>
+    {% if d.pk in entered %}<span class="badge ok">✔ Вы участвуете</span>{% endif %}
+    {% if user.is_staff_role %}<span class="badge gray">{{ d.get_status_display }}</span>{% endif %}
+  </a>
+{% empty %}<p class="muted">Сейчас розыгрышей нет</p>{% endfor %}
+</div>
+{% if done %}<h2>Проведённые</h2><div class="card">{% for d in done %}<div class="list-item"><a href="{% url 'draws:detail' d.pk %}" style="flex:1">{{ d.title }}</a><span class="muted small">{{ d.drawn_at|date:"d.m.Y" }}</span></div>{% endfor %}</div>{% endif %}
+{% endblock %}

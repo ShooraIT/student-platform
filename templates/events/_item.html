@@ -1,0 +1,8 @@
+<div class="list-item">
+  <div class="date-box"><b>{{ e.start|date:"j" }}</b><span>{{ e.start|date:"M" }}</span></div>
+  <div style="flex:1;min-width:0">
+    <a href="{% url 'events:detail' e.pk %}">{{ e.title }}</a>
+    <div class="muted small">{{ e.start|date:"D, H:i" }} · {{ e.location }}{% if e.status == 'cancelled' %} · <span class="badge err">отменено</span>{% endif %}</div>
+  </div>
+  {% if e.reward %}<span class="reward">+{{ e.reward }}</span>{% endif %}
+</div>

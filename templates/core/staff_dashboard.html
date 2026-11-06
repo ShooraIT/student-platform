@@ -1,0 +1,42 @@
+{% extends "base.html" %}{% load platform %}
+{% block title %}Панель администратора{% endblock %}
+{% block content %}
+<h1>Панель администратора</h1>
+<div class="grid">
+  <div class="card"><div class="muted">Студентов</div><div class="stat">{{ students }}</div><div class="muted small">активны за 7 дней: {{ active7 }} · за 30: {{ active30 }}</div></div>
+  <div class="card"><div class="muted">Ответов на проверке</div><div class="stat">{{ to_review }}</div><a href="{% url 'assignments:review' %}">Проверить →</a></div>
+  <div class="card"><div class="muted">Заказов к выдаче</div><div class="stat">{{ to_issue }}</div><a href="{% url 'shop:issue' %}">Выдача →</a></div>
+  <div class="card"><div class="muted">Степов на руках у студентов</div><div class="stat">{{ on_hands }}</div><a href="{% url 'core:reports' %}?kind=currency">Оборот →</a></div>
+</div>
+
+<div class="pill-tabs">
+  <a href="/admin/events/event/add/">➕ Мероприятие</a>
+  <a href="/admin/assignments/task/add/">➕ Задание</a>
+  <a href="/admin/surveys/survey/add/">➕ Опрос / голосование</a>
+  <a href="/admin/shop/product/add/">➕ Товар</a>
+  <a href="/admin/draws/draw/add/">➕ Розыгрыш</a>
+  <a href="{% url 'core:manual_credit' %}">💰 Начислить степы</a>
+  <a href="{% url 'notifications:broadcast' %}">📣 Объявление</a>
+  <a href="{% url 'core:import_students' %}">📥 Импорт студентов</a>
+  <a href="{% url 'core:reports' %}">📊 Отчёты</a>
+  <a href="/admin/">⚙️ Админка</a>
+</div>
+
+<div class="grid-2">
+  <div class="card"><h2 style="margin-top:0">Ближайшие мероприятия</h2>
+    {% for e in upcoming %}
+    <div class="list-item">
+      <div class="date-box"><b>{{ e.start|date:"j" }}</b><span>{{ e.start|date:"M" }}</span></div>
+      <div style="flex:1"><a href="/admin/events/event/{{ e.pk }}/change/">{{ e.title }}</a><div class="muted small">{{ e.start|date:"H:i" }} · {{ e.get_status_display }} · записано {{ e.registered_count }}</div></div>
+      <a class="btn small" href="{% url 'events:staff_checkin' e.pk %}" target="_blank">QR</a>
+      <a class="btn small secondary" href="{% url 'events:staff_attendees' e.pk %}">Список</a>
+    </div>
+    {% empty %}<p class="muted">Нет запланированных мероприятий</p>{% endfor %}
+  </div>
+  <div class="card"><h2 style="margin-top:0">Розыгрыши</h2>
+    {% for d in draws_due %}
+    <div class="list-item"><div style="flex:1"><a href="{% url 'draws:staff' d.pk %}">{{ d.title }}</a><div class="muted small">розыгрыш {{ d.draw_at|date:"d.m H:i" }} · участников {{ d.entries.count }}</div></div></div>
+    {% empty %}<p class="muted">Активных розыгрышей нет</p>{% endfor %}
+  </div>
+</div>
+{% endblock %}

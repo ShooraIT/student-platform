@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Отчёты{% endblock %}
+{% block content %}
+<h1>Отчёты</h1>
+<div class="pill-tabs">{% for k, label in reports.items %}<a href="?kind={{ k }}&from={{ start|date:'Y-m-d' }}&to={{ end|date:'Y-m-d' }}" class="{% if k == kind %}active{% endif %}">{{ label }}</a>{% endfor %}</div>
+<form class="card row" method="get">
+  <input type="hidden" name="kind" value="{{ kind }}">
+  <div><label>С</label><input type="date" name="from" value="{{ start|date:'Y-m-d' }}"></div>
+  <div><label>По</label><input type="date" name="to" value="{{ end|date:'Y-m-d' }}"></div>
+  <div><label>Курс</label><select name="course"><option value="">все</option>{% for c in "1234" %}<option {% if course == c %}selected{% endif %}>{{ c }}</option>{% endfor %}</select></div>
+  <div><label>Группа</label><select name="group"><option value="">все</option>{% for g in groups %}<option value="{{ g.pk }}" {% if group_id == g.pk|stringformat:"s" %}selected{% endif %}>{{ g.name }}</option>{% endfor %}</select></div>
+  <div style="align-self:flex-end" class="row"><button class="btn">Показать</button><button class="btn secondary" name="export" value="1">Скачать Excel</button></div>
+</form>
+<div class="card table-wrap">
+  <table><tr>{% for h in header %}<th>{{ h }}</th>{% endfor %}</tr>
+  {% for r in rows %}<tr>{% for c in r %}<td>{{ c }}</td>{% endfor %}</tr>{% empty %}<tr><td class="muted" colspan="{{ header|length }}">Нет данных за период</td></tr>{% endfor %}</table>
+  {% if total_rows > 300 %}<p class="muted">Показаны первые 300 строк из {{ total_rows }}. Полностью — в Excel.</p>{% endif %}
+</div>
+{% endblock %}

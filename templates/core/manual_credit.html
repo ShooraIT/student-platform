@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Начислить степы{% endblock %}
+{% block content %}
+<h1>Ручное начисление степов</h1>
+<div class="grid-2">
+<div class="card">
+  <form method="get"><label>Найти студента</label>
+    <div class="row"><input type="search" name="q" value="{{ q }}" placeholder="Фамилия или имя" style="flex:1"><button class="btn secondary">Найти</button></div>
+  </form>
+  <form method="post">{% csrf_token %}
+    {% if found %}
+      <label>Отметьте студентов</label>
+      {% for u in found %}<label class="choice"><input type="checkbox" name="users" value="{{ u.pk }}"> {{ u.full_name }} <span class="muted">({{ u.group|default:"—" }})</span></label>{% endfor %}
+    {% elif q %}<p class="muted">Никого не нашли</p>{% endif %}
+    <label>…или вся группа</label>
+    <select name="group"><option value="">—</option>{% for g in groups %}<option value="{{ g.pk }}">{{ g.name }}</option>{% endfor %}</select>
+    <label>Сумма</label><input type="number" name="amount" min="1" max="{{ site.manual_credit_limit }}" required>
+    <p class="muted small">Лимит одного начисления — {{ site.manual_credit_limit }}, в сутки — {{ site.manual_daily_limit }}.</p>
+    <label>Причина (увидит студент)</label><input type="text" name="reason" maxlength="200" required placeholder="Например: призёр олимпиады по программированию">
+    <p><button class="btn">Начислить</button></p>
+  </form>
+</div>
+<div class="card"><h2 style="margin-top:0">Последние ручные начисления</h2>
+  {% for t in recent %}
+  <div class="list-item"><div style="flex:1">{{ t.user.full_name }} — {{ t.reason }}<div class="muted small">{{ t.created_at|date:"d.m.Y H:i" }} · {{ t.author }}</div></div><b>+{{ t.amount }}</b></div>
+  {% empty %}<p class="muted">Пока нет</p>{% endfor %}
+  <p class="small"><a href="/admin/wallet/transaction/">Журнал всех операций и сторно →</a></p>
+</div>
+</div>
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Выдача заказов{% endblock %}
+{% block content %}
+<h1>Выдача заказов и призов</h1>
+<div class="card">
+  <form method="get" class="row"><input type="text" name="code" value="{{ code }}" placeholder="Код получения, например K7M2QX" style="flex:1;text-transform:uppercase;font-size:1.2rem" autofocus autocomplete="off"><button class="btn">Найти</button></form>
+  {% if code and not found %}<p class="badge err" style="margin-top:.75rem">Заказ с кодом {{ code }} не найден</p>{% endif %}
+  {% if found %}
+  <div class="card" style="margin-top:1rem;background:#f8f9ff">
+    <h2 style="margin-top:0">{{ found.item_title }}</h2>
+    <p><b>{{ found.user.full_name }}</b> · {{ found.user.group|default:"" }}<br>Код: <b>{{ found.pickup_code }}</b> · {{ found.get_status_display }}</p>
+    {% if found.status == 'placed' or found.status == 'ready' %}
+    <form method="post">{% csrf_token %}<input type="hidden" name="code" value="{{ found.pickup_code }}"><button class="btn ok">Выдать</button></form>
+    {% endif %}
+  </div>
+  {% endif %}
+</div>
+<div class="card table-wrap"><h2 style="margin-top:0">Ожидают выдачи</h2>
+  <table><tr><th>Код</th><th>Студент</th><th>Товар</th><th>Статус</th><th>Оформлен</th></tr>
+  {% for o in pending %}<tr><td><a href="?code={{ o.pickup_code }}">{{ o.pickup_code }}</a></td><td>{{ o.user.full_name }}</td><td>{{ o.item_title }}</td><td>{{ o.get_status_display }}</td><td>{{ o.created_at|date:"d.m.Y" }}</td></tr>
+  {% empty %}<tr><td colspan="5" class="muted">Нет заказов</td></tr>{% endfor %}</table>
+  <p class="small"><a href="/admin/shop/order/">Все заказы, «готов к выдаче», отмена →</a></p>
+</div>
+{% endblock %}

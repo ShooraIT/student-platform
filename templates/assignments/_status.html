@@ -1,0 +1,1 @@
+<span class="badge {% if sub.status == 'approved' %}ok{% elif sub.status == 'rejected' or sub.status == 'failed' %}err{% elif sub.status == 'revision' %}warn{% else %}gray{% endif %}">{{ sub.get_status_display }}{% if sub.status == 'approved' and sub.awarded %} · +{{ sub.awarded }}{% endif %}</span>

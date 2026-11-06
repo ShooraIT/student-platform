@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Опросы{% endblock %}
+{% block content %}
+<h1>Опросы и голосования</h1>
+<div class="pill-tabs"><a href="/tasks/">Задания</a><a class="active" href="/surveys/">Опросы и голосования</a></div>
+<div class="grid">
+{% for s in active %}
+  <a class="card" href="{% url 'surveys:detail' s.pk %}" style="color:inherit;text-decoration:none">
+    <div class="spread"><span class="badge {% if s.kind == 'vote' %}warn{% else %}gray{% endif %}">{{ s.get_kind_display }}</span>{% if s.reward %}<span class="reward">+{{ s.reward }}</span>{% endif %}</div>
+    <h3 style="margin-top:.5rem">{{ s.title }}</h3>
+    <div class="muted small">до {{ s.closes_at|date:"j E, H:i" }}</div>
+    {% if s.pk in done %}<span class="badge ok">✔ Вы ответили</span>{% endif %}
+    {% if user.is_staff_role %}<span class="badge gray">{{ s.get_status_display }}</span>{% endif %}
+  </a>
+{% empty %}<p class="muted">Активных опросов нет</p>{% endfor %}
+</div>
+{% if closed %}<h2>Завершённые</h2><div class="card">{% for s in closed %}<div class="list-item"><a href="{% url 'surveys:detail' s.pk %}" style="flex:1">{{ s.title }}</a><span class="muted small">{{ s.get_kind_display }} · {{ s.closes_at|date:"d.m.Y" }}</span></div>{% endfor %}</div>{% endif %}
+{% endblock %}

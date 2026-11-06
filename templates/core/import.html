@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}Импорт студентов{% endblock %}
+{% block content %}
+<h1>Импорт студентов из Excel</h1>
+<div class="card">
+  <p>Загрузите .xlsx с колонками: Фамилия, Имя, Отчество, Группа, Курс, Специальность, E-mail / логин mos.ru, Дата рождения. Обязательные — фамилия, имя, группа, курс.</p>
+  <p><a class="btn secondary small" href="?template=1">Скачать шаблон</a></p>
+  <form method="post" enctype="multipart/form-data">{% csrf_token %}
+    <input type="file" name="file" accept=".xlsx" required>
+    <p><button class="btn">Проверить файл</button></p>
+  </form>
+</div>
+
+{% if plan %}
+<div class="card">
+  <h2 style="margin-top:0">Предпросмотр: {{ filename }}</h2>
+  <div class="row">
+    <span class="badge ok">Будет создано: {{ plan.to_create|length }}</span>
+    <span class="badge">Будет обновлено: {{ plan.to_update|length }}</span>
+    <span class="badge {% if plan.errors %}err{% else %}gray{% endif %}">Ошибок: {{ plan.errors|length }}</span>
+  </div>
+  {% if plan.errors %}
+    <h3 style="margin-top:1rem">Исправьте ошибки и загрузите файл снова</h3>
+    <table><tr><th>Строка</th><th>Ошибка</th></tr>{% for line, err in plan.errors %}<tr><td>{{ line }}</td><td>{{ err }}</td></tr>{% endfor %}</table>
+  {% else %}
+    <p class="muted">Новым студентам будут созданы логины и одноразовые пароли — файл с доступами скачается автоматически. <b>Сохраните его: пароли больше нигде не показываются.</b></p>
+    <form method="post">{% csrf_token %}
+      <input type="hidden" name="apply" value="1">
+      <label class="choice"><input type="checkbox" name="expel" value="1"> Пометить «выбывшими» студентов, которых нет в файле</label>
+      <p><button class="btn ok">Импортировать</button></p>
+    </form>
+  {% endif %}
+  <div class="table-wrap"><table>
+    <tr><th>Стр.</th><th>ФИО</th><th>Группа</th><th>Курс</th><th>E-mail</th><th>Действие</th></tr>
+    {% for r in plan.rows|slice:":200" %}
+    <tr><td>{{ r.line }}</td><td>{{ r.last_name }} {{ r.first_name }} {{ r.middle_name }}</td><td>{{ r.group }}</td><td>{{ r.course }}</td><td>{{ r.email }}</td><td>{% if r.user %}обновить{% else %}<b>создать</b>{% endif %}</td></tr>
+    {% endfor %}
+  </table></div>
+</div>
+{% endif %}
+{% endblock %}

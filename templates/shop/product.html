@@ -1,0 +1,28 @@
+{% extends "base.html" %}{% load platform %}
+{% block title %}{{ product.title }}{% endblock %}
+{% block content %}
+<p><a href="{% url 'shop:catalog' %}">← Магазин</a></p>
+<div class="grid-2">
+  <div class="product-photo" style="font-size:6rem">{% if product.photo %}<img src="{{ product.photo.url }}" alt="">{% else %}🎁{% endif %}</div>
+  <div class="card">
+    <h1>{{ product.title }}</h1>
+    <div class="stat reward">{{ product.price|steps }}</div>
+    <div style="white-space:pre-line;margin:1rem 0">{{ product.description }}</div>
+    {% if product.per_user_limit %}<p class="muted small">Не больше {{ product.per_user_limit }} шт. в одни руки</p>{% endif %}
+    {% if user.is_student %}
+    <form method="post" action="{% url 'shop:buy' product.pk %}">{% csrf_token %}
+      {% with vs=product.variants.all %}
+      {% if vs|length > 1 %}
+        <label>Вариант</label>
+        {% for v in vs %}<label class="choice"><input type="radio" name="variant" value="{{ v.pk }}" {% if not v.stock %}disabled{% endif %} required> {{ v.name }} <span class="muted">{% if v.stock %}(осталось {{ v.stock }}){% else %}(нет){% endif %}</span></label>{% endfor %}
+      {% else %}{% for v in vs %}<input type="hidden" name="variant" value="{{ v.pk }}"><p class="muted">Осталось: {{ v.stock }}</p>{% endfor %}{% endif %}
+      {% endwith %}
+      <p class="muted">Ваш баланс: {{ user.balance|steps }}.</p>
+      <button class="btn block" {% if user.balance < product.price or not product.total_stock %}disabled{% endif %} onclick="return confirm('Купить «{{ product.title|escapejs }}» за {{ product.price }}?')">
+        {% if user.balance < product.price %}Не хватает степов{% elif not product.total_stock %}Нет в наличии{% else %}Купить{% endif %}
+      </button>
+    </form>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Участники: {{ event.title }}{% endblock %}
+{% block content %}
+<p><a href="{% url 'events:detail' event.pk %}">← {{ event.title }}</a></p>
+<div class="spread"><h1>Участники</h1>
+  <div class="row"><a class="btn secondary small" href="?export=1">Скачать Excel</a><a class="btn small" href="{% url 'events:staff_checkin' event.pk %}" target="_blank">QR-экран</a></div>
+</div>
+<div class="row" style="margin-bottom:1rem">
+  <span class="badge">Записано: {{ stats.total }}</span><span class="badge ok">Пришли: {{ stats.attended }}</span>{% if stats.waitlist %}<span class="badge warn">Ожидание: {{ stats.waitlist }}</span>{% endif %}
+</div>
+
+<div class="card">
+  <form method="get" class="row"><input type="search" name="q" value="{{ q }}" placeholder="Добавить студента, который не записывался: фамилия" style="flex:1"><button class="btn secondary">Найти</button></form>
+  {% for u in found %}
+  <form method="post" class="list-item">{% csrf_token %}<input type="hidden" name="user" value="{{ u.pk }}">
+    <div style="flex:1">{{ u.full_name }} <span class="muted">{{ u.group|default:"" }}</span></div>
+    <button class="btn small ok" name="action" value="add">Отметить посещение</button>
+  </form>
+  {% endfor %}
+</div>
+
+<div class="card table-wrap">
+  <form method="post" style="margin-bottom:.5rem">{% csrf_token %}<button class="btn small" name="action" value="mark_all" onclick="return confirm('Отметить всех записавшихся как пришедших?')">Отметить всех записавшихся</button></form>
+  <table>
+    <tr><th>ФИО</th><th>Группа</th><th>Статус</th><th>Отметка</th><th></th></tr>
+    {% for r in regs %}
+    <tr>
+      <td>{{ r.user.full_name }}</td><td>{{ r.user.group|default:"" }}</td>
+      <td><span class="badge {% if r.status == 'attended' %}ok{% elif r.status == 'waitlist' %}warn{% else %}gray{% endif %}">{{ r.get_status_display }}</span></td>
+      <td class="small">{% if r.attended_at %}{{ r.get_method_display }}, {{ r.attended_at|date:"H:i" }}{% endif %}</td>
+      <td><form method="post">{% csrf_token %}<input type="hidden" name="user" value="{{ r.user_id }}">
+        {% if r.status == 'attended' %}<button class="btn small danger" name="action" value="unmark">Снять</button>
+        {% elif event.checkin_list %}<button class="btn small ok" name="action" value="mark">Пришёл</button>{% endif %}
+      </form></td>
+    </tr>
+    {% empty %}<tr><td colspan="5" class="muted">Пока никто не записался</td></tr>{% endfor %}
+  </table>
+</div>
+{% endblock %}

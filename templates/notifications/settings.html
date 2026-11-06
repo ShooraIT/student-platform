@@ -1,0 +1,31 @@
+{% extends "base.html" %}{% load static %}
+{% block title %}Настройки уведомлений{% endblock %}
+{% block content %}
+<p><a href="{% url 'notifications:index' %}">← Уведомления</a></p>
+<h1>Настройки уведомлений</h1>
+
+<div class="card" id="push-box" data-key="{{ vapid_key }}">
+  <h2 style="margin-top:0">📲 Пуш-уведомления на телефон</h2>
+  {% if push_configured %}
+    <p id="push-status" class="muted">Проверяем…</p>
+    <div class="row">
+      <button class="btn" id="push-on" hidden>Включить на этом устройстве</button>
+      <button class="btn danger" id="push-off" hidden>Выключить на этом устройстве</button>
+      <form method="post" action="{% url 'notifications:test_push' %}">{% csrf_token %}<button class="btn secondary" id="push-test" hidden>Прислать тестовое</button></form>
+    </div>
+    {% if devices %}<p class="muted small" style="margin-top:.75rem">Подключённых устройств: {{ devices|length }}</p>{% endif %}
+  {% else %}
+    <p class="muted">Пуш-уведомления пока не настроены на сервере. Уведомления приходят на сайт (🔔).</p>
+  {% endif %}
+</div>
+
+<form method="post" class="card">{% csrf_token %}
+  <h2 style="margin-top:0">О чём присылать пуш</h2>
+  <p class="muted small">На сайте (🔔) все уведомления видны всегда. Здесь — только то, что будет всплывать на телефоне.</p>
+  {% for r in rows %}
+  <label class="choice"><input type="checkbox" name="{{ r.key }}" value="1" {% if r.on %}checked{% endif %}> {{ r.label }}</label>
+  {% endfor %}
+  <p><button class="btn">Сохранить</button></p>
+</form>
+{% endblock %}
+{% block scripts %}{% if push_configured %}<script src="{% static 'js/push.js' %}"></script>{% endif %}{% endblock %}
