@@ -95,4 +95,4 @@ def toggle_rating(request):
     request.user.hide_from_rating = not request.user.hide_from_rating
     request.user.save(update_fields=["hide_from_rating"])
     AuditLog.log(request.user, "Настройка видимости в рейтинге", request.user, hidden=request.user.hide_from_rating)
-    return redirect("accounts:profile")
+    return redirect("core:profile")

@@ -53,7 +53,7 @@ def order_cancel(request, pk):
         messages.success(request, "Заказ отменён, степы возвращены")
     except services.ShopError as e:
         messages.error(request, str(e))
-    return redirect("accounts:profile")
+    return redirect("core:profile")
 
 
 @staff_required

@@ -364,3 +364,21 @@ class PushTests(Base):
         self.assertEqual(r.status_code, 302, r.content.decode()[:2000])
         notified = set(Notification.objects.filter(kind="new_content").values_list("user", flat=True))
         self.assertEqual(notified, {self.st2.pk})  # только 3 курс
+
+
+class StudentPagesSmokeTests(Base):
+    """Все страницы студента открываются без ошибок, включая заказ и переключатель рейтинга."""
+
+    def test_pages(self):
+        p = Product.objects.create(title="Кружка", price=10, status=Product.Status.ON_SALE)
+        v = ProductVariant.objects.create(product=p, stock=3)
+        wallet.manual_credit(self.st, 50, "старт", self.admin)
+        order = shop.purchase(self.st, v.pk)
+        self.client.force_login(self.st)
+        urls = ["/", "/events/", "/events/?view=list", f"/events/{self.event.pk}/", "/tasks/", "/surveys/", "/shop/",
+                f"/shop/{p.pk}/", f"/shop/orders/{order.pk}/", "/draws/", "/rating/", "/rating/groups/", "/rating/badges/",
+                "/profile/", "/notifications/", "/notifications/settings/"]
+        for u in urls:
+            self.assertEqual(self.client.get(u).status_code, 200, u)
+        self.assertRedirects(self.client.post("/profile/rating-visibility/"), "/profile/")
+        self.assertRedirects(self.client.post(f"/shop/orders/{order.pk}/cancel/"), "/profile/")
