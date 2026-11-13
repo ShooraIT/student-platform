@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#1d1f27">
+  <title>Календарь · 01:17</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap">
+  <link rel="stylesheet" href="/stepy-demo/static/css/app.css">
+  <link rel="x-manifest" href="/stepy-demo/static/manifest.webmanifest">
+  <link rel="icon" href="/stepy-demo/static/icons/icon-192.png">
+  <link rel="apple-touch-icon" href="/stepy-demo/static/icons/apple-touch-icon.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="01:17">
+</head>
+<body>
+<div style="background:#1d1f27;color:#fff;text-align:center;font:600 13px/1.4 Inter,system-ui,sans-serif;padding:8px 12px">
+  ✦ Демо-версия платформы «Степы» · данные вымышленные · кнопки и формы не сохраняют изменения
+</div>
+<script>
+document.addEventListener("submit", function (e) {
+  e.preventDefault();
+  alert("Это демо-версия: действия не сохраняются. В рабочей платформе здесь выполнится действие.");
+}, true);
+</script>
+
+
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="logo" href="/stepy-demo/" aria-label="01:17 — на главную"><span class="logo-mark"><svg viewBox="0 0 30 30" aria-hidden="true"><circle cx="15" cy="15" r="14.5" fill="#f1a627"/><circle cx="15" cy="15" r="6.5" fill="#fff"/><rect x="17" y="17" width="10" height="9" rx="2" transform="rotate(45 22 21.5)" fill="#cb563d"/></svg>1:17</span>
+<span class="logo-tag">УЧИСЬ · ПРОБУЙ · СТАНОВИСЬ</span></a>
+    <nav class="nav">
+      <a href="/stepy-demo/" class="">Главная</a>
+      <a href="/stepy-demo/events/" class="active">Календарь</a>
+      <a href="/stepy-demo/tasks/" class="">Задания</a>
+      <a href="/stepy-demo/surveys/" class="">Опросы</a>
+      <a href="/stepy-demo/shop/" class="">Магазин</a>
+      <a href="/stepy-demo/draws/" class="">Розыгрыши</a>
+      <a href="/stepy-demo/rating/" class="">Рейтинг</a>
+      
+    </nav>
+    <div class="top-right">
+      <a class="balance" href="/stepy-demo/profile/" title="Баланс">✦ 45 степов</a>
+      <a class="bell" href="/stepy-demo/notifications/" title="Уведомления">🔔<span class="dot">9</span></a>
+      <a class="avatar" href="/stepy-demo/profile/" title="Иванова Анна">А</a>
+    </div>
+  </div>
+  <div class="speed-line" aria-hidden="true"><i></i><i></i><i></i></div>
+</header>
+<nav class="tabbar">
+  <a href="/stepy-demo/" class=""><b>⌂</b>Главная</a>
+  <a href="/stepy-demo/events/" class="active"><b>▦</b>Календарь</a>
+  <a href="/stepy-demo/tasks/" class=""><b>✓</b>Задания</a>
+  <a href="/stepy-demo/shop/" class=""><b>✦</b>Магазин</a>
+  <a href="/stepy-demo/profile/" class=""><b>☺</b>Профиль</a>
+</nav>
+
+
+<main>
+  
+  
+
+  <div class="page-head">
+  <span class="eyebrow">Сообщество</span>
+  <h1>Календарь · список событий</h1>
+  <p class="lead">Все события и активности колледжа. Записывайся и получай степы за участие.</p>
+</div>
+
+
+
+<div class="spread" style="margin-bottom:1rem">
+  <form class="row" method="get">
+    <input type="hidden" name="view" value="list">
+    <select name="cat" onchange="this.form.submit()" style="width:auto;border-radius:999px;padding:.45rem 1rem"><option value="">Все категории</option><option value="4" >Волонтёрство</option><option value="5" >Профориентация</option><option value="1" >Спорт</option><option value="2" >Творчество</option><option value="3" >Учёба</option></select>
+    <label class="choice" style="margin:0;background:#fff;border-radius:999px;padding:.45rem 1rem"><input type="checkbox" name="mine" value="1"  onchange="this.form.submit()"> Только мои</label>
+  </form>
+  <div class="pill-tabs" style="margin:0">
+    <a href="?view=month" class="">Месяц</a>
+    <a href="?view=list" class="active">Список</a>
+  </div>
+</div>
+
+
+<div class="card accent">
+  <div class="card-head"><h2>Список мероприятий</h2></div>
+  <div class="list-item">
+  <div class="date-box"><b>15</b><span>Ноя</span></div>
+  <div style="flex:1;min-width:0">
+    <a class="title" href="/stepy-demo/events/7/">Футбольный матч СИП vs СЭС</a>
+    <div class="muted small">Вс, 15:00 · Стадион</div>
+  </div>
+  <span class="reward">+20</span>
+</div>
+<div class="list-item">
+  <div class="date-box"><b>26</b><span>Ноя</span></div>
+  <div style="flex:1;min-width:0">
+    <a class="title" href="/stepy-demo/events/8/">Концерт ко Дню студента</a>
+    <div class="muted small">Чт, 18:00 · Актовый зал</div>
+  </div>
+  <span class="reward">+30</span>
+</div>
+
+</div>
+<span class="slogan">Не пропускай своё ↗</span>
+
+
+</main>
+
+
+</body>
+</html>

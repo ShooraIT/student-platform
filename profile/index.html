@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#1d1f27">
+  <title>Профиль · 01:17</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap">
+  <link rel="stylesheet" href="/stepy-demo/static/css/app.css">
+  <link rel="x-manifest" href="/stepy-demo/static/manifest.webmanifest">
+  <link rel="icon" href="/stepy-demo/static/icons/icon-192.png">
+  <link rel="apple-touch-icon" href="/stepy-demo/static/icons/apple-touch-icon.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="01:17">
+</head>
+<body>
+<div style="background:#1d1f27;color:#fff;text-align:center;font:600 13px/1.4 Inter,system-ui,sans-serif;padding:8px 12px">
+  ✦ Демо-версия платформы «Степы» · данные вымышленные · кнопки и формы не сохраняют изменения
+</div>
+<script>
+document.addEventListener("submit", function (e) {
+  e.preventDefault();
+  alert("Это демо-версия: действия не сохраняются. В рабочей платформе здесь выполнится действие.");
+}, true);
+</script>
+
+
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="logo" href="/stepy-demo/" aria-label="01:17 — на главную"><span class="logo-mark"><svg viewBox="0 0 30 30" aria-hidden="true"><circle cx="15" cy="15" r="14.5" fill="#f1a627"/><circle cx="15" cy="15" r="6.5" fill="#fff"/><rect x="17" y="17" width="10" height="9" rx="2" transform="rotate(45 22 21.5)" fill="#cb563d"/></svg>1:17</span>
+<span class="logo-tag">УЧИСЬ · ПРОБУЙ · СТАНОВИСЬ</span></a>
+    <nav class="nav">
+      <a href="/stepy-demo/" class="">Главная</a>
+      <a href="/stepy-demo/events/" class="">Календарь</a>
+      <a href="/stepy-demo/tasks/" class="">Задания</a>
+      <a href="/stepy-demo/surveys/" class="">Опросы</a>
+      <a href="/stepy-demo/shop/" class="">Магазин</a>
+      <a href="/stepy-demo/draws/" class="">Розыгрыши</a>
+      <a href="/stepy-demo/rating/" class="">Рейтинг</a>
+      
+    </nav>
+    <div class="top-right">
+      <a class="balance" href="/stepy-demo/profile/" title="Баланс">✦ 45 степов</a>
+      <a class="bell" href="/stepy-demo/notifications/" title="Уведомления">🔔<span class="dot">9</span></a>
+      <a class="avatar" href="/stepy-demo/profile/" title="Иванова Анна">А</a>
+    </div>
+  </div>
+  <div class="speed-line" aria-hidden="true"><i></i><i></i><i></i></div>
+</header>
+<nav class="tabbar">
+  <a href="/stepy-demo/" class=""><b>⌂</b>Главная</a>
+  <a href="/stepy-demo/events/" class=""><b>▦</b>Календарь</a>
+  <a href="/stepy-demo/tasks/" class=""><b>✓</b>Задания</a>
+  <a href="/stepy-demo/shop/" class=""><b>✦</b>Магазин</a>
+  <a href="/stepy-demo/profile/" class="active"><b>☺</b>Профиль</a>
+</nav>
+
+
+<main>
+  
+  
+<div class="page-head">
+  <span class="eyebrow">Твоя история</span>
+  <h1>Профиль и достижения</h1>
+  <p class="lead">Каждый шаг — часть твоего пути: проекты, события и награды.</p>
+</div>
+
+<section class="hero" style="min-height:0">
+  <div class="hero-split">
+    <div class="row" style="gap:1.4rem;flex:1;min-width:280px">
+      <span class="avatar lg">А</span>
+      <div style="flex:1;min-width:200px">
+        <div class="hero-title" style="font-size:1.8rem;text-transform:uppercase;margin:0">Анна Иванова</div>
+        <div class="eyebrow" style="color:var(--yellow);margin:.3rem 0 .8rem">СИП-11 / уровень 01</div>
+        <div class="small" style="margin-bottom:.4rem">155 / 200 до следующего уровня</div><div class="progress" style="max-width:340px"><div style="width:78%"></div></div>
+      </div>
+    </div>
+    
+    <div style="background:var(--terra);border-radius:14px;padding:1.1rem 1.3rem;min-width:220px">
+      <div class="hero-hi">Твой баланс</div>
+      <div class="stat" style="font-size:2.4rem">45 <span class="star" style="color:#fff">✦</span></div>
+      <div class="small">всего заработано 155</div>
+    </div>
+    
+  </div>
+</section>
+
+<div class="grid-main">
+  <div>
+    <div class="card">
+      <div class="card-head"><h2>Коллекция достижений</h2><a href="/stepy-demo/rating/badges/">Все →</a></div>
+      <div class="grid" style="grid-template-columns:repeat(auto-fill,minmax(140px,1fr));margin-top:.8rem">
+        <div class="card achv" style="margin:0" title="Сделать первую покупку"><div class="icon">↗</div><b class="small">Покупатель</b></div>
+        <div class="card achv" style="margin:0" title="Посетить первое мероприятие"><div class="icon">★</div><b class="small">Первый шаг</b></div>
+        
+      </div>
+    </div>
+
+    
+    <div class="card" id="orders">
+      <div class="card-head"><h2>Мои заказы и призы</h2></div>
+      
+      <div class="list-item">
+        <div style="flex:1"><a class="title" href="/stepy-demo/shop/orders/1/">Кружка «Я сделал шаг»</a><div class="muted small">06.11.2026 · код <b>Z33FAV</b></div></div>
+        <span class="badge gray">Выдан</span>
+      </div>
+      
+    </div>
+    
+
+    <div class="card">
+      <div class="card-head"><h2>История операций</h2></div>
+      
+      <div class="list-item">
+        <div style="flex:1">Посещение: Субботник во дворе колледжа<div class="muted small">06.11.2026 16:23 · Посещение мероприятия</div></div>
+        <b style="color:var(--green)">+30</b>
+      </div>
+      
+      <div class="list-item">
+        <div style="flex:1">Снята отметка посещения: Посещение: Субботник во дворе колледжа<div class="muted small">06.11.2026 16:23 · Сторно</div></div>
+        <b style="color:var(--terra)">-30</b>
+      </div>
+      
+      <div class="list-item">
+        <div style="flex:1">Посещение: Субботник во дворе колледжа<div class="muted small">06.11.2026 16:23 · Посещение мероприятия</div></div>
+        <b style="color:var(--green)">+30</b>
+      </div>
+      
+      <div class="list-item">
+        <div style="flex:1">Покупка: Кружка «Я сделал шаг»<div class="muted small">06.11.2026 16:23 · Покупка</div></div>
+        <b style="color:var(--terra)">-80</b>
+      </div>
+      
+      <div class="list-item">
+        <div style="flex:1">Голосование: Выбираем тему новогоднего вечера<div class="muted small">06.11.2026 16:23 · Участие в голосовании</div></div>
+        <b style="color:var(--green)">+5</b>
+      </div>
+      
+      <div class="list-item">
+        <div style="flex:1">Задание: Викторина: история колледжа<div class="muted small">06.11.2026 16:23 · Выполнение задания</div></div>
+        <b style="color:var(--green)">+20</b>
+      </div>
+      
+      <div class="list-item">
+        <div style="flex:1">Достижение «Первый шаг»<div class="muted small">06.11.2026 16:20 · Достижение</div></div>
+        <b style="color:var(--green)">+5</b>
+      </div>
+      
+      <div class="list-item">
+        <div style="flex:1">Посещение: Хакатон «Цифровой колледж»<div class="muted small">06.11.2026 16:20 · Посещение мероприятия</div></div>
+        <b style="color:var(--green)">+50</b>
+      </div>
+      
+      <div class="list-item">
+        <div style="flex:1">Посещение: Мастер-класс по скетчингу<div class="muted small">06.11.2026 16:20 · Посещение мероприятия</div></div>
+        <b style="color:var(--green)">+15</b>
+      </div>
+      
+    </div>
+  </div>
+
+  <div class="card">
+    <h2 style="margin-top:0">Мои действия</h2>
+    <a class="list-item" href="#orders"><span style="flex:1">Мои заказы</span><span class="reward">↗</span></a>
+    <a class="list-item" href="/stepy-demo/events/"><span style="flex:1">Мои мероприятия</span><span class="reward">↗</span></a>
+    <a class="list-item" href="/stepy-demo/notifications/settings/"><span style="flex:1">Уведомления на телефон</span><span class="reward">↗</span></a>
+    <a class="list-item" href="/stepy-demo/"><span style="flex:1">Сменить пароль</span><span class="reward">↗</span></a>
+    <div class="list-item">
+      <span style="flex:1">В публичном рейтинге: <b>виден</b></span>
+      <form method="post" action="/stepy-demo/"><input type="hidden" name="csrfmiddlewaretoken" value="qmzmomHuTASo1stLVgZjSDDSyLydWtQm45EfrjaSv7VS0jkAOaglu2qyoA3tX7UC"><button class="btn secondary small">Изменить</button></form>
+    </div>
+    <form method="post" action="/stepy-demo/" style="margin-top:1rem"><input type="hidden" name="csrfmiddlewaretoken" value="qmzmomHuTASo1stLVgZjSDDSyLydWtQm45EfrjaSv7VS0jkAOaglu2qyoA3tX7UC"><button class="btn danger small">Выйти</button></form>
+  </div>
+</div>
+
+</main>
+
+
+</body>
+</html>
