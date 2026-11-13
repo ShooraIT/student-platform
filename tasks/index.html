@@ -8,10 +8,10 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap">
-  <link rel="stylesheet" href="/stepy-demo/static/css/app.css">
-  <link rel="x-manifest" href="/stepy-demo/static/manifest.webmanifest">
-  <link rel="icon" href="/stepy-demo/static/icons/icon-192.png">
-  <link rel="apple-touch-icon" href="/stepy-demo/static/icons/apple-touch-icon.png">
+  <link rel="stylesheet" href="/student-platform/static/css/app.css">
+  <link rel="x-manifest" href="/student-platform/static/manifest.webmanifest">
+  <link rel="icon" href="/student-platform/static/icons/icon-192.png">
+  <link rel="apple-touch-icon" href="/student-platform/static/icons/apple-touch-icon.png">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-title" content="01:17">
 </head>
@@ -30,32 +30,32 @@ document.addEventListener("submit", function (e) {
 
 <header class="topbar">
   <div class="topbar-inner">
-    <a class="logo" href="/stepy-demo/" aria-label="01:17 — на главную"><span class="logo-mark"><svg viewBox="0 0 30 30" aria-hidden="true"><circle cx="15" cy="15" r="14.5" fill="#f1a627"/><circle cx="15" cy="15" r="6.5" fill="#fff"/><rect x="17" y="17" width="10" height="9" rx="2" transform="rotate(45 22 21.5)" fill="#cb563d"/></svg>1:17</span>
+    <a class="logo" href="/student-platform/" aria-label="01:17 — на главную"><span class="logo-mark"><svg viewBox="0 0 30 30" aria-hidden="true"><circle cx="15" cy="15" r="14.5" fill="#f1a627"/><circle cx="15" cy="15" r="6.5" fill="#fff"/><rect x="17" y="17" width="10" height="9" rx="2" transform="rotate(45 22 21.5)" fill="#cb563d"/></svg>1:17</span>
 <span class="logo-tag">УЧИСЬ · ПРОБУЙ · СТАНОВИСЬ</span></a>
     <nav class="nav">
-      <a href="/stepy-demo/" class="">Главная</a>
-      <a href="/stepy-demo/events/" class="">Календарь</a>
-      <a href="/stepy-demo/tasks/" class="active">Задания</a>
-      <a href="/stepy-demo/surveys/" class="">Опросы</a>
-      <a href="/stepy-demo/shop/" class="">Магазин</a>
-      <a href="/stepy-demo/draws/" class="">Розыгрыши</a>
-      <a href="/stepy-demo/rating/" class="">Рейтинг</a>
+      <a href="/student-platform/" class="">Главная</a>
+      <a href="/student-platform/events/" class="">Календарь</a>
+      <a href="/student-platform/tasks/" class="active">Задания</a>
+      <a href="/student-platform/surveys/" class="">Опросы</a>
+      <a href="/student-platform/shop/" class="">Магазин</a>
+      <a href="/student-platform/draws/" class="">Розыгрыши</a>
+      <a href="/student-platform/rating/" class="">Рейтинг</a>
       
     </nav>
     <div class="top-right">
-      <a class="balance" href="/stepy-demo/profile/" title="Баланс">✦ 45 степов</a>
-      <a class="bell" href="/stepy-demo/notifications/" title="Уведомления">🔔<span class="dot">9</span></a>
-      <a class="avatar" href="/stepy-demo/profile/" title="Иванова Анна">А</a>
+      <a class="balance" href="/student-platform/profile/" title="Баланс">✦ 45 степов</a>
+      <a class="bell" href="/student-platform/notifications/" title="Уведомления">🔔<span class="dot">9</span></a>
+      <a class="avatar" href="/student-platform/profile/" title="Иванова Анна">А</a>
     </div>
   </div>
   <div class="speed-line" aria-hidden="true"><i></i><i></i><i></i></div>
 </header>
 <nav class="tabbar">
-  <a href="/stepy-demo/" class=""><b>⌂</b>Главная</a>
-  <a href="/stepy-demo/events/" class=""><b>▦</b>Календарь</a>
-  <a href="/stepy-demo/tasks/" class="active"><b>✓</b>Задания</a>
-  <a href="/stepy-demo/shop/" class=""><b>✦</b>Магазин</a>
-  <a href="/stepy-demo/profile/" class=""><b>☺</b>Профиль</a>
+  <a href="/student-platform/" class=""><b>⌂</b>Главная</a>
+  <a href="/student-platform/events/" class=""><b>▦</b>Календарь</a>
+  <a href="/student-platform/tasks/" class="active"><b>✓</b>Задания</a>
+  <a href="/student-platform/shop/" class=""><b>✦</b>Магазин</a>
+  <a href="/student-platform/profile/" class=""><b>☺</b>Профиль</a>
 </nav>
 
 
@@ -69,31 +69,15 @@ document.addEventListener("submit", function (e) {
 </div>
 
 <div class="spread">
-  <div class="pill-tabs"><a class="active" href="/stepy-demo/tasks/">Все задания</a><a href="/stepy-demo/surveys/">Опросы и голосования</a></div>
+  <div class="pill-tabs"><a class="active" href="/student-platform/tasks/">Все задания</a><a href="/student-platform/surveys/">Опросы и голосования</a></div>
   
 </div>
 <div class="grid">
 
-  <a class="card task-card accent-terra" href="/stepy-demo/tasks/1/">
-    <div class="top">
-      <span class="badge ">Ручная проверка</span>
-      <span class="sticker">01 / CREATE</span>
-      <span class="reward" style="font-size:1.1rem">+30</span>
-    </div>
-    <div class="spread" style="align-items:flex-start;margin-top:.6rem;flex-wrap:nowrap">
-      <h3 style="font-size:1.1rem">Фото с субботника</h3>
-      <span class="icon">✦</span>
-    </div>
-    <div class="muted small">До 13 ноября, 16:19</div>
-    <div class="foot">
-      <span class="btn block small">Открыть задание</span>
-    </div>
-  </a>
-
-  <a class="card task-card accent" href="/stepy-demo/tasks/3/">
+  <a class="card task-card accent-terra" href="/student-platform/tasks/3/">
     <div class="top">
       <span class="badge ">Квест</span>
-      <span class="sticker">02 / EXPLORE</span>
+      <span class="sticker">01 / EXPLORE</span>
       <span class="reward" style="font-size:1.1rem">+50</span>
     </div>
     <div class="spread" style="align-items:flex-start;margin-top:.6rem;flex-wrap:nowrap">
@@ -107,10 +91,10 @@ document.addEventListener("submit", function (e) {
     </div>
   </a>
 
-  <a class="card task-card accent-ink" href="/stepy-demo/tasks/2/">
+  <a class="card task-card accent" href="/student-platform/tasks/2/">
     <div class="top">
       <span class="badge gray">Автопроверка</span>
-      <span class="sticker">03 / LEARN</span>
+      <span class="sticker">02 / LEARN</span>
       <span class="reward" style="font-size:1.1rem">+20</span>
     </div>
     <div class="spread" style="align-items:flex-start;margin-top:.6rem;flex-wrap:nowrap">
@@ -125,7 +109,7 @@ document.addEventListener("submit", function (e) {
   </a>
 
 </div>
-
+<h2>Завершённые</h2><div class="card"><div class="list-item"><a class="title" href="/student-platform/tasks/1/" style="flex:1">Фото с субботника</a><span class="muted small">13.11.2026</span></div></div>
 <p class="muted">Выполняй задания, которые развивают навыки и знакомят с жизнью колледжа.</p>
 <span class="slogan">Не стой на месте ↗</span>
 
