@@ -3,8 +3,8 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
 
-admin.site.site_header = "Степы — администрирование"
-admin.site.site_title = "Степы"
+admin.site.site_header = "01:17 — администрирование"
+admin.site.site_title = "01:17"
 admin.site.index_title = "Управление платформой"
 
 from notifications.views import service_worker

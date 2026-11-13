@@ -25,7 +25,7 @@ from surveys.models import Survey
 
 DEMO_SNIPPET = """
 <div style="background:#1d1f27;color:#fff;text-align:center;font:600 13px/1.4 Inter,system-ui,sans-serif;padding:8px 12px">
-  ✦ Демо-версия платформы «Степы» · данные вымышленные · кнопки и формы не сохраняют изменения
+  ✦ Демо-версия платформы 01:17 · данные вымышленные · кнопки и формы не сохраняют изменения
 </div>
 <script>
 document.addEventListener("submit", function (e) {
@@ -79,8 +79,8 @@ class Command(BaseCommand):
         shutil.copytree(Path(settings.BASE_DIR) / "static", out / "static")
         (out / ".nojekyll").write_text("")
         (out / "README.md").write_text(
-            "# Степы · 01:17 — демо-версия\n\nСтатическая витрина экранов студента. "
-            "Данные вымышленные, формы не работают. Исходный код платформы — в закрытом репозитории.\n",
+            "# 01:17 — демо-версия\n\nСтатическая витрина экранов студента. "
+            "Данные вымышленные, формы не работают. Исходный код — в ветке develop этого репозитория.\n",
             encoding="utf-8",
         )
         self.stdout.write(self.style.SUCCESS(f"Готово: {ok} страниц в {out}"))

@@ -7,3 +7,4 @@ staticfiles/
 .env
 .vapid.json
 .claude/
+*.sqlite3.bak

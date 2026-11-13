@@ -23,7 +23,7 @@
     <form method="post" action="{% url 'shop:buy' product.pk %}">{% csrf_token %}
       {% with vs=product.variants.all %}
       {% if vs|length > 1 %}
-        <label>Размер</label>
+        <label>Вариант</label>
         <div class="size-pills">{% for v in vs %}<label title="{% if v.stock %}осталось {{ v.stock }}{% else %}нет в наличии{% endif %}"><input type="radio" name="variant" value="{{ v.pk }}" {% if not v.stock %}disabled{% endif %} required><span>{{ v.name }}</span></label>{% endfor %}</div>
       {% else %}{% for v in vs %}<input type="hidden" name="variant" value="{{ v.pk }}">{% endfor %}{% endif %}
       {% endwith %}

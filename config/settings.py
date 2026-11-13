@@ -1,4 +1,4 @@
-"""Настройки платформы «Степы». Секреты и параметры окружения — через переменные окружения."""
+"""Настройки платформы «01:17». Секреты и параметры окружения — через переменные окружения."""
 import os
 from pathlib import Path
 
@@ -161,7 +161,7 @@ if DEBUG and not VAPID_PUBLIC_KEY:
     _keys = _vapid_keys(BASE_DIR / ".vapid.json")
     VAPID_PUBLIC_KEY, VAPID_PRIVATE_KEY = _keys["public"], _keys["private"]
 VAPID_SUBJECT = env("VAPID_SUBJECT", "mailto:admin@example.ru")
-PUSH_TITLE = env("PUSH_TITLE", "Степы")
+PUSH_TITLE = env("PUSH_TITLE", "01:17")
 # Отправлять пуш сразу при создании уведомления (удобно локально). В продакшене пуши шлёт сервис scheduler.
 PUSH_SEND_INLINE = env_bool("PUSH_SEND_INLINE", DEBUG)
 
