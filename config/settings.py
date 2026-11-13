@@ -164,3 +164,6 @@ VAPID_SUBJECT = env("VAPID_SUBJECT", "mailto:admin@example.ru")
 PUSH_TITLE = env("PUSH_TITLE", "Степы")
 # Отправлять пуш сразу при создании уведомления (удобно локально). В продакшене пуши шлёт сервис scheduler.
 PUSH_SEND_INLINE = env_bool("PUSH_SEND_INLINE", DEBUG)
+
+# Уровни: сколько заработанных степов нужно на один уровень
+LEVEL_STEPS = int(env("LEVEL_STEPS", "200"))

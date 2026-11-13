@@ -10,7 +10,7 @@ from core.models import Audience
 
 class Category(models.Model):
     name = models.CharField("Название", max_length=60, unique=True)
-    color = models.CharField("Цвет", max_length=7, default="#4f46e5")
+    color = models.CharField("Цвет", max_length=7, default="#cb563d", help_text="Палитра 01:17: #f1a627 жёлтый, #cb563d терракота, #2e7d4f зелёный, #1d1f27 графит")
 
     class Meta:
         verbose_name = "Категория мероприятий"

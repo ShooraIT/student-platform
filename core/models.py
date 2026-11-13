@@ -9,7 +9,7 @@ class SiteSettings(models.Model):
     currency_one = models.CharField("Валюта: 1 (степ)", max_length=30, default="степ")
     currency_few = models.CharField("Валюта: 2–4 (степа)", max_length=30, default="степа")
     currency_many = models.CharField("Валюта: 5+ (степов)", max_length=30, default="степов")
-    currency_icon = models.CharField("Иконка валюты", max_length=8, default="👣")
+    currency_icon = models.CharField("Иконка валюты", max_length=8, default="✦")
     manual_credit_limit = models.PositiveIntegerField("Лимит одного ручного начисления", default=500)
     manual_daily_limit = models.PositiveIntegerField("Лимит ручных начислений администратора в сутки", default=2000)
     order_expire_days = models.PositiveIntegerField("Срок хранения невыданного заказа, дней", default=30)

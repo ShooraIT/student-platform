@@ -1,56 +1,77 @@
 {% extends "base.html" %}{% load platform %}
 {% block title %}{{ event.title }}{% endblock %}
 {% block content %}
-<p><a href="{% url 'events:calendar' %}">← Календарь</a></p>
-<div class="card">
-  {% if event.cover %}<img src="{{ event.cover.url }}" alt="" style="border-radius:10px;margin-bottom:.75rem">{% endif %}
-  <div class="row"><span class="badge" style="background:{{ event.category.color }};color:#fff">{{ event.category }}</span>
-    {% if event.status == 'cancelled' %}<span class="badge err">Отменено</span>{% elif event.status == 'draft' %}<span class="badge gray">Черновик</span>{% endif %}
-    {% if event.reward %}<span class="reward">+{{ event.reward|steps }} за посещение</span>{% endif %}
+<a class="back" href="{% url 'events:calendar' %}">← В календарь</a>
+<section class="hero" style="min-height:240px">
+  <span class="deco c1 terra" style="right:-40px"></span><span class="deco c2"></span>
+  <span class="star" style="position:absolute;right:190px;top:40px;font-size:4.5rem;z-index:1;color:#fff">✦</span>
+  <div class="eyebrow" style="color:var(--yellow)">{{ event.category }} / {{ event.start|date:"d E"|upper }}</div>
+  <div class="hero-title" style="max-width:620px">{{ event.title }}</div>
+  {% if event.status == 'cancelled' %}<p><span class="badge err">Мероприятие отменено</span></p>{% elif event.status == 'draft' %}<p><span class="badge gray">Черновик</span></p>{% endif %}
+  {% if event.reward %}<p style="margin-top:1.2rem"><span class="btn yellow small" style="cursor:default">+{{ event.reward|steps|upper }}</span></p>{% endif %}
+</section>
+
+<div class="grid-main">
+  <div class="card">
+    <h2 style="margin-top:0">О мероприятии</h2>
+    <dl class="kv">
+      <dt>Дата</dt><dd>{{ event.start|date:"j E Y, l" }}</dd>
+      <dt>Время</dt><dd>{{ event.start|date:"H:i" }} – {{ event.end|date:"H:i" }}</dd>
+      <dt>Место</dt><dd>{{ event.location }}</dd>
+      {% if event.reward %}<dt>Награда</dt><dd>{{ event.reward|steps }} за участие</dd>{% endif %}
+      {% if event.capacity %}<dt>Места</dt><dd>{{ event.capacity }}, свободно {{ event.seats_left }}</dd>{% endif %}
+    </dl>
+    <div style="white-space:pre-line;margin-top:1.2rem">{{ event.description }}</div>
   </div>
-  <h1 style="margin:.5rem 0">{{ event.title }}</h1>
-  <p>📅 <b>{{ event.start|date:"l, j E, H:i" }}</b> – {{ event.end|date:"H:i" }}<br>📍 {{ event.location }}
-  {% if event.capacity %}<br>👥 Мест: {{ event.capacity }}, свободно {{ event.seats_left }}{% endif %}</p>
-  <div style="white-space:pre-line">{{ event.description }}</div>
-</div>
 
-{% if user.is_student and event.status == 'published' %}
-<div class="card">
-  {% if reg.status == 'attended' %}
-    <p><span class="badge ok">✔ Посещение отмечено</span> {{ reg.attended_at|date:"d.m H:i" }}</p>
-  {% else %}
-    {% if reg.status == 'registered' %}
-      <p><span class="badge ok">Вы записаны</span></p>
-      {% if not event.is_past %}<form method="post" action="{% url 'events:cancel' event.pk %}">{% csrf_token %}<button class="btn danger small">Отменить запись</button></form>{% endif %}
-    {% elif reg.status == 'waitlist' %}
-      <p><span class="badge warn">Вы в листе ожидания</span> — сообщим, если место освободится.</p>
-      <form method="post" action="{% url 'events:cancel' event.pk %}">{% csrf_token %}<button class="btn danger small">Выйти из очереди</button></form>
-    {% elif event.registration_open %}
-      <form method="post" action="{% url 'events:register' event.pk %}">{% csrf_token %}<button class="btn">{% if event.seats_left == 0 %}Встать в лист ожидания{% else %}Записаться{% endif %}</button></form>
-      {% if not event.registration_required %}<p class="muted small">Запись не обязательна — можно просто прийти и отметиться.</p>{% endif %}
-    {% endif %}
+  <div>
+  {% if user.is_student and event.status == 'published' %}
+  <div class="card">
+    {% if reg.status == 'attended' %}
+      <h2 style="margin-top:0">Ты был здесь!</h2>
+      <p><span class="badge ok">✓ Посещение отмечено</span></p><p class="muted">{{ reg.attended_at|date:"j E, H:i" }}</p>
+    {% else %}
+      {% if reg.status == 'registered' %}
+        <h2 style="margin-top:0">Ты записан</h2>
+        <p><span class="badge ok">✓ Регистрация подтверждена</span></p>
+        {% if not event.is_past %}<form method="post" action="{% url 'events:cancel' event.pk %}">{% csrf_token %}<button class="btn danger small">Отменить запись</button></form>{% endif %}
+      {% elif reg.status == 'waitlist' %}
+        <h2 style="margin-top:0">Ты в листе ожидания</h2>
+        <p class="muted">Сообщим, если место освободится.</p>
+        <form method="post" action="{% url 'events:cancel' event.pk %}">{% csrf_token %}<button class="btn danger small">Выйти из очереди</button></form>
+      {% elif event.registration_open %}
+        <h2 style="margin-top:0">Присоединяйся!</h2>
+        <p class="muted">Запись открыта · {% if event.seats_left == 0 %}мест нет, можно в лист ожидания{% elif event.capacity %}свободно мест: {{ event.seats_left }}{% else %}мест достаточно{% endif %}</p>
+        <form method="post" action="{% url 'events:register' event.pk %}">{% csrf_token %}<button class="btn cta block">{% if event.seats_left == 0 %}В лист ожидания{% else %}Записаться ↗{% endif %}</button></form>
+        <p class="muted small" style="margin-top:.8rem">{% if event.registration_required %}Уведомим о событии заранее{% else %}Запись не обязательна — можно просто прийти и отметиться{% endif %}</p>
+      {% endif %}
 
-    {% if event.checkin_open %}
-      <h2>Отметить посещение</h2>
-      {% if event.checkin_qr %}<p>📷 Отсканируйте QR-код на экране мероприятия камерой телефона.</p>{% endif %}
-      {% if event.checkin_code %}
-      <form method="post" action="{% url 'events:checkin_code' event.pk %}" class="row">{% csrf_token %}
-        <input type="text" name="code" placeholder="Кодовое слово" autocomplete="off" style="flex:1;text-transform:uppercase" required>
-        <button class="btn">Отметиться</button>
-      </form>
+      {% if event.checkin_open %}
+        <h2>Отметить посещение</h2>
+        {% if event.checkin_qr %}<p class="muted">Отсканируй QR-код на экране мероприятия камерой телефона.</p>{% endif %}
+        {% if event.checkin_code %}
+        <form method="post" action="{% url 'events:checkin_code' event.pk %}" class="row">{% csrf_token %}
+          <input type="text" name="code" placeholder="Кодовое слово" autocomplete="off" style="flex:1;text-transform:uppercase" required>
+          <button class="btn">Отметиться</button>
+        </form>
+        {% endif %}
       {% endif %}
     {% endif %}
+    <p style="margin:1rem 0 0"><a href="{% url 'events:ics' event.pk %}" class="small">Добавить в календарь телефона ↗</a></p>
+  </div>
   {% endif %}
-  <p style="margin-top:1rem"><a href="{% url 'events:ics' event.pk %}">📆 Добавить в календарь телефона</a></p>
-</div>
-{% endif %}
 
-{% if user.is_staff_role %}
-<div class="card row">
-  <a class="btn" href="{% url 'events:staff_checkin' event.pk %}" target="_blank">QR-экран чек-ина</a>
-  <a class="btn secondary" href="{% url 'events:staff_attendees' event.pk %}">Список участников</a>
-  <a class="btn secondary" href="/admin/events/event/{{ event.pk }}/change/">Редактировать</a>
-  {% if event.checkin_code %}<span>Кодовое слово: <b>{{ event.code_word }}</b></span>{% endif %}
+  {% if user.is_staff_role %}
+  <div class="card dark">
+    <h2 style="margin-top:0">Управление</h2>
+    {% if event.checkin_code %}<p>Кодовое слово: <b style="color:var(--yellow)">{{ event.code_word }}</b></p>{% endif %}
+    <div class="row">
+      <a class="btn yellow small" href="{% url 'events:staff_checkin' event.pk %}" target="_blank">QR-экран</a>
+      <a class="btn light small" href="{% url 'events:staff_attendees' event.pk %}">Участники</a>
+      <a class="btn light small" href="/admin/events/event/{{ event.pk }}/change/">Редактировать</a>
+    </div>
+  </div>
+  {% endif %}
+  </div>
 </div>
-{% endif %}
 {% endblock %}

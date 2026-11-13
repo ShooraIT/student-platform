@@ -1,17 +1,35 @@
 {% extends "base.html" %}{% load platform %}
 {% block title %}Задания{% endblock %}
 {% block content %}
-<div class="spread"><h1>Задания</h1>{% if user.is_staff_role %}<a class="btn secondary" href="{% url 'assignments:review' %}">Очередь проверки</a>{% endif %}</div>
-<div class="pill-tabs"><a class="active" href="/tasks/">Задания</a><a href="/surveys/">Опросы и голосования</a></div>
+{% include "_page_head.html" with eyebrow="Шаг за шагом" title="Задания" lead="Выбирай активность, выполняй задания и получай степы." %}
+<div class="spread">
+  <div class="pill-tabs"><a class="active" href="/tasks/">Все задания</a><a href="/surveys/">Опросы и голосования</a></div>
+  {% if user.is_staff_role %}<a class="btn secondary small" href="{% url 'assignments:review' %}">Очередь проверки</a>{% endif %}
+</div>
 <div class="grid">
 {% for t in active %}{% with sub=subs|get_item:t.pk %}
-  <a class="card" href="{% url 'assignments:detail' t.pk %}" style="color:inherit;text-decoration:none">
-    <div class="spread"><span class="badge gray">{{ t.get_kind_display }}</span><span class="reward">+{{ t.reward }}</span></div>
-    <h3 style="margin-top:.5rem">{{ t.title }}</h3>
-    <div class="muted small">до {{ t.deadline|date:"j E, H:i" }}</div>
-    {% if sub %}<div style="margin-top:.4rem">{% include "assignments/_status.html" %}</div>{% endif %}
+  <a class="card task-card {% cycle 'accent-terra' 'accent' 'accent-ink' %}" href="{% url 'assignments:detail' t.pk %}">
+    <div class="top">
+      <span class="badge {% if t.kind == 'auto' %}gray{% endif %}">{% if t.kind == 'manual' %}Ручная проверка{% elif t.kind == 'quest' %}Квест{% else %}Автопроверка{% endif %}</span>
+      <span class="sticker">{{ forloop.counter|stringformat:"02d" }} / {% if t.kind == 'manual' %}CREATE{% elif t.kind == 'quest' %}EXPLORE{% else %}LEARN{% endif %}</span>
+      <span class="reward" style="font-size:1.1rem">+{{ t.reward }}</span>
+    </div>
+    <div class="spread" style="align-items:flex-start;margin-top:.6rem;flex-wrap:nowrap">
+      <h3 style="font-size:1.1rem">{{ t.title }}</h3>
+      <span class="icon">{% if sub.status == 'approved' %}✓{% elif t.kind == 'quest' %}↗{% else %}✦{% endif %}</span>
+    </div>
+    <div class="muted small">До {{ t.deadline|date:"j E, H:i" }}</div>
+    <div class="foot">
+      {% if sub.status == 'approved' %}<span class="btn done block small">Пройдено ✓</span>
+      {% elif sub.status == 'submitted' %}<span class="btn secondary block small">На проверке</span>
+      {% elif sub.status == 'failed' or sub.status == 'rejected' %}<span class="btn secondary block small">{{ sub.get_status_display }}</span>
+      {% elif sub %}<span class="btn block small">Продолжить</span>
+      {% else %}<span class="btn block small">Открыть задание</span>{% endif %}
+    </div>
   </a>
 {% endwith %}{% empty %}<p class="muted">Активных заданий пока нет</p>{% endfor %}
 </div>
-{% if past %}<h2>Завершённые</h2><div class="card">{% for t in past %}<div class="list-item"><a href="{% url 'assignments:detail' t.pk %}" style="flex:1">{{ t.title }}</a><span class="muted small">{{ t.deadline|date:"d.m.Y" }}</span></div>{% endfor %}</div>{% endif %}
+{% if past %}<h2>Завершённые</h2><div class="card">{% for t in past %}<div class="list-item"><a class="title" href="{% url 'assignments:detail' t.pk %}" style="flex:1">{{ t.title }}</a><span class="muted small">{{ t.deadline|date:"d.m.Y" }}</span></div>{% endfor %}</div>{% endif %}
+<p class="muted">Выполняй задания, которые развивают навыки и знакомят с жизнью колледжа.</p>
+<span class="slogan">Не стой на месте ↗</span>
 {% endblock %}

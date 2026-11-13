@@ -1,9 +1,9 @@
 {% extends "base.html" %}
 {% block title %}Достижения{% endblock %}
 {% block content %}
-<h1>Достижения</h1>
+{% include "_page_head.html" with eyebrow="Твои достижения" title="Коллекция достижений" lead="Патчи за активность: собирай их и получай бонусные степы." %}
 <div class="pill-tabs"><a href="{% url 'achievements:rating' %}">Студенты</a><a href="{% url 'achievements:groups' %}">Группы</a><a class="active" href="{% url 'achievements:list' %}">Достижения</a></div>
-<div class="grid">
+<div class="grid" style="grid-template-columns:repeat(auto-fill,minmax(200px,1fr))">
 {% for i in items %}
   <div class="card achv {% if not i.got %}locked{% endif %}">
     <div class="icon">{{ i.a.icon }}</div>

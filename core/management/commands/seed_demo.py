@@ -50,7 +50,7 @@ class Command(BaseCommand):
             students.append(u)
 
         cats = {n: Category.objects.create(name=n, color=c) for n, c in
-                [("Спорт", "#16a34a"), ("Творчество", "#db2777"), ("Учёба", "#2563eb"), ("Волонтёрство", "#d97706"), ("Профориентация", "#7c3aed")]}
+                [("Спорт", "#2e7d4f"), ("Творчество", "#cb563d"), ("Учёба", "#f1a627"), ("Волонтёрство", "#cb563d"), ("Профориентация", "#1d1f27")]}
         today = timezone.localtime(now).replace(hour=0, minute=0, second=0, microsecond=0)
         ev_specs = [
             ("Турнир по настольному теннису", "Спорт", -10, 15, "Спортзал", 20),
@@ -121,12 +121,12 @@ class Command(BaseCommand):
         DrawCondition.objects.create(draw=d, kind=DrawCondition.Kind.EVENTS_COUNT, count=2, period_start=(today - timedelta(days=30)).date(), period_end=(today + timedelta(days=30)).date())
 
         for i, (icon, title, desc, kind, cnt, rew) in enumerate([
-            ("👣", "Первый шаг", "Посетить первое мероприятие", "events", 1, 5),
-            ("🔥", "Завсегдатай", "Посетить 10 мероприятий", "events", 10, 50),
-            ("🗳️", "Голос колледжа", "Пройти 5 опросов или голосований", "surveys", 5, 20),
-            ("🛍️", "Покупатель", "Сделать первую покупку", "first_purchase", 1, 0),
-            ("🏃", "Марафонец", "Заработать 500 степов", "earned", 500, 50),
-            ("⭐", "Звезда колледжа", "Особый вклад в жизнь колледжа", "manual", 1, 100),
+            ("★", "Первый шаг", "Посетить первое мероприятие", "events", 1, 5),
+            ("✦", "Завсегдатай", "Посетить 10 мероприятий", "events", 10, 50),
+            ("◆", "Голос колледжа", "Пройти 5 опросов или голосований", "surveys", 5, 20),
+            ("↗", "Покупатель", "Сделать первую покупку", "first_purchase", 1, 0),
+            ("▲", "Марафонец", "Заработать 500 степов", "earned", 500, 50),
+            ("★", "Звезда колледжа", "Особый вклад в жизнь колледжа", "manual", 1, 100),
         ]):
             Achievement.objects.create(icon=icon, title=title, description=desc, kind=kind, count=cnt, reward=rew, order=i)
         # выдать достижения тем, кто уже посещал

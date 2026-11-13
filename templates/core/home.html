@@ -1,44 +1,70 @@
 {% extends "base.html" %}{% load platform %}
 {% block title %}Главная{% endblock %}
 {% block content %}
-<div class="hero">
-  <div class="spread">
-    <div><div class="small">Привет, {{ user.first_name }}!</div><div class="stat">{{ user.balance|steps }}</div><div class="small">на балансе · за этот месяц заработано {{ earned_month }}</div></div>
-    <div class="row"><a class="btn secondary" href="/shop/">В магазин</a></div>
+<section class="hero">
+  <span class="deco c1"></span><span class="deco c2"></span>
+  <div class="hero-split">
+    <div>
+      <div class="hero-hi">Привет, {{ user.first_name }}!</div>
+      <div class="hero-title">{{ user.balance|steps }}</div>
+      <div>На балансе · за этот месяц заработано {{ earned_month }}</div>
+    </div>
+    <div class="row" style="gap:1.5rem">
+      {% if level %}
+      <div class="level-panel">
+        <div class="lvl">LEVEL {{ level.level|stringformat:"02d" }}</div>
+        <div style="margin:.35rem 0 .6rem;font-weight:600">{{ level.current }} / {{ level.step }}</div>
+        <div class="progress"><div style="width:{{ level.percent }}%"></div></div>
+      </div>
+      {% endif %}
+      <a class="btn light" href="/shop/">В магазин →</a>
+    </div>
   </div>
-</div>
+</section>
 
 <div class="grid-2">
   <div>
     {% if my_events %}
-    <div class="card"><h2 style="margin-top:0">Я записан</h2>
+    <div class="card accent">
+      <div class="card-head"><h2>Я записан</h2></div>
       {% for e in my_events %}{% include "events/_item.html" with e=e %}{% endfor %}
     </div>
     {% endif %}
-    <div class="card"><div class="spread"><h2 style="margin:0">Ближайшие мероприятия</h2><a href="/events/?view=list">Все →</a></div>
+    <div class="card accent">
+      <div class="card-head"><h2>Ближайшие мероприятия</h2><a href="/events/?view=list">Все →</a></div>
       {% for e in upcoming %}{% include "events/_item.html" with e=e %}{% empty %}<p class="muted">Скоро здесь появятся мероприятия</p>{% endfor %}
     </div>
   </div>
   <div>
-    <div class="card"><div class="spread"><h2 style="margin:0">Задания</h2><a href="/tasks/">Все →</a></div>
+    <div class="card accent">
+      <div class="card-head"><h2>Задания</h2><a href="/tasks/">Все →</a></div>
       {% for t in tasks %}
-      <div class="list-item"><div style="flex:1"><a href="{% url 'assignments:detail' t.pk %}">{{ t.title }}</a><div class="muted small">до {{ t.deadline|date:"d.m H:i" }} · {{ t.get_kind_display }}</div></div><span class="reward">+{{ t.reward }}</span></div>
+      <div class="list-item">
+        <div class="date-box"><b>{{ t.deadline|date:"j" }}</b><span>{{ t.deadline|date:"M"|slice:":3" }}</span></div>
+        <div style="flex:1;min-width:0"><a class="title" href="{% url 'assignments:detail' t.pk %}">{{ t.title }}</a><div class="muted small">До {{ t.deadline|date:"d.m" }} · {{ t.get_kind_display|lower }}</div></div>
+        <span class="reward">+{{ t.reward }}</span>
+      </div>
       {% empty %}<p class="muted">Новых заданий нет</p>{% endfor %}
     </div>
-    {% if surveys %}
-    <div class="card"><h2 style="margin-top:0">Ждут вашего ответа</h2>
-      {% for s in surveys %}
-      <div class="list-item"><div style="flex:1"><a href="{% url 'surveys:detail' s.pk %}">{{ s.title }}</a><div class="muted small">{{ s.get_kind_display }} · до {{ s.closes_at|date:"d.m" }}</div></div>{% if s.reward %}<span class="reward">+{{ s.reward }}</span>{% endif %}</div>
-      {% endfor %}
+    {% for s in surveys|slice:":1" %}
+    <div class="card dark accent">
+      <div class="card-head"><h2>Ждут вашего ответа</h2></div>
+      <div class="spread" style="margin-top:.6rem">
+        <div><div style="font-weight:600">{{ s.title }}</div><div class="muted small" style="margin-top:.3rem">До {{ s.closes_at|date:"j E" }} · {{ s.get_kind_display }}</div></div>
+        {% if s.reward %}<span class="reward" style="font-size:1.3rem">+{{ s.reward }}</span>{% endif %}
+      </div>
+      <p style="margin:1.4rem 0 0"><a class="btn light small" href="{% url 'surveys:detail' s.pk %}">{% if s.kind == 'vote' %}Проголосовать{% else %}Пройти опрос{% endif %} →</a> <span class="star" style="float:right;font-size:2.2rem;line-height:1">✦</span></p>
     </div>
-    {% endif %}
+    {% endfor %}
     {% if draws %}
-    <div class="card"><h2 style="margin-top:0">🎁 Розыгрыши</h2>
+    <div class="card accent-terra">
+      <div class="card-head"><h2>Розыгрыши</h2><a href="/draws/">Все →</a></div>
       {% for d in draws %}
-      <div class="list-item"><div style="flex:1"><a href="{% url 'draws:detail' d.pk %}">{{ d.title }}</a><div class="muted small">заявки до {{ d.entries_close|date:"d.m" }}</div></div></div>
+      <div class="list-item"><span class="star" style="font-size:1.4rem">✦</span><div style="flex:1"><a class="title" href="{% url 'draws:detail' d.pk %}">{{ d.title }}</a><div class="muted small">заявки до {{ d.entries_close|date:"j E" }}</div></div></div>
       {% endfor %}
     </div>
     {% endif %}
   </div>
 </div>
+<span class="slogan">★ Живи. Пробуй. Создавай.</span>
 {% endblock %}

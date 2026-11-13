@@ -3,42 +3,48 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#4f46e5">
-  <title>{% block title %}Степы{% endblock %} · Степы</title>
+  <meta name="theme-color" content="#1d1f27">
+  <title>{% block title %}Главная{% endblock %} · 01:17</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap">
   <link rel="stylesheet" href="{% static 'css/app.css' %}">
   <link rel="manifest" href="{% static 'manifest.webmanifest' %}">
   <link rel="icon" href="{% static 'icons/icon-192.png' %}">
   <link rel="apple-touch-icon" href="{% static 'icons/apple-touch-icon.png' %}">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-title" content="Степы">
+  <meta name="apple-mobile-web-app-title" content="01:17">
 </head>
 <body>
 {% if user.is_authenticated and not user.must_change_password %}
 {% with p=request.path %}
-<header class="topbar"><div class="topbar-inner">
-  <a class="logo" href="/">{{ site.currency_icon }} <span>Степы</span></a>
-  <nav class="nav">
-    <a href="/" class="{% if p == '/' %}active{% endif %}">Главная</a>
-    <a href="/events/" class="{% if '/events/' in p %}active{% endif %}">Календарь</a>
-    <a href="/tasks/" class="{% if '/tasks/' in p %}active{% endif %}">Задания</a>
-    <a href="/surveys/" class="{% if '/surveys/' in p %}active{% endif %}">Опросы</a>
-    <a href="/shop/" class="{% if '/shop/' in p %}active{% endif %}">Магазин</a>
-    <a href="/draws/" class="{% if '/draws/' in p %}active{% endif %}">Розыгрыши</a>
-    <a href="/rating/" class="{% if '/rating/' in p %}active{% endif %}">Рейтинг</a>
-    {% if user.is_staff_role %}<a href="/admin/">Админка</a>{% endif %}
-  </nav>
-  <div class="top-right">
-    {% if user.is_student %}<a class="balance" href="/profile/" title="Баланс">{{ user.balance }} {{ site.currency_icon }}</a>{% endif %}
-    <a class="bell" href="/notifications/" title="Уведомления">🔔{% if unread_count %}<span class="dot">{{ unread_count }}</span>{% endif %}</a>
-    <a href="/profile/" class="hide-mobile">{{ user.first_name|default:user.username }}</a>
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="logo" href="/" aria-label="01:17 — на главную">{% include "_logo.html" %}<span class="logo-tag">УЧИСЬ · ПРОБУЙ · СТАНОВИСЬ</span></a>
+    <nav class="nav">
+      <a href="/" class="{% if p == '/' %}active{% endif %}">Главная</a>
+      <a href="/events/" class="{% if '/events/' in p %}active{% endif %}">Календарь</a>
+      <a href="/tasks/" class="{% if '/tasks/' in p %}active{% endif %}">Задания</a>
+      <a href="/surveys/" class="{% if '/surveys/' in p %}active{% endif %}">Опросы</a>
+      <a href="/shop/" class="{% if '/shop/' in p %}active{% endif %}">Магазин</a>
+      <a href="/draws/" class="{% if '/draws/' in p %}active{% endif %}">Розыгрыши</a>
+      <a href="/rating/" class="{% if '/rating/' in p %}active{% endif %}">Рейтинг</a>
+      {% if user.is_staff_role %}<a href="/staff/" class="{% if '/staff/' in p %}active{% endif %}">Управление</a>{% endif %}
+    </nav>
+    <div class="top-right">
+      {% if user.is_student %}<a class="balance" href="/profile/" title="Баланс">{{ site.currency_icon }} {{ user.balance|steps }}</a>{% endif %}
+      <a class="bell" href="/notifications/" title="Уведомления">🔔{% if unread_count %}<span class="dot">{{ unread_count }}</span>{% endif %}</a>
+      <a class="avatar" href="/profile/" title="{{ user.full_name }}">{{ user.first_name|default:user.username|first|upper }}</a>
+    </div>
   </div>
-</div></header>
+  <div class="speed-line" aria-hidden="true"><i></i><i></i><i></i></div>
+</header>
 <nav class="tabbar">
-  <a href="/" class="{% if p == '/' %}active{% endif %}"><b>🏠</b>Главная</a>
-  <a href="/events/" class="{% if '/events/' in p %}active{% endif %}"><b>📅</b>Календарь</a>
-  <a href="/tasks/" class="{% if '/tasks/' in p or '/surveys/' in p %}active{% endif %}"><b>✅</b>Задания</a>
-  <a href="/shop/" class="{% if '/shop/' in p or '/draws/' in p %}active{% endif %}"><b>🛍️</b>Магазин</a>
-  <a href="/profile/" class="{% if '/profile/' in p or '/rating/' in p %}active{% endif %}"><b>👤</b>Профиль</a>
+  <a href="/" class="{% if p == '/' %}active{% endif %}"><b>⌂</b>Главная</a>
+  <a href="/events/" class="{% if '/events/' in p %}active{% endif %}"><b>▦</b>Календарь</a>
+  <a href="/tasks/" class="{% if '/tasks/' in p or '/surveys/' in p %}active{% endif %}"><b>✓</b>Задания</a>
+  <a href="/shop/" class="{% if '/shop/' in p or '/draws/' in p %}active{% endif %}"><b>✦</b>Магазин</a>
+  <a href="/profile/" class="{% if '/profile/' in p or '/rating/' in p %}active{% endif %}"><b>☺</b>Профиль</a>
 </nav>
 {% endwith %}
 {% endif %}

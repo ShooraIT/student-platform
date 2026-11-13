@@ -1,16 +1,37 @@
 {% extends "base.html" %}
 {% block title %}Уведомления{% endblock %}
 {% block content %}
-<div class="spread"><h1>Уведомления</h1>
-  <div class="row"><a class="btn secondary small" href="{% url 'notifications:settings' %}">⚙️ Настройки и пуш</a>
-  <form method="post" action="{% url 'notifications:read_all' %}">{% csrf_token %}<button class="btn secondary small">Прочитать все</button></form></div>
+<div class="spread" style="align-items:flex-end">
+  {% include "_page_head.html" with eyebrow="Не пропускай" title="Уведомления" lead="Награды, важные события и статус заказов — всё в одном месте." %}
+  <div class="row" style="margin-bottom:1.4rem">
+    <a class="btn secondary small" href="{% url 'notifications:settings' %}">Настройки и пуш</a>
+    <form method="post" action="{% url 'notifications:read_all' %}">{% csrf_token %}<button class="btn secondary small">Прочитать все</button></form>
+  </div>
 </div>
-<div class="card">
-  {% for n in items %}
-  <a class="list-item" href="{% url 'notifications:open' n.pk %}" style="color:inherit;text-decoration:none">
-    <span>{% if not n.is_read %}🔵{% else %}⚪{% endif %}</span>
-    <div style="flex:1">{% if not n.is_read %}<b>{{ n.text }}</b>{% else %}{{ n.text }}{% endif %}<div class="muted small">{{ n.created_at|date:"d.m.Y H:i" }}</div></div>
-  </a>
-  {% empty %}<p class="muted">Уведомлений пока нет</p>{% endfor %}
+<div class="grid-main">
+  <div class="card">
+    {% for n in items %}
+    <a class="notif {% if not n.is_read %}unread{% endif %}" href="{% url 'notifications:open' n.pk %}">
+      <span class="notif-icon k-{{ n.kind }}">{% if n.kind == 'credit' or n.kind == 'achievement' %}✦{% elif n.kind == 'draw' or n.kind == 'new_content' %}★{% elif n.kind == 'task' or n.kind == 'order' %}✓{% elif n.kind == 'reminder' or n.kind == 'event' %}●{% else %}!{% endif %}</span>
+      <div style="flex:1;min-width:0">
+        <div style="font-weight:{% if n.is_read %}500{% else %}700{% endif %}">{{ n.text }}</div>
+        <div class="muted small" style="text-align:right">{{ n.created_at|date:"j E, H:i" }}</div>
+      </div>
+    </a>
+    {% empty %}<p class="muted">Уведомлений пока нет</p>{% endfor %}
+  </div>
+  {% if user.is_student %}
+  <div class="card dark">
+    <h2 style="margin-top:0">История обменов</h2>
+    {% for o in swaps %}
+    <a class="swap" href="{% url 'shop:order' o.pk %}" style="color:#fff;text-decoration:none">
+      <span class="thumb">✦</span>
+      <div style="flex:1"><div style="font-weight:600">{{ o.item_title }}</div><div class="reward">{% if o.price %}−{{ o.price }} ✦{% else %}приз{% endif %}</div></div>
+      {% if o.status != 'issued' %}<span class="badge {% if o.status == 'cancelled' %}err{% else %}warn{% endif %}">{{ o.get_status_display }}</span>{% endif %}
+    </a>
+    {% empty %}<p class="muted">Пока обменов нет — загляни в <a href="/shop/" style="color:var(--yellow)">магазин</a></p>{% endfor %}
+    <p class="muted small" style="margin-top:1rem">Покупки не уменьшают очки рейтинга.</p>
+  </div>
+  {% endif %}
 </div>
 {% endblock %}
