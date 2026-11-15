@@ -17,14 +17,9 @@
 </head>
 <body>
 <div style="background:#1d1f27;color:#fff;text-align:center;font:600 13px/1.4 Inter,system-ui,sans-serif;padding:8px 12px">
-  ✦ Демо-версия платформы 01:17 · данные вымышленные · кнопки и формы не сохраняют изменения
+  ✦ Демо-версия платформы 01:17 · данные вымышленные · действия не сохраняются
 </div>
-<script>
-document.addEventListener("submit", function (e) {
-  e.preventDefault();
-  alert("Это демо-версия: действия не сохраняются. В рабочей платформе здесь выполнится действие.");
-}, true);
-</script>
+<script src="/student-platform/static/js/demo-interactions.js" data-base="/student-platform" defer></script>
 
 
 
@@ -74,7 +69,7 @@ document.addEventListener("submit", function (e) {
 
 
 <div class="spread activity-filters" style="margin-bottom:1rem">
-  <form class="row" method="get">
+  <form class="row" method="get" data-demo-filter="calendar">
     <input type="hidden" name="view" value="month">
     <select name="cat" onchange="this.form.submit()" style="width:auto;border-radius:999px;padding:.45rem 1rem"><option value="">Все категории</option><option value="4" >Волонтёрство</option><option value="5" >Профориентация</option><option value="1" >Спорт</option><option value="2" >Творчество</option><option value="3" >Учёба</option></select>
     <label class="choice" style="margin:0;background:#fff;border-radius:999px;padding:.45rem 1rem"><input type="checkbox" name="mine" value="1"  onchange="this.form.submit()"> Только мои записи</label>
@@ -132,7 +127,7 @@ document.addEventListener("submit", function (e) {
 
   <div class="day  ">
     <div class="num">3</div>
-    <a class="ev " href="/student-platform/events/1/" style="background:#2e7d4f" title="15:00 Турнир по настольному теннису">15:00 · Турнир по настольному теннису</a>
+    <a class="ev " data-demo-category="1" data-demo-mine="false" href="/student-platform/events/1/" style="background:#2e7d4f" title="15:00 Турнир по настольному теннису">15:00 · Турнир по настольному теннису</a>
   </div>
 
   <div class="day  ">
@@ -157,7 +152,7 @@ document.addEventListener("submit", function (e) {
 
   <div class="day  ">
     <div class="num">8</div>
-    <a class="ev mine" href="/student-platform/events/2/" style="background:#cb563d" title="16:00 Мастер-класс по скетчингу">16:00 · Мастер-класс по скетчингу</a>
+    <a class="ev mine" data-demo-category="2" data-demo-mine="true" href="/student-platform/events/2/" style="background:#cb563d" title="16:00 Мастер-класс по скетчингу">16:00 · Мастер-класс по скетчингу</a>
   </div>
 
   <div class="day  ">
@@ -172,7 +167,7 @@ document.addEventListener("submit", function (e) {
 
   <div class="day  ">
     <div class="num">11</div>
-    <a class="ev mine" href="/student-platform/events/3/" style="background:#f1a627" title="10:00 Хакатон «Цифровой колледж»">10:00 · Хакатон «Цифровой колледж»</a>
+    <a class="ev mine" data-demo-category="3" data-demo-mine="true" href="/student-platform/events/3/" style="background:#f1a627" title="10:00 Хакатон «Цифровой колледж»">10:00 · Хакатон «Цифровой колледж»</a>
   </div>
 
   <div class="day  ">
@@ -182,7 +177,7 @@ document.addEventListener("submit", function (e) {
 
   <div class="day  ">
     <div class="num">13</div>
-    <a class="ev " href="/student-platform/events/4/" style="background:#cb563d" title="20:00 Субботник во дворе колледжа">20:00 · Субботник во дворе колледжа</a>
+    <a class="ev " data-demo-category="4" data-demo-mine="false" href="/student-platform/events/4/" style="background:#cb563d" title="20:00 Субботник во дворе колледжа">20:00 · Субботник во дворе колледжа</a>
   </div>
 
   <div class="day  ">
@@ -192,7 +187,7 @@ document.addEventListener("submit", function (e) {
 
   <div class="day  today">
     <div class="num">15</div>
-    <a class="ev " href="/student-platform/events/5/" style="background:#1d1f27" title="14:00 Встреча с выпускниками-разработчиками">14:00 · Встреча с выпускниками-разработчиками</a>
+    <a class="ev " data-demo-category="5" data-demo-mine="false" href="/student-platform/events/5/" style="background:#1d1f27" title="14:00 Встреча с выпускниками-разработчиками">14:00 · Встреча с выпускниками-разработчиками</a>
   </div>
 
   <div class="day  ">
@@ -207,7 +202,7 @@ document.addEventListener("submit", function (e) {
 
   <div class="day  ">
     <div class="num">18</div>
-    <a class="ev " href="/student-platform/events/6/" style="background:#f1a627" title="17:00 Квиз «Своя игра»">17:00 · Квиз «Своя игра»</a>
+    <a class="ev " data-demo-category="3" data-demo-mine="false" href="/student-platform/events/6/" style="background:#f1a627" title="17:00 Квиз «Своя игра»">17:00 · Квиз «Своя игра»</a>
   </div>
 
   <div class="day  ">
@@ -227,7 +222,7 @@ document.addEventListener("submit", function (e) {
 
   <div class="day  ">
     <div class="num">22</div>
-    <a class="ev " href="/student-platform/events/7/" style="background:#2e7d4f" title="15:00 Футбольный матч СИП vs СЭС">15:00 · Футбольный матч СИП vs СЭС</a>
+    <a class="ev " data-demo-category="1" data-demo-mine="false" href="/student-platform/events/7/" style="background:#2e7d4f" title="15:00 Футбольный матч СИП vs СЭС">15:00 · Футбольный матч СИП vs СЭС</a>
   </div>
 
   <div class="day  ">
@@ -262,7 +257,7 @@ document.addEventListener("submit", function (e) {
 
   <div class="day  ">
     <div class="num">29</div>
-    <a class="ev " href="/student-platform/events/9/" style="background:#1d1f27" title="08:04 Встреча с ИТ-командой ТехноПульс">08:04 · Встреча с ИТ-командой ТехноПульс</a>
+    <a class="ev " data-demo-category="5" data-demo-mine="false" href="/student-platform/events/9/" style="background:#1d1f27" title="08:04 Встреча с ИТ-командой ТехноПульс">08:04 · Встреча с ИТ-командой ТехноПульс</a>
   </div>
 
   <div class="day  ">

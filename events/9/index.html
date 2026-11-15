@@ -17,14 +17,9 @@
 </head>
 <body>
 <div style="background:#1d1f27;color:#fff;text-align:center;font:600 13px/1.4 Inter,system-ui,sans-serif;padding:8px 12px">
-  ✦ Демо-версия платформы 01:17 · данные вымышленные · кнопки и формы не сохраняют изменения
+  ✦ Демо-версия платформы 01:17 · данные вымышленные · действия не сохраняются
 </div>
-<script>
-document.addEventListener("submit", function (e) {
-  e.preventDefault();
-  alert("Это демо-версия: действия не сохраняются. В рабочей платформе здесь выполнится действие.");
-}, true);
-</script>
+<script src="/student-platform/static/js/demo-interactions.js" data-base="/student-platform" defer></script>
 
 
 
@@ -90,13 +85,13 @@ document.addEventListener("submit", function (e) {
 
         <h2 style="margin-top:0">Присоединяйся!</h2>
         <p class="muted">Запись открыта · свободно мест: 20</p>
-        <form method="post" action="/student-platform/"><input type="hidden" name="csrfmiddlewaretoken" value="BOG4GgDchHd87wk1HxbIlAwYradKoyhQLsHfyG3XkTJcoWMO6FDM7iLWyyP7rRaJ"><button class="btn cta block">Записаться ↗</button></form>
+        <form method="post" action="/student-platform/"><input type="hidden" name="csrfmiddlewaretoken" value="Qusi1SpUr1e7bwmRADkSa3M6zjb3EE0oIvolJyBMjKN9L0ZWSW0dXR53eVyMASGl"><button class="btn cta block">Записаться ↗</button></form>
         <p class="muted small" style="margin-top:.8rem">Уведомим о событии заранее</p>
 
 
 
 
-    <p style="margin:1rem 0 0"><a href="/student-platform/" class="small">Добавить в календарь телефона ↗</a></p>
+    <p style="margin:1rem 0 0"><a href="/student-platform/" class="small" data-demo-ics data-title="Встреча с ИТ-командой ТехноПульс" data-place="Коворкинг колледжа" data-start="2026-11-29T08:04:22.989113+03:00" data-end="2026-11-29T10:04:22.989113+03:00">Добавить в календарь телефона ↗</a></p>
   </div>
 
 

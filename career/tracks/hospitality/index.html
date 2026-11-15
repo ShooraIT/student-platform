@@ -17,14 +17,9 @@
 </head>
 <body>
 <div style="background:#1d1f27;color:#fff;text-align:center;font:600 13px/1.4 Inter,system-ui,sans-serif;padding:8px 12px">
-  ✦ Демо-версия платформы 01:17 · данные вымышленные · кнопки и формы не сохраняют изменения
+  ✦ Демо-версия платформы 01:17 · данные вымышленные · действия не сохраняются
 </div>
-<script>
-document.addEventListener("submit", function (e) {
-  e.preventDefault();
-  alert("Это демо-версия: действия не сохраняются. В рабочей платформе здесь выполнится действие.");
-}, true);
-</script>
+<script src="/student-platform/static/js/demo-interactions.js" data-base="/student-platform" defer></script>
 
 
 
@@ -66,7 +61,7 @@ document.addEventListener("submit", function (e) {
   <p class="lead">Здесь гостю рады.</p>
 </div>
 
-<section class="card"><p>Профессиональное направление карьерного проекта 01:17.</p><form method="post" action="/student-platform/"><input type="hidden" name="csrfmiddlewaretoken" value="EuPXJHMQJPGO6BnO1Nshp1oMCxiRQwZVO8Q8B7cBM1cSn1PBqVUlbJDKJVUeTPSO"><button class="btn primary">Попробовать трек</button></form></section>
+<section class="card"><p>Профессиональное направление карьерного проекта 01:17.</p><form method="post" action="/student-platform/"><input type="hidden" name="csrfmiddlewaretoken" value="3VpeJJ1W2pBht6MhwvT5b4IhfrUabEJpVWlhrpdOU8aj3ApmOOzqYS1eU3hT7Spm"><button class="btn primary">Попробовать трек</button></form></section>
 <section class="card"><h2>Активности трека</h2><div class="list-item"><span>Демоактивность: Гостиницы</span><span class="chip">Мероприятие · обязательно</span></div></section>
 <section class="card"><h2>Работодатели</h2><a class="chip" href="/student-platform/career/employers/3/">Отель «Полюс»</a></section>
 </main>

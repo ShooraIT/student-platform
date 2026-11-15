@@ -17,14 +17,9 @@
 </head>
 <body>
 <div style="background:#1d1f27;color:#fff;text-align:center;font:600 13px/1.4 Inter,system-ui,sans-serif;padding:8px 12px">
-  ✦ Демо-версия платформы 01:17 · данные вымышленные · кнопки и формы не сохраняют изменения
+  ✦ Демо-версия платформы 01:17 · данные вымышленные · действия не сохраняются
 </div>
-<script>
-document.addEventListener("submit", function (e) {
-  e.preventDefault();
-  alert("Это демо-версия: действия не сохраняются. В рабочей платформе здесь выполнится действие.");
-}, true);
-</script>
+<script src="/student-platform/static/js/demo-interactions.js" data-base="/student-platform" defer></script>
 
 
 
@@ -66,7 +61,7 @@ document.addEventListener("submit", function (e) {
   <p class="lead">Сначала работало у меня.</p>
 </div>
 
-<section class="card"><p>Профессиональное направление карьерного проекта 01:17.</p><form method="post" action="/student-platform/"><input type="hidden" name="csrfmiddlewaretoken" value="la1bdBqpOQ3PElPslwliKeWDzck3uumfvO2m51QaR2zTVLhfKENmwWbBGAWqxNf8"><button class="btn primary">Попробовать трек</button></form></section>
+<section class="card"><p>Профессиональное направление карьерного проекта 01:17.</p><form method="post" action="/student-platform/"><input type="hidden" name="csrfmiddlewaretoken" value="z1Dm9W7Uaa1W8oCdSrGpSAGpz4qagt48r2zpRCjM2TAYISfiaKmKFoZmeGNTcHK5"><button class="btn primary">Попробовать трек</button></form></section>
 <section class="card"><h2>Активности трека</h2><div class="list-item"><span>Демоактивность: ИТ · Разработка</span><span class="chip">Мероприятие · обязательно</span></div></section>
 <section class="card"><h2>Встречи наставников</h2><p>22.11 08:04 · Знакомство с треком «ИТ · Разработка» · Виктория В. · Ауд. 204</p></section><section class="card"><h2>Работодатели</h2><a class="chip" href="/student-platform/career/employers/1/">ТехноПульс</a></section>
 </main>

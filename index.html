@@ -17,14 +17,9 @@
 </head>
 <body>
 <div style="background:#1d1f27;color:#fff;text-align:center;font:600 13px/1.4 Inter,system-ui,sans-serif;padding:8px 12px">
-  ✦ Демо-версия платформы 01:17 · данные вымышленные · кнопки и формы не сохраняют изменения
+  ✦ Демо-версия платформы 01:17 · данные вымышленные · действия не сохраняются
 </div>
-<script>
-document.addEventListener("submit", function (e) {
-  e.preventDefault();
-  alert("Это демо-версия: действия не сохраняются. В рабочей платформе здесь выполнится действие.");
-}, true);
-</script>
+<script src="/student-platform/static/js/demo-interactions.js" data-base="/student-platform" defer></script>
 
 
 
@@ -59,24 +54,6 @@ document.addEventListener("submit", function (e) {
 
 <main>
 
-<section class="dashboard-section" aria-label="Выбор демонстрационного режима">
-  <div class="dashboard-section-head">
-    <div><span class="eyebrow">ДЕМО ПЛАТФОРМЫ</span><h2>Выберите роль</h2></div>
-    <span class="muted">Данные в обоих режимах вымышленные</span>
-  </div>
-  <div class="dashboard-columns">
-    <a class="card dashboard-card" href="/student-platform/" style="display:block;text-decoration:none;color:inherit;border:2px solid var(--yellow)">
-      <span class="eyebrow">СТУДЕНТ</span><h3>Посмотреть демо студента</h3>
-      <p class="muted">События, задания, достижения, магазин и личный кабинет.</p>
-      <strong>Открыт сейчас →</strong>
-    </a>
-    <a class="card dashboard-card" href="/student-platform/admin-demo/" style="display:block;text-decoration:none;color:inherit">
-      <span class="eyebrow">АДМИНИСТРАТОР</span><h3>Посмотреть демо администратора</h3>
-      <p class="muted">Сводка колледжа, события, модерация и активность студентов.</p>
-      <strong>Открыть панель →</strong>
-    </a>
-  </div>
-</section>
 
 <section class="dashboard-hero">
   <div class="dashboard-hero-content">
@@ -166,4 +143,3 @@ document.addEventListener("submit", function (e) {
 
 </body>
 </html>
-<!-- redeploy -->

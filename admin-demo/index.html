@@ -55,6 +55,7 @@
       .admin-hero { padding:1.35rem; }
     }
   </style>
+  <script src="/student-platform/static/js/demo-interactions.js" data-base="/student-platform" defer></script>
 </head>
 <body>
   <div style="background:#1d1f27;color:#fff;text-align:center;font:600 13px/1.4 Inter,system-ui,sans-serif;padding:8px 12px">
@@ -115,7 +116,11 @@
           <div class="admin-row"><div><strong>Внешние достижения в портфолио</strong><small>7 заявок · ожидают решения куратора</small></div><span class="admin-status pending">7 новых</span></div>
           <div class="admin-row"><div><strong>Задание «Фото с субботника»</strong><small>4 ответа · срок проверки сегодня</small></div><span class="admin-status pending">4 ответа</span></div>
           <div class="admin-row"><div><strong>Опрос «Выбираем тему вечера»</strong><small>Идёт голосование · завершится 18 ноября</small></div><span class="admin-status">Активен</span></div>
-          <button class="btn" type="button" data-demo-action>Открыть очередь проверки</button>
+          <div id="demo-queue-details" hidden style="padding:.85rem 1rem;margin:.75rem 0;background:var(--yellow-soft);border-radius:var(--radius-sm)">
+            <strong>Очередь на сегодня</strong>
+            <p class="admin-note" style="margin:.35rem 0 0">7 внешних достижений ждут куратора, 4 ответа на задания — проверки преподавателя.</p>
+          </div>
+          <button class="btn" type="button" data-demo-action="queue" aria-expanded="false">Подробнее об очереди</button>
         </article>
         <article class="admin-card">
           <span class="eyebrow">КОМАНДА</span>
@@ -148,12 +153,5 @@
       <p class="admin-note" style="margin-top:1.25rem">Это визуальный сценарий для знакомства с интерфейсом. Реальные права, данные и действия доступны только в рабочей платформе.</p>
     </main>
   </div>
-  <script>
-    document.querySelectorAll("[data-demo-action]").forEach(function (button) {
-      button.addEventListener("click", function () {
-        alert("Демонстрация: в рабочей платформе это действие откроет соответствующую форму. Здесь данные не изменяются.");
-      });
-    });
-  </script>
 </body>
 </html>

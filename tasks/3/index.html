@@ -17,14 +17,9 @@
 </head>
 <body>
 <div style="background:#1d1f27;color:#fff;text-align:center;font:600 13px/1.4 Inter,system-ui,sans-serif;padding:8px 12px">
-  ✦ Демо-версия платформы 01:17 · данные вымышленные · кнопки и формы не сохраняют изменения
+  ✦ Демо-версия платформы 01:17 · данные вымышленные · действия не сохраняются
 </div>
-<script>
-document.addEventListener("submit", function (e) {
-  e.preventDefault();
-  alert("Это демо-версия: действия не сохраняются. В рабочей платформе здесь выполнится действие.");
-}, true);
-</script>
+<script src="/student-platform/static/js/demo-interactions.js" data-base="/student-platform" defer></script>
 
 
 
@@ -78,7 +73,7 @@ document.addEventListener("submit", function (e) {
       <h2 style="margin-top:0">Квест: шаг 1 из 3</h2>
       <div class="progress" style="margin-bottom:1rem"><div style="width:0%"></div></div>
       <p><b>Код на доске объявлений у входа</b></p>
-      <form method="post" action="/student-platform/"><input type="hidden" name="csrfmiddlewaretoken" value="Jn0EDp21qD9biF7CgIOxZs4fVZ4KGOloT11PvPsMtPFfz5zpFQgBLajd2nG7J7eh">
+      <form method="post" action="/student-platform/"><input type="hidden" name="csrfmiddlewaretoken" value="4bxWp1gVcDwFQeGnhL97ED02XhpFUq36WctZ7HsN4m5HqIjsz4PsrrjZCTMoQEJ3">
         <input type="text" name="answer" autocomplete="off" required>
 
         <p><button class="btn">Ответить</button></p>

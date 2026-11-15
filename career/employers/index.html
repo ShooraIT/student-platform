@@ -17,14 +17,9 @@
 </head>
 <body>
 <div style="background:#1d1f27;color:#fff;text-align:center;font:600 13px/1.4 Inter,system-ui,sans-serif;padding:8px 12px">
-  ✦ Демо-версия платформы 01:17 · данные вымышленные · кнопки и формы не сохраняют изменения
+  ✦ Демо-версия платформы 01:17 · данные вымышленные · действия не сохраняются
 </div>
-<script>
-document.addEventListener("submit", function (e) {
-  e.preventDefault();
-  alert("Это демо-версия: действия не сохраняются. В рабочей платформе здесь выполнится действие.");
-}, true);
-</script>
+<script src="/student-platform/static/js/demo-interactions.js" data-base="/student-platform" defer></script>
 
 
 
@@ -65,7 +60,7 @@ document.addEventListener("submit", function (e) {
   <h1>Работодатели</h1>
   <p class="lead">Компании и места, где можно узнать о работе изнутри.</p>
 </div>
-<form method="get" class="card"><label>Направление <select name="track"><option value="">Все треки</option><option value="it-support" >ИТ · Поддержка</option><option value="it-ai" >ИТ · ИИ</option><option value="it-development" >ИТ · Разработка</option><option value="creative-design" >Креатив · Дизайн</option><option value="creative-animation" >Креатив · Анимация</option><option value="finance" >Финансы</option><option value="cooks" >Повара</option><option value="transport-service" >Сервис на транспорте</option><option value="hospitality" >Гостиницы</option></select></label><button class="btn secondary">Фильтр</button></form><div class="grid"><article class="card"><h2><a href="/student-platform/career/employers/3/">Отель «Полюс»</a></h2><p>Гостиницы и сервис</p><p>Гостиничный сервис и работа с гостями.</p><span class="chip">Повара</span><span class="chip">Сервис на транспорте</span><span class="chip">Гостиницы</span></article><article class="card"><h2><a href="/student-platform/career/employers/2/">Студия «Форма»</a></h2><p>Креатив</p><p>Дизайн, анимация и визуальные коммуникации.</p><span class="chip">Креатив · Дизайн</span><span class="chip">Креатив · Анимация</span></article><article class="card"><h2><a href="/student-platform/career/employers/1/">ТехноПульс</a></h2><p>ИТ</p><p>Поддержка цифровых сервисов и инженерные команды.</p><span class="chip">ИТ · Поддержка</span><span class="chip">ИТ · ИИ</span><span class="chip">ИТ · Разработка</span><span class="chip">Финансы</span></article></div>
+<form method="get" class="card" data-demo-filter="employers"><label>Направление <select name="track"><option value="">Все треки</option><option value="it-support" >ИТ · Поддержка</option><option value="it-ai" >ИТ · ИИ</option><option value="it-development" >ИТ · Разработка</option><option value="creative-design" >Креатив · Дизайн</option><option value="creative-animation" >Креатив · Анимация</option><option value="finance" >Финансы</option><option value="cooks" >Повара</option><option value="transport-service" >Сервис на транспорте</option><option value="hospitality" >Гостиницы</option></select></label><button class="btn secondary">Фильтр</button></form><div class="grid"><article class="card"><h2><a href="/student-platform/career/employers/3/">Отель «Полюс»</a></h2><p>Гостиницы и сервис</p><p>Гостиничный сервис и работа с гостями.</p><span class="chip">Повара</span><span class="chip">Сервис на транспорте</span><span class="chip">Гостиницы</span></article><article class="card"><h2><a href="/student-platform/career/employers/2/">Студия «Форма»</a></h2><p>Креатив</p><p>Дизайн, анимация и визуальные коммуникации.</p><span class="chip">Креатив · Дизайн</span><span class="chip">Креатив · Анимация</span></article><article class="card"><h2><a href="/student-platform/career/employers/1/">ТехноПульс</a></h2><p>ИТ</p><p>Поддержка цифровых сервисов и инженерные команды.</p><span class="chip">ИТ · Поддержка</span><span class="chip">ИТ · ИИ</span><span class="chip">ИТ · Разработка</span><span class="chip">Финансы</span></article></div>
 </main>
 
 

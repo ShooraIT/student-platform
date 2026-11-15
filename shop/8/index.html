@@ -17,14 +17,9 @@
 </head>
 <body>
 <div style="background:#1d1f27;color:#fff;text-align:center;font:600 13px/1.4 Inter,system-ui,sans-serif;padding:8px 12px">
-  ✦ Демо-версия платформы 01:17 · данные вымышленные · кнопки и формы не сохраняют изменения
+  ✦ Демо-версия платформы 01:17 · данные вымышленные · действия не сохраняются
 </div>
-<script>
-document.addEventListener("submit", function (e) {
-  e.preventDefault();
-  alert("Это демо-версия: действия не сохраняются. В рабочей платформе здесь выполнится действие.");
-}, true);
-</script>
+<script src="/student-platform/static/js/demo-interactions.js" data-base="/student-platform" defer></script>
 
 
 
@@ -81,12 +76,12 @@ document.addEventListener("submit", function (e) {
     </div>
     <p class="muted small">Не больше 1 шт. в одни руки</p>
 
-    <form method="post" action="/student-platform/"><input type="hidden" name="csrfmiddlewaretoken" value="Z7vzCbg90bCtaWf6x272pxom2dxt8koF9LwKuBGU3n8xrmHTWaz6bfDk9B9QbDhy">
+    <form method="post" action="/student-platform/"><input type="hidden" name="csrfmiddlewaretoken" value="BvnpK70ZOjlXb2hKFFtReCpo0oOxZYg3twjssNcRG2UZLwUPXY9c1qIlF0bgVcW0">
 
       <input type="hidden" name="variant" value="35">
 
       <p class="muted" style="margin-top:1.2rem">Твой баланс: 70 степов</p>
-      <button class="btn cta block"  onclick="return confirm('Обменять 40 степов на «Встреча с ИТ\u002Dкомандой — ограниченные места»?')">
+      <button class="btn cta block">
         Обменять на 40 степов ↗
       </button>
     </form>

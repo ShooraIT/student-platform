@@ -17,14 +17,9 @@
 </head>
 <body>
 <div style="background:#1d1f27;color:#fff;text-align:center;font:600 13px/1.4 Inter,system-ui,sans-serif;padding:8px 12px">
-  ✦ Демо-версия платформы 01:17 · данные вымышленные · кнопки и формы не сохраняют изменения
+  ✦ Демо-версия платформы 01:17 · данные вымышленные · действия не сохраняются
 </div>
-<script>
-document.addEventListener("submit", function (e) {
-  e.preventDefault();
-  alert("Это демо-версия: действия не сохраняются. В рабочей платформе здесь выполнится действие.");
-}, true);
-</script>
+<script src="/student-platform/static/js/demo-interactions.js" data-base="/student-platform" defer></script>
 
 
 
@@ -90,7 +85,7 @@ document.addEventListener("submit", function (e) {
     </div>
     <p class="muted small">Не больше 1 шт. в одни руки</p>
 
-    <form method="post" action="/student-platform/"><input type="hidden" name="csrfmiddlewaretoken" value="lfyvEDD9mzsUIRYqINuTH5JmG0UpXBu7vTzGw33UpLYYZhqd7VWXtNYkNowM0Un0">
+    <form method="post" action="/student-platform/"><input type="hidden" name="csrfmiddlewaretoken" value="Kvg7mSW6xpXX52J80zGq2SfsidV5wb07Cwca4y8Yp8wZFwmdiSmLPGypXPiOspG4">
 
 
         <label>Вариант</label>
@@ -98,7 +93,7 @@ document.addEventListener("submit", function (e) {
 
 
       <p class="muted" style="margin-top:1.2rem">Твой баланс: 70 степов</p>
-      <button class="btn cta block" disabled onclick="return confirm('Обменять 440 степов на «Шопер профессиональной линейки»?')">
+      <button class="btn cta block" disabled>
         Не хватает степов
       </button>
     </form>

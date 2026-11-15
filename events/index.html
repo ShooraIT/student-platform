@@ -17,14 +17,9 @@
 </head>
 <body>
 <div style="background:#1d1f27;color:#fff;text-align:center;font:600 13px/1.4 Inter,system-ui,sans-serif;padding:8px 12px">
-  ✦ Демо-версия платформы 01:17 · данные вымышленные · кнопки и формы не сохраняют изменения
+  ✦ Демо-версия платформы 01:17 · данные вымышленные · действия не сохраняются
 </div>
-<script>
-document.addEventListener("submit", function (e) {
-  e.preventDefault();
-  alert("Это демо-версия: действия не сохраняются. В рабочей платформе здесь выполнится действие.");
-}, true);
-</script>
+<script src="/student-platform/static/js/demo-interactions.js" data-base="/student-platform" defer></script>
 
 
 
@@ -75,11 +70,11 @@ document.addEventListener("submit", function (e) {
 
 <div class="spread activity-filters" style="margin-bottom:1rem">
   <div class="muted">Все доступные события, задания и опросы</div>
-  <form method="get"><input type="hidden" name="view" value="activities"><label class="choice" style="margin:0;background:#fff;border-radius:999px;padding:.45rem 1rem"><input type="checkbox" name="mine" value="1"  onchange="this.form.submit()"> Только мои записи</label></form>
+  <form method="get" data-demo-filter="activities"><input type="hidden" name="view" value="activities"><label class="choice" style="margin:0;background:#fff;border-radius:999px;padding:.45rem 1rem"><input type="checkbox" name="mine" value="1"  onchange="this.form.submit()"> Только мои записи</label></form>
 </div>
 <div class="activity-list">
 
-  <article class="activity-card">
+  <article class="activity-card" data-demo-mine="false">
     <div class="activity-date"><b>15</b><span>Ноя</span></div>
     <div class="activity-copy">
       <div class="activity-meta"><span class="activity-kind">Событие</span><time datetime="2026-11-15T14:00:00+03:00">14:00 · Актовый зал</time></div>
@@ -92,7 +87,7 @@ document.addEventListener("submit", function (e) {
     </div>
   </article>
 
-  <article class="activity-card">
+  <article class="activity-card" data-demo-mine="false">
     <div class="activity-date"><b>18</b><span>Ноя</span></div>
     <div class="activity-copy">
       <div class="activity-meta"><span class="activity-kind">Событие</span><time datetime="2026-11-18T17:00:00+03:00">17:00 · Ауд. 301</time></div>
@@ -105,7 +100,7 @@ document.addEventListener("submit", function (e) {
     </div>
   </article>
 
-  <article class="activity-card">
+  <article class="activity-card" data-demo-mine="false">
     <div class="activity-date"><b>18</b><span>Ноя</span></div>
     <div class="activity-copy">
       <div class="activity-meta"><span class="activity-kind">Голосование</span><time datetime="2026-11-18T20:58:39.873873+03:00">До 18.11 · 20:58</time></div>
@@ -118,7 +113,7 @@ document.addEventListener("submit", function (e) {
     </div>
   </article>
 
-  <article class="activity-card">
+  <article class="activity-card" data-demo-mine="false">
     <div class="activity-date"><b>20</b><span>Ноя</span></div>
     <div class="activity-copy">
       <div class="activity-meta"><span class="activity-kind">Задание</span><time datetime="2026-11-20T20:58:39.873873+03:00">До 20.11 · 20:58 · Ручная проверка</time></div>
@@ -131,7 +126,7 @@ document.addEventListener("submit", function (e) {
     </div>
   </article>
 
-  <article class="activity-card">
+  <article class="activity-card" data-demo-mine="false">
     <div class="activity-date"><b>22</b><span>Ноя</span></div>
     <div class="activity-copy">
       <div class="activity-meta"><span class="activity-kind">Событие</span><time datetime="2026-11-22T15:00:00+03:00">15:00 · Стадион</time></div>
@@ -144,7 +139,7 @@ document.addEventListener("submit", function (e) {
     </div>
   </article>
 
-  <article class="activity-card">
+  <article class="activity-card" data-demo-mine="false">
     <div class="activity-date"><b>23</b><span>Ноя</span></div>
     <div class="activity-copy">
       <div class="activity-meta"><span class="activity-kind">Задание</span><time datetime="2026-11-23T20:58:39.873873+03:00">До 23.11 · 20:58 · Квест (вопросы по цепочке)</time></div>
@@ -157,7 +152,7 @@ document.addEventListener("submit", function (e) {
     </div>
   </article>
 
-  <article class="activity-card">
+  <article class="activity-card" data-demo-mine="false">
     <div class="activity-date"><b>23</b><span>Ноя</span></div>
     <div class="activity-copy">
       <div class="activity-meta"><span class="activity-kind">Опрос</span><time datetime="2026-11-23T20:58:39.873873+03:00">До 23.11 · 20:58</time></div>
@@ -170,7 +165,7 @@ document.addEventListener("submit", function (e) {
     </div>
   </article>
 
-  <article class="activity-card">
+  <article class="activity-card" data-demo-mine="false">
     <div class="activity-date"><b>27</b><span>Ноя</span></div>
     <div class="activity-copy">
       <div class="activity-meta"><span class="activity-kind">Задание</span><time datetime="2026-11-27T20:58:39.873873+03:00">До 27.11 · 20:58 · Автопроверка (викторина)</time></div>
@@ -183,7 +178,7 @@ document.addEventListener("submit", function (e) {
     </div>
   </article>
 
-  <article class="activity-card">
+  <article class="activity-card" data-demo-mine="false">
     <div class="activity-date"><b>29</b><span>Ноя</span></div>
     <div class="activity-copy">
       <div class="activity-meta"><span class="activity-kind">Событие</span><time datetime="2026-11-29T08:04:22.989113+03:00">08:04 · Коворкинг колледжа</time></div>
@@ -196,7 +191,7 @@ document.addEventListener("submit", function (e) {
     </div>
   </article>
 
-  <article class="activity-card">
+  <article class="activity-card" data-demo-mine="false">
     <div class="activity-date"><b>3</b><span>Дек</span></div>
     <div class="activity-copy">
       <div class="activity-meta"><span class="activity-kind">Событие</span><time datetime="2026-12-03T18:00:00+03:00">18:00 · Актовый зал</time></div>

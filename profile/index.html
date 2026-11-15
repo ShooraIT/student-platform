@@ -17,14 +17,9 @@
 </head>
 <body>
 <div style="background:#1d1f27;color:#fff;text-align:center;font:600 13px/1.4 Inter,system-ui,sans-serif;padding:8px 12px">
-  ✦ Демо-версия платформы 01:17 · данные вымышленные · кнопки и формы не сохраняют изменения
+  ✦ Демо-версия платформы 01:17 · данные вымышленные · действия не сохраняются
 </div>
-<script>
-document.addEventListener("submit", function (e) {
-  e.preventDefault();
-  alert("Это демо-версия: действия не сохраняются. В рабочей платформе здесь выполнится действие.");
-}, true);
-</script>
+<script src="/student-platform/static/js/demo-interactions.js" data-base="/student-platform" defer></script>
 
 
 
@@ -123,10 +118,10 @@ document.addEventListener("submit", function (e) {
 <section class="card profile-settings">
   <div class="card-head"><div><span class="eyebrow">УПРАВЛЕНИЕ ПРОФИЛЕМ</span><h2>Настройки</h2></div></div>
   <div class="profile-settings-grid">
-    <div class="profile-setting"><div><strong>В рейтинге</strong><div class="muted">Ваше имя видно участникам</div></div><form method="post" action="/student-platform/"><input type="hidden" name="csrfmiddlewaretoken" value="lKQbXycTkSTMekS4KbpJjqfnapaO6pYBvoRmPYCEn4pQvKkR9jRN58ulhNMb9IRu"><button class="btn secondary small">Изменить</button></form></div>
+    <div class="profile-setting"><div><strong>В рейтинге</strong><div class="muted">Ваше имя видно участникам</div></div><form method="post" action="/student-platform/"><input type="hidden" name="csrfmiddlewaretoken" value="DkfpH6G8Ep4itVqT7B6Iis3wyRgkXKrdvlbspMS0w8Dk3p3YpUM35gmtdtD3TY7a"><button class="btn secondary small">Изменить</button></form></div>
     <a class="profile-setting" href="/student-platform/notifications/settings/"><div><strong>Уведомления</strong><div class="muted">Выбрать, о чём получать новости</div></div><b>→</b></a>
     <a class="profile-setting" href="/student-platform/"><div><strong>Пароль</strong><div class="muted">Обновить пароль аккаунта</div></div><b>→</b></a>
-    <form class="profile-setting" method="post" action="/student-platform/"><input type="hidden" name="csrfmiddlewaretoken" value="lKQbXycTkSTMekS4KbpJjqfnapaO6pYBvoRmPYCEn4pQvKkR9jRN58ulhNMb9IRu"><div><strong>Завершить работу</strong><div class="muted">Выйти из аккаунта на этом устройстве</div></div><button class="btn danger small">Выйти</button></form>
+    <form class="profile-setting" method="post" action="/student-platform/"><input type="hidden" name="csrfmiddlewaretoken" value="DkfpH6G8Ep4itVqT7B6Iis3wyRgkXKrdvlbspMS0w8Dk3p3YpUM35gmtdtD3TY7a"><div><strong>Завершить работу</strong><div class="muted">Выйти из аккаунта на этом устройстве</div></div><button class="btn danger small">Выйти</button></form>
   </div>
 </section>
 
