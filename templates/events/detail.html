@@ -57,7 +57,7 @@
         {% endif %}
       {% endif %}
     {% endif %}
-    <p style="margin:1rem 0 0"><a href="{% url 'events:ics' event.pk %}" class="small">Добавить в календарь телефона ↗</a></p>
+    <p style="margin:1rem 0 0"><a href="{% url 'events:ics' event.pk %}" class="small" data-demo-ics data-title="{{ event.title }}" data-place="{{ event.location }}" data-start="{{ event.start|date:'c' }}" data-end="{{ event.end|date:'c' }}">Добавить в календарь телефона ↗</a></p>
   </div>
   {% endif %}
 

@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#1d1f27">
+  <title>Демо администратора · 01:17</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap">
+  <link rel="stylesheet" href="__BASE__/static/css/app.css">
+  <style>
+    .admin-demo { max-width: 1240px; margin: 0 auto; padding: 1.5rem 1.9rem 6rem; }
+    .admin-top { display:flex; align-items:center; justify-content:space-between; gap:1rem; margin-bottom:1.5rem; }
+    .admin-brand { color:var(--ink); font-weight:900; font-size:1.25rem; letter-spacing:.04em; }
+    .admin-role { display:inline-flex; align-items:center; gap:.45rem; border-radius:999px; background:var(--yellow-soft); padding:.45rem .8rem; font-size:.82rem; font-weight:800; color:var(--ink); }
+    .admin-hero { display:flex; align-items:flex-end; justify-content:space-between; gap:1.5rem; background:var(--ink); color:#fff; padding:2rem; border-radius:var(--radius); }
+    .admin-hero h1 { margin:.2rem 0 .5rem; }
+    .admin-hero p { margin:0; color:#e1e2e6; }
+    .admin-hero .eyebrow { color:var(--yellow); }
+    .admin-stats { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:1rem; margin:1.25rem 0 2rem; }
+    .admin-stat { background:var(--card); padding:1.2rem; border-radius:var(--radius-sm); box-shadow:var(--shadow); }
+    .admin-stat span,.admin-stat small { display:block; color:var(--muted); }
+    .admin-stat strong { display:block; margin:.3rem 0; font-size:1.8rem; line-height:1.15; }
+    .admin-grid { display:grid; grid-template-columns:1.2fr .8fr; gap:1rem; margin:1rem 0 2rem; }
+    .admin-card { background:var(--card); border-radius:var(--radius); padding:1.25rem; box-shadow:var(--shadow); }
+    .admin-card h2 { margin:.1rem 0 1rem; }
+    .admin-row { display:flex; justify-content:space-between; align-items:center; gap:1rem; padding:.9rem 0; border-top:1px solid var(--line); }
+    .admin-row:first-of-type { border-top:0; }
+    .admin-row strong { display:block; }
+    .admin-row small { color:var(--muted); }
+    .admin-status { border-radius:999px; background:var(--green-soft); color:var(--green); padding:.3rem .65rem; font-size:.75rem; font-weight:800; white-space:nowrap; }
+    .admin-status.pending { background:var(--yellow-soft); color:#80530b; }
+    .admin-table-wrap { overflow-x:auto; }
+    .admin-table { width:100%; border-collapse:collapse; min-width:560px; text-align:left; }
+    .admin-table th,.admin-table td { padding:.8rem .55rem; border-bottom:1px solid var(--line); }
+    .admin-table th { color:var(--muted); font-size:.78rem; text-transform:uppercase; letter-spacing:.04em; }
+    .admin-table td:last-child { min-width:150px; }
+    .admin-progress { height:8px; width:100%; background:#ececf0; border-radius:999px; overflow:hidden; }
+    .admin-progress i { display:block; height:100%; background:var(--yellow); border-radius:inherit; }
+    .admin-actions { display:flex; flex-wrap:wrap; gap:.65rem; }
+    .admin-actions .btn { cursor:pointer; }
+    .admin-note { color:var(--muted); font-size:.88rem; margin:.35rem 0 1rem; }
+    @media(max-width:800px) {
+      .admin-stats { grid-template-columns:repeat(2,minmax(0,1fr)); }
+      .admin-grid { grid-template-columns:1fr; }
+      .admin-hero { align-items:flex-start; flex-direction:column; }
+    }
+    @media(max-width:520px) {
+      .admin-demo { padding:1rem 1rem 5rem; }
+      .admin-top { align-items:flex-start; flex-direction:column; }
+      .admin-stats { gap:.65rem; }
+      .admin-stat { padding:.9rem; }
+      .admin-stat strong { font-size:1.45rem; }
+      .admin-hero { padding:1.35rem; }
+    }
+  </style>
+  <script src="__BASE__/static/js/demo-interactions.js" data-base="__BASE__" defer></script>
+</head>
+<body>
+  <div style="background:#1d1f27;color:#fff;text-align:center;font:600 13px/1.4 Inter,system-ui,sans-serif;padding:8px 12px">
+    ✦ Демо-версия платформы 01:17 · все показатели и участники вымышленные · изменения не сохраняются
+  </div>
+  <div class="admin-demo">
+    <header class="admin-top">
+      <a class="admin-brand" href="__BASE__/" aria-label="Перейти в демо студента">01:17 <span style="font-weight:500;color:var(--muted)">/ Панель колледжа</span></a>
+      <span class="admin-role">● ДЕМО АДМИНИСТРАТОРА</span>
+    </header>
+
+    <main id="dashboard">
+      <section class="admin-hero">
+        <div>
+          <span class="eyebrow">ПАНЕЛЬ КОЛЛЕДЖА · 15 НОЯБРЯ</span>
+          <h1>Добрый день, Мария!</h1>
+          <p>Здесь собраны активность студентов, события и задачи команды.</p>
+        </div>
+        <a class="btn light" href="__BASE__/">← Перейти в демо студента</a>
+      </section>
+
+      <section class="admin-stats" aria-label="Ключевые показатели">
+        <article class="admin-stat"><span>Студенты</span><strong>428</strong><small>по всем курсам</small></article>
+        <article class="admin-stat"><span>Активности</span><strong>18</strong><small>опубликовано сейчас</small></article>
+        <article class="admin-stat"><span>На проверке</span><strong>12</strong><small>заданий и достижений</small></article>
+        <article class="admin-stat"><span>Маршрут 1 курса</span><strong>76%</strong><small>средний прогресс</small></article>
+      </section>
+
+      <div class="admin-actions" style="margin-bottom:1rem">
+        <a class="btn" href="#events">События</a>
+        <a class="btn" href="#activities">Задания и опросы</a>
+        <a class="btn" href="#students">Студенты</a>
+        <button class="btn" type="button" data-demo-action>＋ Создать активность</button>
+      </div>
+
+      <section class="admin-grid" id="events">
+        <article class="admin-card">
+          <span class="eyebrow">РАСПИСАНИЕ</span>
+          <h2>Ближайшие события</h2>
+          <div class="admin-row"><div><strong>Встреча с выпускниками-разработчиками</strong><small>15 ноября · 14:00 · Профориентация</small></div><span class="admin-status">Опубликовано</span></div>
+          <div class="admin-row"><div><strong>Квиз «Своя игра»</strong><small>18 ноября · 17:00 · Учёба</small></div><span class="admin-status">Опубликовано</span></div>
+          <div class="admin-row"><div><strong>Футбольный матч СИП vs СЭС</strong><small>22 ноября · 15:00 · Спорт</small></div><span class="admin-status pending">Набор участников</span></div>
+        </article>
+        <article class="admin-card">
+          <span class="eyebrow">МАРШРУТ КУРСА</span>
+          <h2>Первый курс</h2>
+          <p class="admin-note">Среднее выполнение этапов студентами</p>
+          <div class="admin-row"><div><strong>Знакомство с колледжем</strong><small>Этап 1 · срок до 30 ноября</small></div><strong>92%</strong></div>
+          <div class="admin-row"><div><strong>Профориентационная диагностика</strong><small>Этап 2 · срок до 15 декабря</small></div><strong>71%</strong></div>
+          <div class="admin-row"><div><strong>Выбор профессиональных треков</strong><small>Этап 3 · срок до 20 января</small></div><strong>64%</strong></div>
+        </article>
+      </section>
+
+      <section class="admin-grid" id="activities">
+        <article class="admin-card">
+          <span class="eyebrow">ТРЕБУЕТ ВНИМАНИЯ</span>
+          <h2>Проверка и модерация</h2>
+          <div class="admin-row"><div><strong>Внешние достижения в портфолио</strong><small>7 заявок · ожидают решения куратора</small></div><span class="admin-status pending">7 новых</span></div>
+          <div class="admin-row"><div><strong>Задание «Фото с субботника»</strong><small>4 ответа · срок проверки сегодня</small></div><span class="admin-status pending">4 ответа</span></div>
+          <div class="admin-row"><div><strong>Опрос «Выбираем тему вечера»</strong><small>Идёт голосование · завершится 18 ноября</small></div><span class="admin-status">Активен</span></div>
+          <div id="demo-queue-details" hidden style="padding:.85rem 1rem;margin:.75rem 0;background:var(--yellow-soft);border-radius:var(--radius-sm)">
+            <strong>Очередь на сегодня</strong>
+            <p class="admin-note" style="margin:.35rem 0 0">7 внешних достижений ждут куратора, 4 ответа на задания — проверки преподавателя.</p>
+          </div>
+          <button class="btn" type="button" data-demo-action="queue" aria-expanded="false">Подробнее об очереди</button>
+        </article>
+        <article class="admin-card">
+          <span class="eyebrow">КОМАНДА</span>
+          <h2>Быстрые действия</h2>
+          <p class="admin-note">Пример панели управления колледжа</p>
+          <div class="admin-actions">
+            <button class="btn" type="button" data-demo-action>＋ Добавить событие</button>
+            <button class="btn" type="button" data-demo-action>＋ Создать задание</button>
+            <button class="btn" type="button" data-demo-action>＋ Создать опрос</button>
+            <button class="btn" type="button" data-demo-action>Скачать отчёт</button>
+          </div>
+        </article>
+      </section>
+
+      <section class="admin-card" id="students">
+        <span class="eyebrow">УЧАСТНИКИ</span>
+        <h2>Активность студентов</h2>
+        <p class="admin-note">Данные демонстрационные. Изменения и действия не сохраняются.</p>
+        <div class="admin-table-wrap">
+          <table class="admin-table">
+            <thead><tr><th>Студент</th><th>Курс / группа</th><th>Профессиональный трек</th><th>Маршрут</th></tr></thead>
+            <tbody>
+              <tr><td>Анна Иванова</td><td>1 курс · СИП-11</td><td>ИТ · Разработка</td><td><div class="admin-progress"><i style="width:84%"></i></div><small>84%</small></td></tr>
+              <tr><td>Дмитрий Смирнов</td><td>1 курс · СИП-11</td><td>ИТ · ИИ</td><td><div class="admin-progress"><i style="width:68%"></i></div><small>68%</small></td></tr>
+              <tr><td>Екатерина Петрова</td><td>2 курс · ДИЗ-21</td><td>Креатив · Дизайн</td><td><div class="admin-progress"><i style="width:91%"></i></div><small>91%</small></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+      <p class="admin-note" style="margin-top:1.25rem">Это визуальный сценарий для знакомства с интерфейсом. Реальные права, данные и действия доступны только в рабочей платформе.</p>
+    </main>
+  </div>
+</body>
+</html>

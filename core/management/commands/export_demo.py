@@ -25,14 +25,9 @@ from career.models import DiagTest, Employer, Track
 
 DEMO_SNIPPET = """
 <div style="background:#1d1f27;color:#fff;text-align:center;font:600 13px/1.4 Inter,system-ui,sans-serif;padding:8px 12px">
-  ✦ Демо-версия платформы 01:17 · данные вымышленные · кнопки и формы не сохраняют изменения
+  ✦ Демо-версия платформы 01:17 · данные вымышленные · действия не сохраняются
 </div>
-<script>
-document.addEventListener("submit", function (e) {
-  e.preventDefault();
-  alert("Это демо-версия: действия не сохраняются. В рабочей платформе здесь выполнится действие.");
-}, true);
-</script>
+<script src="__BASE__/static/js/demo-interactions.js" data-base="__BASE__" defer></script>
 """
 
 
@@ -77,10 +72,24 @@ class Command(BaseCommand):
                 ok += 1
 
         shutil.copytree(Path(settings.BASE_DIR) / "static", out / "static")
+        admin_demo = Path(settings.BASE_DIR) / "templates" / "demo_admin.html"
+        if admin_demo.exists():
+            admin_path = out / "admin-demo" / "index.html"
+            admin_path.parent.mkdir(parents=True, exist_ok=True)
+            admin_path.write_text(
+                admin_demo.read_text(encoding="utf-8").replace("__BASE__", base),
+                encoding="utf-8",
+            )
+        workflow_source = Path(settings.BASE_DIR) / "deploy" / "pages-static.yml"
+        if workflow_source.exists():
+            workflow_path = out / ".github" / "workflows" / "static.yml"
+            workflow_path.parent.mkdir(parents=True, exist_ok=True)
+            workflow_path.write_text(workflow_source.read_text(encoding="utf-8"), encoding="utf-8")
         (out / ".nojekyll").write_text("")
         (out / "README.md").write_text(
-            "# 01:17 — демо-версия\n\nСтатическая витрина экранов студента. "
-            "Данные вымышленные, формы не работают. Исходный код — в ветке develop этого репозитория.\n",
+            "# 01:17 — демо-версия\n\nСтатическая витрина студенческого и административного интерфейсов. "
+            "Данные вымышленные; фильтры и просмотр работают локально, действия с сохранением отключены. "
+            "Исходный код — в ветке develop этого репозитория.\n",
             encoding="utf-8",
         )
         self.stdout.write(self.style.SUCCESS(f"Готово: {ok} страниц в {out}"))
@@ -91,7 +100,7 @@ class Command(BaseCommand):
             "/rating/", "/rating/?period=semester", "/rating/?period=year", "/rating/?period=all",
             "/rating/groups/", "/rating/badges/", "/profile/", "/notifications/", "/notifications/settings/",
             "/career/", "/career/tracks/", "/career/meetings/", "/career/employers/",
-            "/portfolio/", "/portfolio/resume/",
+            "/portfolio/", "/portfolio/resume/", "/portfolio/resume/print/",
         ]
         pages += [f"/career/tracks/{t.slug}/" for t in Track.objects.filter(is_active=True)]
         test = DiagTest.objects.filter(is_active=True).order_by("id").first()
@@ -132,6 +141,14 @@ class Command(BaseCommand):
         html = re.sub(r'(href|src|action)="(/[^"]*)"', link, html)
         # service worker и пуши в статике не работают
         html = re.sub(r"<script>if \(\"serviceWorker\".*?</script>", "", html, flags=re.S)
+        # Push controls send real requests and depend on an authenticated backend.
+        # Keep the static demo honest: show an explanation instead of stale controls.
+        html = re.sub(r'<div class="card" id="push-box".*?</div>\s*</div>',
+            '<div class="card"><h2 style="margin-top:0">📲 Пуш-уведомления</h2>'
+            '<p class="muted">В статическом демо уведомления доступны только внутри сайта. '
+            'Настройки устройства и подписки не изменяются.</p></div>', html, flags=re.S)
+        html = re.sub(r'<script src="[^"]*/static/js/push\.js"></script>', "", html)
         html = html.replace('<link rel="manifest"', '<link rel="x-manifest"')
-        html = html.replace("<body>", "<body>" + DEMO_SNIPPET, 1)
+        html = re.sub(r'\s+onclick="return confirm\([^"]*\)"', "", html)
+        html = html.replace("<body>", "<body>" + DEMO_SNIPPET.replace("__BASE__", base), 1)
         return re.sub(r"[ \t]+(?=\r?$)", "", html, flags=re.M)
