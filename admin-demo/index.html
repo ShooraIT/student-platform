@@ -41,6 +41,16 @@
     .admin-actions { display:flex; flex-wrap:wrap; gap:.65rem; }
     .admin-actions .btn { cursor:pointer; }
     .admin-note { color:var(--muted); font-size:.88rem; margin:.35rem 0 1rem; }
+    .activity-dialog { width:min(680px,calc(100vw - 2rem)); max-width:none; max-height:calc(100dvh - 2rem); padding:0; border:0; border-radius:var(--radius); color:var(--ink); background:var(--card); box-shadow:0 24px 80px #0005; }
+    .activity-dialog::backdrop { background:#171923a8; backdrop-filter:blur(3px); }
+    .activity-form { padding:1.5rem; }
+    .activity-form-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1rem; }
+    .activity-form label { display:grid; gap:.4rem; font-weight:700; }
+    .activity-form .field-wide { grid-column:1/-1; }
+    .activity-form textarea { min-height:100px; resize:vertical; }
+    .activity-dialog-head { display:flex; justify-content:space-between; align-items:flex-start; gap:1rem; margin-bottom:1rem; }
+    .activity-dialog-head h2 { margin:0; }
+    .activity-form-actions { display:flex; justify-content:flex-end; gap:.65rem; margin-top:1.25rem; }
     @media(max-width:800px) {
       .admin-stats { grid-template-columns:repeat(2,minmax(0,1fr)); }
       .admin-grid { grid-template-columns:1fr; }
@@ -53,6 +63,9 @@
       .admin-stat { padding:.9rem; }
       .admin-stat strong { font-size:1.45rem; }
       .admin-hero { padding:1.35rem; }
+      .activity-form-grid { grid-template-columns:1fr; }
+      .activity-form .field-wide { grid-column:auto; }
+      .activity-form { padding:1rem; }
     }
   </style>
   <script src="/student-platform/static/js/demo-interactions.js" data-base="/student-platform" defer></script>
@@ -88,7 +101,7 @@
         <a class="btn" href="#events">События</a>
         <a class="btn" href="#activities">Задания и опросы</a>
         <a class="btn" href="#students">Студенты</a>
-        <button class="btn" type="button" data-demo-action>＋ Создать активность</button>
+        <button class="btn" type="button" data-demo-action="activity">＋ Создать активность</button>
       </div>
 
       <section class="admin-grid" id="events">
@@ -127,9 +140,9 @@
           <h2>Быстрые действия</h2>
           <p class="admin-note">Пример панели управления колледжа</p>
           <div class="admin-actions">
-            <button class="btn" type="button" data-demo-action>＋ Добавить событие</button>
-            <button class="btn" type="button" data-demo-action>＋ Создать задание</button>
-            <button class="btn" type="button" data-demo-action>＋ Создать опрос</button>
+            <button class="btn" type="button" data-demo-action="activity" data-activity-type="event">＋ Добавить событие</button>
+            <button class="btn" type="button" data-demo-action="activity" data-activity-type="task">＋ Создать задание</button>
+            <button class="btn" type="button" data-demo-action="activity" data-activity-type="survey">＋ Создать опрос</button>
             <button class="btn" type="button" data-demo-action>Скачать отчёт</button>
           </div>
         </article>
@@ -153,5 +166,48 @@
       <p class="admin-note" style="margin-top:1.25rem">Это визуальный сценарий для знакомства с интерфейсом. Реальные права, данные и действия доступны только в рабочей платформе.</p>
     </main>
   </div>
+  <dialog class="activity-dialog" id="activity-dialog" aria-labelledby="activity-dialog-title">
+    <form class="activity-form" id="activity-demo-form" method="post">
+      <div class="activity-dialog-head">
+        <div><span class="eyebrow">НОВАЯ АКТИВНОСТЬ</span><h2 id="activity-dialog-title">Создать активность</h2></div>
+        <button class="btn secondary small" type="button" data-demo-close aria-label="Закрыть форму">Закрыть</button>
+      </div>
+      <p class="admin-note">Заполните пример формы. В демо данные не сохраняются и никуда не отправляются.</p>
+      <div class="activity-form-grid">
+        <label>Тип активности
+          <select name="activity_type" required>
+            <option value="event">Событие</option>
+            <option value="task">Задание</option>
+            <option value="survey">Опрос</option>
+          </select>
+        </label>
+        <label>Для кого
+          <select name="audience" required>
+            <option value="all">Все студенты</option>
+            <option value="course-1">1 курс</option>
+            <option value="course-2">2 курс</option>
+            <option value="course-3">3 курс</option>
+            <option value="course-4">4 курс</option>
+          </select>
+        </label>
+        <label class="field-wide">Название
+          <input name="title" type="text" maxlength="120" placeholder="Например, встреча с работодателем" required>
+        </label>
+        <label class="field-wide">Описание
+          <textarea name="description" maxlength="1000" placeholder="Коротко расскажите, что будет происходить"></textarea>
+        </label>
+        <label>Дата
+          <input name="date" type="date" required>
+        </label>
+        <label>Время / срок
+          <input name="time" type="time">
+        </label>
+      </div>
+      <div class="activity-form-actions">
+        <button class="btn secondary" type="button" data-demo-close>Отмена</button>
+        <button class="btn primary" type="submit">Создать в демо</button>
+      </div>
+    </form>
+  </dialog>
 </body>
 </html>
