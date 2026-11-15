@@ -1,5 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.http import require_POST
 
@@ -8,16 +9,18 @@ from core.decorators import staff_required
 from . import services
 from .models import Order, Product, ProductVariant
 
+User = get_user_model()
+
 
 @login_required
 def catalog(request):
-    products = Product.objects.filter(status=Product.Status.ON_SALE).prefetch_related("variants")
+    products = Product.objects.filter(status=Product.Status.ON_SALE).exclude(kind=Product.Kind.REWARD).prefetch_related("variants")
     return render(request, "shop/catalog.html", {"products": products})
 
 
 @login_required
 def product_detail(request, pk):
-    product = get_object_or_404(Product.objects.prefetch_related("variants"), pk=pk, status=Product.Status.ON_SALE)
+    product = get_object_or_404(Product.objects.exclude(kind=Product.Kind.REWARD).prefetch_related("variants"), pk=pk, status=Product.Status.ON_SALE)
     return render(request, "shop/product.html", {"product": product})
 
 
@@ -67,5 +70,23 @@ def issue(request):
             messages.error(request, str(e))
     code = request.GET.get("code", "").strip().upper()
     found = Order.objects.filter(pickup_code=code).select_related("user", "user__group").first() if code else None
-    pending = Order.objects.filter(status__in=[Order.Status.PLACED, Order.Status.READY]).select_related("user", "variant__product", "prize")[:50]
+    pending = Order.objects.filter(status__in=[Order.Status.PLACED, Order.Status.READY]).select_related("user", "variant__product")[:50]
     return render(request, "shop/issue.html", {"found": found, "code": code, "pending": pending, "issued": order})
+
+
+@staff_required
+def award(request):
+    variants = ProductVariant.objects.filter(product__kind=Product.Kind.REWARD).select_related("product")
+    students = User.objects.filter(role=User.Role.STUDENT, expelled=False).select_related("group").order_by("last_name", "first_name")
+    if request.method == "POST":
+        try:
+            variant = variants.get(pk=request.POST.get("variant"))
+            student = students.get(pk=request.POST.get("user"))
+            services.award(student, variant, request.user, request.POST.get("reason", "Награда"))
+            messages.success(request, f"Награда выдана: {student.full_name}")
+            return redirect("shop:award")
+        except (ProductVariant.DoesNotExist, User.DoesNotExist, ValueError, TypeError):
+            messages.error(request, "Выберите студента и товар-награду")
+        except services.ShopError as exc:
+            messages.error(request, str(exc))
+    return render(request, "shop/award.html", {"variants": variants, "students": students})

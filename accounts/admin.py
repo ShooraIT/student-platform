@@ -22,7 +22,8 @@ class StudyGroupAdmin(admin.ModelAdmin):
 @admin.register(User)
 class UserAdmin(BaseUserAdmin):
     list_display = ["full_name", "username", "group", "role", "balance", "mesh_linked", "expelled"]
-    list_filter = ["role", "expelled", "group__course", "group"]
+    list_filter = ["role", "is_mentor", "expelled", "group__course", "group"]
+    filter_horizontal = ["mentor_tracks", "groups"]
     search_fields = ["last_name", "first_name", "username", "email"]
     readonly_fields = ["balance", "last_login", "date_joined"]
     actions = ["reset_passwords"]
@@ -30,6 +31,7 @@ class UserAdmin(BaseUserAdmin):
         (None, {"fields": ("username", "password")}),
         ("Данные", {"fields": ("last_name", "first_name", "middle_name", "group", "email", "birth_date", "mesh_id")}),
         ("Платформа", {"fields": ("role", "balance", "must_change_password", "hide_from_rating", "expelled", "is_active")}),
+        ("Наставничество", {"fields": ("is_mentor", "mentor_tracks")}),
         ("Служебное", {"classes": ["collapse"], "fields": ("is_staff", "is_superuser", "groups", "last_login", "date_joined")}),
     )
     add_fieldsets = (

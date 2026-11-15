@@ -95,6 +95,9 @@ def mark_attended(event, user, method, by=None):
         reg.marked_by = by
         reg.save()
     wallet.reward(user, event.reward, Transaction.Kind.EVENT, f"Посещение: {event.title}", ("event", event.pk))
+    from achievements.services import check_achievements
+
+    check_achievements(user)
     return reg, True
 
 

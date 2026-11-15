@@ -13,6 +13,8 @@ class SiteSettings(models.Model):
     manual_credit_limit = models.PositiveIntegerField("Лимит одного ручного начисления", default=500)
     manual_daily_limit = models.PositiveIntegerField("Лимит ручных начислений администратора в сутки", default=2000)
     order_expire_days = models.PositiveIntegerField("Срок хранения невыданного заказа, дней", default=30)
+    mentor_meeting_reward = models.PositiveIntegerField("Первокурснику за встречу с наставником", default=10)
+    mentoring_reward = models.PositiveIntegerField("Наставнику за проведённую встречу", default=20)
 
     class Meta:
         verbose_name = verbose_name_plural = "Настройки платформы"

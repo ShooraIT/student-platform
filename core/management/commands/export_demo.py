@@ -18,10 +18,10 @@ from django.test.utils import override_settings
 
 from accounts.models import User
 from assignments.models import Task
-from draws.models import Draw
 from events.models import Event
 from shop.models import Order, Product
 from surveys.models import Survey
+from career.models import DiagTest, Employer, Track
 
 DEMO_SNIPPET = """
 <div style="background:#1d1f27;color:#fff;text-align:center;font:600 13px/1.4 Inter,system-ui,sans-serif;padding:8px 12px">
@@ -87,15 +87,21 @@ class Command(BaseCommand):
 
     def collect_pages(self, user):
         pages = [
-            "/", "/events/", "/events/?view=list", "/tasks/", "/surveys/", "/shop/", "/draws/",
+            "/", "/events/", "/events/?view=list", "/tasks/", "/surveys/", "/shop/",
             "/rating/", "/rating/?period=semester", "/rating/?period=year", "/rating/?period=all",
             "/rating/groups/", "/rating/badges/", "/profile/", "/notifications/", "/notifications/settings/",
+            "/career/", "/career/tracks/", "/career/meetings/", "/career/employers/",
+            "/portfolio/", "/portfolio/resume/",
         ]
+        pages += [f"/career/tracks/{t.slug}/" for t in Track.objects.filter(is_active=True)]
+        test = DiagTest.objects.filter(is_active=True).order_by("id").first()
+        if test:
+            pages.append(f"/career/diagnostic/{test.pk}/")
+        pages += [f"/career/employers/{e.pk}/" for e in Employer.objects.filter(is_active=True)]
         pages += [f"/events/{e.pk}/" for e in Event.visible_to(user, Event.objects.exclude(status=Event.Status.DRAFT))]
         pages += [f"/tasks/{t.pk}/" for t in Task.visible_to(user, Task.objects.filter(status=Task.Status.PUBLISHED))]
         pages += [f"/surveys/{s.pk}/" for s in Survey.visible_to(user, Survey.objects.filter(status=Survey.Status.PUBLISHED))]
         pages += [f"/shop/{p.pk}/" for p in Product.objects.filter(status=Product.Status.ON_SALE)]
-        pages += [f"/draws/{d.pk}/" for d in Draw.visible_to(user, Draw.objects.exclude(status=Draw.Status.DRAFT))]
         pages += [f"/shop/orders/{o.pk}/" for o in Order.objects.filter(user=user)]
         return list(dict.fromkeys(pages))
 
@@ -127,4 +133,5 @@ class Command(BaseCommand):
         # service worker и пуши в статике не работают
         html = re.sub(r"<script>if \(\"serviceWorker\".*?</script>", "", html, flags=re.S)
         html = html.replace('<link rel="manifest"', '<link rel="x-manifest"')
-        return html.replace("<body>", "<body>" + DEMO_SNIPPET, 1)
+        html = html.replace("<body>", "<body>" + DEMO_SNIPPET, 1)
+        return re.sub(r"[ \t]+(?=\r?$)", "", html, flags=re.M)

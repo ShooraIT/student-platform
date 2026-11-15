@@ -13,10 +13,12 @@ class VariantInline(admin.TabularInline):
 
 @admin.register(Product)
 class ProductAdmin(AuditedAdmin):
-    list_display = ["title", "price", "status", "stock", "per_user_limit", "order"]
+    list_display = ["title", "kind", "price", "status", "stock", "per_user_limit", "order"]
     list_editable = ["order"]
-    list_filter = ["status"]
+    list_filter = ["status", "kind"]
     search_fields = ["title"]
+    autocomplete_fields = ["event"]
+    filter_horizontal = ["tracks"]
     inlines = [VariantInline]
 
     @admin.display(description="Остаток")

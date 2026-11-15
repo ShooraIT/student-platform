@@ -12,7 +12,7 @@
   <div class="card">
     {% for n in items %}
     <a class="notif {% if not n.is_read %}unread{% endif %}" href="{% url 'notifications:open' n.pk %}">
-      <span class="notif-icon k-{{ n.kind }}">{% if n.kind == 'credit' or n.kind == 'achievement' %}✦{% elif n.kind == 'draw' or n.kind == 'new_content' %}★{% elif n.kind == 'task' or n.kind == 'order' %}✓{% elif n.kind == 'reminder' or n.kind == 'event' %}●{% else %}!{% endif %}</span>
+      <span class="notif-icon k-{{ n.kind }}">{% if n.kind == 'credit' or n.kind == 'achievement' %}✦{% elif n.kind == 'new_content' %}★{% elif n.kind == 'task' or n.kind == 'order' %}✓{% elif n.kind == 'reminder' or n.kind == 'event' %}●{% else %}!{% endif %}</span>
       <div style="flex:1;min-width:0">
         <div style="font-weight:{% if n.is_read %}500{% else %}700{% endif %}">{{ n.text }}</div>
         <div class="muted small" style="text-align:right">{{ n.created_at|date:"j E, H:i" }}</div>

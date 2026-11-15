@@ -1,8 +1,9 @@
 import secrets
 
 from django.conf import settings
+from django.core.exceptions import ValidationError
 from django.db import models
-from django.db.models import Q
+
 
 
 class Product(models.Model):
@@ -11,6 +12,15 @@ class Product(models.Model):
         ON_SALE = "on_sale", "В продаже"
         OFF = "off", "Снят с продажи"
 
+    class Kind(models.TextChoices):
+        MERCH = "merch", "Мерч"
+        EXPERIENCE = "experience", "Опыт (место на мероприятии)"
+        REWARD = "reward", "Только награда (не продаётся)"
+
+    kind = models.CharField("Тип", max_length=12, choices=Kind.choices, default=Kind.MERCH)
+    event = models.ForeignKey("events.Event", null=True, blank=True, on_delete=models.SET_NULL, related_name="+", verbose_name="Мероприятие",
+                              help_text="Для «опыта»: покупка записывает студента на это мероприятие")
+    tracks = models.ManyToManyField("career.Track", blank=True, related_name="products", verbose_name="Профессиональные треки")
     title = models.CharField("Название", max_length=200)
     description = models.TextField("Описание", blank=True)
     photo = models.ImageField("Фото", upload_to="products/", blank=True)
@@ -30,6 +40,11 @@ class Product(models.Model):
 
     def total_stock(self):
         return sum(v.stock for v in self.variants.all())
+
+    def clean(self):
+        super().clean()
+        if self.kind == self.Kind.EXPERIENCE and not self.event_id:
+            raise ValidationError({"event": "Для товара-опыта необходимо выбрать датированное мероприятие."})
 
 
 class ProductVariant(models.Model):
@@ -57,8 +72,7 @@ class Order(models.Model):
         CANCELLED = "cancelled", "Отменён"
 
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, related_name="orders", verbose_name="Студент")
-    variant = models.ForeignKey(ProductVariant, null=True, blank=True, on_delete=models.PROTECT, verbose_name="Товар")
-    prize = models.ForeignKey("draws.DrawPrize", null=True, blank=True, on_delete=models.PROTECT, verbose_name="Приз розыгрыша")
+    variant = models.ForeignKey(ProductVariant, on_delete=models.PROTECT, verbose_name="Товар")
     price = models.PositiveIntegerField("Цена", default=0)
     status = models.CharField("Статус", max_length=10, choices=Status.choices, default=Status.PLACED)
     pickup_code = models.CharField("Код получения", max_length=8, unique=True, default=gen_pickup_code)
@@ -70,15 +84,14 @@ class Order(models.Model):
         verbose_name = "Заказ"
         verbose_name_plural = "Заказы"
         ordering = ["-created_at"]
-        constraints = [models.CheckConstraint(condition=Q(variant__isnull=False) | Q(prize__isnull=False), name="order_has_item")]
 
     def __str__(self):
         return f"Заказ {self.pickup_code}"
 
     @property
     def item_title(self):
-        return str(self.variant) if self.variant_id else f"Приз: {self.prize}"
+        return str(self.variant)
 
     @property
     def can_cancel_by_student(self):
-        return self.status == self.Status.PLACED and self.variant_id is not None
+        return self.status == self.Status.PLACED and self.price > 0

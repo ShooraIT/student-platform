@@ -11,7 +11,6 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('draws', '0001_initial'),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
@@ -58,15 +57,13 @@ class Migration(migrations.Migration):
                 ('created_at', models.DateTimeField(auto_now_add=True, verbose_name='Оформлен')),
                 ('issued_at', models.DateTimeField(blank=True, null=True, verbose_name='Выдан')),
                 ('issued_by', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='+', to=settings.AUTH_USER_MODEL, verbose_name='Выдал')),
-                ('prize', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.PROTECT, to='draws.drawprize', verbose_name='Приз розыгрыша')),
                 ('user', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='orders', to=settings.AUTH_USER_MODEL, verbose_name='Студент')),
-                ('variant', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.PROTECT, to='shop.productvariant', verbose_name='Товар')),
+                ('variant', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='shop.productvariant', verbose_name='Товар')),
             ],
             options={
                 'verbose_name': 'Заказ',
                 'verbose_name_plural': 'Заказы',
                 'ordering': ['-created_at'],
-                'constraints': [models.CheckConstraint(condition=models.Q(('variant__isnull', False), ('prize__isnull', False), _connector='OR'), name='order_has_item')],
             },
         ),
     ]

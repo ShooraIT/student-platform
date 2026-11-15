@@ -8,15 +8,14 @@
       <span class="avatar lg">{{ user.first_name|first|upper }}</span>
       <div style="flex:1;min-width:200px">
         <div class="hero-title" style="font-size:1.8rem;text-transform:uppercase;margin:0">{{ user.first_name }} {{ user.last_name }}</div>
-        <div class="eyebrow" style="color:var(--yellow);margin:.3rem 0 .8rem">{{ user.group|default:"" }}{% if level %} / уровень {{ level.level|stringformat:"02d" }}{% endif %}</div>
-        {% if level %}<div class="small" style="margin-bottom:.4rem">{{ level.current }} / {{ level.step }} до следующего уровня</div><div class="progress" style="max-width:340px"><div style="width:{{ level.percent }}%"></div></div>{% endif %}
+        <div class="eyebrow" style="color:var(--yellow);margin:.3rem 0 .8rem">{{ user.group|default:"" }}</div>
       </div>
     </div>
     {% if user.is_student %}
     <div style="background:var(--terra);border-radius:14px;padding:1.1rem 1.3rem;min-width:220px">
       <div class="hero-hi">Твой баланс</div>
       <div class="stat" style="font-size:2.4rem">{{ user.balance }} <span class="star" style="color:#fff">✦</span></div>
-      <div class="small">всего заработано {{ level.earned|default:0 }}</div>
+      <div class="small">всего заработано {{ earned_total }}</div>
     </div>
     {% endif %}
   </div>

@@ -11,7 +11,6 @@ from django.utils import timezone
 from accounts import importer
 from accounts.models import StudyGroup
 from assignments.models import Submission, Task
-from draws.models import Draw
 from events.models import Event, Registration
 from shop.models import Order
 from surveys.models import Completion, Survey
@@ -35,16 +34,24 @@ def home(request):
         registrations__user=u, registrations__status=Registration.Status.REGISTERED, end__gte=now
     ).order_by("start")[:5]
     upcoming = Event.visible_to(u, Event.objects.filter(status=Event.Status.PUBLISHED, end__gte=now)).order_by("start")[:5]
-    done_tasks = set(Submission.objects.filter(user=u).exclude(status__in=[Submission.Status.IN_PROGRESS, Submission.Status.REVISION]).values_list("task_id", flat=True))
-    tasks = [t for t in Task.visible_to(u, Task.objects.filter(status=Task.Status.PUBLISHED, starts_at__lte=now, deadline__gte=now)).order_by("deadline")[:10] if t.pk not in done_tasks][:4]
-    done_surveys = set(Completion.objects.filter(user=u).values_list("survey_id", flat=True))
-    surveys = [s for s in Survey.visible_to(u, Survey.objects.filter(status=Survey.Status.PUBLISHED, opens_at__lte=now, closes_at__gte=now))[:10] if s.pk not in done_surveys][:3]
-    draws = Draw.visible_to(u, Draw.objects.filter(status=Draw.Status.PUBLISHED, entries_close__gte=now))[:3]
+    if u.can_access("tasks"):
+        done_tasks = set(Submission.objects.filter(user=u).exclude(status__in=[Submission.Status.IN_PROGRESS, Submission.Status.REVISION]).values_list("task_id", flat=True))
+        tasks = [t for t in Task.visible_to(u, Task.objects.filter(status=Task.Status.PUBLISHED, starts_at__lte=now, deadline__gte=now)).order_by("deadline")[:10] if t.pk not in done_tasks][:4]
+    else:
+        tasks = []
+    if u.can_access("surveys"):
+        done_surveys = set(Completion.objects.filter(user=u).values_list("survey_id", flat=True))
+        surveys = [s for s in Survey.visible_to(u, Survey.objects.filter(status=Survey.Status.PUBLISHED, opens_at__lte=now, closes_at__gte=now))[:10] if s.pk not in done_surveys][:3]
+    else:
+        surveys = []
     month_start = timezone.localdate().replace(day=1)
     earned_month = Transaction.objects.filter(user=u, kind__in=Transaction.EARNING_KINDS, created_at__date__gte=month_start).aggregate(s=Sum("amount"))["s"] or 0
+    from career.models import TrackEnrollment
+    my_tracks = TrackEnrollment.objects.filter(user=u).select_related("track") if u.can_access("career") else []
+    show_balance = u.can_access("shop")
     return render(request, "core/home.html", {
-        "my_events": my_events, "upcoming": upcoming, "tasks": tasks, "surveys": surveys, "draws": draws,
-        "earned_month": earned_month,
+        "my_events": my_events, "upcoming": upcoming, "tasks": tasks, "surveys": surveys,
+        "earned_month": earned_month, "my_tracks": my_tracks, "show_balance": show_balance,
     })
 
 
@@ -59,7 +66,6 @@ def staff_dashboard(request):
         "to_review": Submission.objects.filter(status=Submission.Status.SUBMITTED).count(),
         "to_issue": Order.objects.filter(status__in=[Order.Status.PLACED, Order.Status.READY]).count(),
         "upcoming": Event.objects.filter(end__gte=now).exclude(status=Event.Status.CANCELLED).order_by("start")[:8],
-        "draws_due": Draw.objects.filter(status=Draw.Status.PUBLISHED).order_by("draw_at")[:5],
         "on_hands": students.aggregate(s=Sum("balance"))["s"] or 0,
     }
     return render(request, "core/staff_dashboard.html", ctx)

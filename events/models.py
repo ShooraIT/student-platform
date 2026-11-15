@@ -38,6 +38,7 @@ class Event(Audience):
     start = models.DateTimeField("Начало")
     end = models.DateTimeField("Окончание")
     location = models.CharField("Место", max_length=200)
+    employer = models.ForeignKey("career.Employer", null=True, blank=True, on_delete=models.SET_NULL, related_name="events", verbose_name="Работодатель", help_text="Экскурсия, профпроба или встреча с компанией")
     registration_required = models.BooleanField("Обязательна запись", default=False)
     capacity = models.PositiveIntegerField("Лимит мест", null=True, blank=True)
     registration_deadline = models.DateTimeField("Запись до", null=True, blank=True, help_text="По умолчанию — до начала")

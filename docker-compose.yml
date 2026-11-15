@@ -12,7 +12,7 @@ services:
     depends_on: [db]
     volumes: [media:/app/media, static:/app/staticfiles]
 
-  # Периодические задачи: розыгрыши, напоминания, отмена невыданных заказов
+  # Периодические задачи: напоминания и отмена невыданных заказов
   scheduler:
     build: .
     restart: unless-stopped

@@ -85,8 +85,10 @@ def profile(request):
 
     tx = request.user.transactions.all()[:50]
     achievements = UserAchievement.objects.filter(user=request.user).select_related("achievement")
-    orders = request.user.orders.select_related("variant__product", "prize").all()[:20]
-    return render(request, "accounts/profile.html", {"transactions": tx, "achievements": achievements, "orders": orders})
+    orders = request.user.orders.select_related("variant__product").all()[:20]
+    from django.db.models import Sum
+    earned = request.user.transactions.filter(amount__gt=0).aggregate(total=Sum("amount"))["total"] or 0
+    return render(request, "accounts/profile.html", {"transactions": tx, "achievements": achievements, "orders": orders, "earned_total": earned})
 
 
 @login_required

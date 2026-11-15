@@ -16,6 +16,10 @@ class StudyGroup(models.Model):
         return self.name
 
 
+# Разделы, доступные всем студентам; остальное — первокурсникам (магазин — ещё и наставникам)
+SECTIONS_ALL = {"events", "portfolio", "notifications", "employers"}
+
+
 class User(AbstractUser):
     class Role(models.TextChoices):
         STUDENT = "student", "Студент"
@@ -33,6 +37,8 @@ class User(AbstractUser):
     must_change_password = models.BooleanField("Сменить пароль при входе", default=False)
     hide_from_rating = models.BooleanField("Скрыть из рейтинга", default=False)
     expelled = models.BooleanField("Выбыл", default=False)
+    is_mentor = models.BooleanField("Наставник", default=False, help_text="Студент 2–4 курса, который ведёт встречи для первокурсников")
+    mentor_tracks = models.ManyToManyField("career.Track", blank=True, related_name="mentors", verbose_name="Треки наставника")
 
     class Meta:
         verbose_name = "Пользователь"
@@ -57,6 +63,34 @@ class User(AbstractUser):
     @property
     def is_student(self):
         return not self.is_staff_role
+
+    @property
+    def course(self):
+        return self.group.course if self.group_id else 1
+
+    @property
+    def is_first_year(self):
+        """Карьерный трек, задания, опросы, магазин и рейтинг — для первокурсников (студенты без группы считаются первокурсниками)."""
+        return self.is_student and self.course == 1
+
+    def can_access(self, section):
+        if self.is_staff_role:
+            return True
+        if section in SECTIONS_ALL:
+            return True
+        if section == "mentor":
+            return self.is_mentor
+        if section == "mentor_meetings":
+            return self.is_first_year or self.is_mentor
+        if section == "shop":
+            return self.is_first_year or self.is_mentor
+        if section == "profile":
+            return self.is_first_year or self.is_mentor
+        return self.is_first_year
+
+    @property
+    def can_access_shop(self):
+        return self.can_access("shop")
 
     def save(self, *args, **kwargs):
         # Администраторы получают доступ к админ-панели Django

@@ -10,13 +10,15 @@ class Transaction(models.Model):
         TASK = "task_reward", "Выполнение задания"
         SURVEY = "survey_reward", "Прохождение опроса"
         VOTE = "vote_reward", "Участие в голосовании"
-        ACHIEVEMENT = "achievement_reward", "Достижение"
+        ACHIEVEMENT = "achievement_reward", "Значок"
+        MENTOR_MEETING = "mentor_meeting", "Встреча с наставником"
+        MENTORING = "mentoring", "Проведённая встреча (наставник)"
         MANUAL = "manual_credit", "Ручное начисление"
         REVERSAL = "reversal", "Сторно"
         PURCHASE = "purchase", "Покупка"
         REFUND = "purchase_refund", "Возврат за покупку"
 
-    EARNING_KINDS = [Kind.EVENT, Kind.TASK, Kind.SURVEY, Kind.VOTE, Kind.ACHIEVEMENT, Kind.MANUAL]
+    EARNING_KINDS = [Kind.EVENT, Kind.TASK, Kind.SURVEY, Kind.VOTE, Kind.ACHIEVEMENT, Kind.MENTOR_MEETING, Kind.MENTORING, Kind.MANUAL]
 
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.PROTECT, related_name="transactions", verbose_name="Студент"

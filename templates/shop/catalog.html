@@ -5,16 +5,16 @@
   <span class="deco c1 terra" style="width:300px;height:300px;right:-60px;top:-60px"></span>
   <div class="hero-split">
     <div>
-      <div class="eyebrow" style="color:var(--yellow)">Магазин мерча / 01:17</div>
-      <div class="hero-title" style="font-size:2.2rem">Мерч, который ты заслужил</div>
-      <div>Используй степы для вещей, которые напоминают о твоих достижениях.</div>
+      <div class="eyebrow" style="color:var(--yellow)">МАГАЗИН / 01:17</div>
+      <div class="hero-title" style="font-size:2.2rem">Мерч и впечатления</div>
+      <div>Вещи и места на события с ограниченным количеством участников.</div>
     </div>
     {% if user.is_student %}<span class="balance" style="font-size:.95rem;padding:.5rem 1.3rem">{{ site.currency_icon }} {{ user.balance|steps }}</span>
     {% else %}<a class="btn yellow" href="{% url 'shop:issue' %}">Выдача заказов</a>{% endif %}
   </div>
 </section>
 <div class="spread"><h2 style="margin:.5rem 0">Каталог коллекции</h2><span class="eyebrow">Drop 01 / {% now "Y" %}</span></div>
-<div class="pill-tabs ink"><a class="active" href="/shop/">Мерч</a><a href="/draws/">Розыгрыши</a><a href="/rating/badges/">Патчи достижений</a></div>
+<div class="pill-tabs ink"><a class="active" href="/shop/">Мерч</a><a href="/rating/badges/">Значки</a></div>
 <div class="grid shop-grid">
 {% for p in products %}{% with s=p.total_stock %}
   <a class="card product-card" href="{% url 'shop:product' p.pk %}">
@@ -22,7 +22,7 @@
       <span class="sticker {% if forloop.counter0|divisibleby:2 %}{% else %}terra{% endif %}">{% if s and s <= 3 %}LAST{% elif forloop.counter0|divisibleby:2 %}01:17{% else %}NEW{% endif %}</span>
     </div>
     <h3>{{ p.title }}</h3>
-    <div class="muted small">{% if s %}Осталось {{ s }}{% else %}<span class="badge err">Нет в наличии</span>{% endif %}</div>
+    <div class="muted small">{% if p.event %}{{ p.event.start|date:"d.m.Y H:i" }} · {{ p.event.location }}<br>{% endif %}{% for t in p.tracks.all %}<span class="chip">{{ t.title }}</span>{% endfor %}{% if s %}Осталось {{ s }}{% else %}<span class="badge err">Нет в наличии</span>{% endif %}</div>
     <div class="spread" style="margin-top:auto;padding-top:.8rem"><span class="reward">{{ p.price|steps }}</span><span class="btn round small" aria-hidden="true">↗</span></div>
   </a>
 {% endwith %}{% empty %}<p class="muted">Товары скоро появятся</p>{% endfor %}

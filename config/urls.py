@@ -7,6 +7,7 @@ admin.site.site_header = "01:17 — администрирование"
 admin.site.site_title = "01:17"
 admin.site.index_title = "Управление платформой"
 
+from career.views import public_portfolio
 from notifications.views import service_worker
 
 urlpatterns = [
@@ -17,9 +18,11 @@ urlpatterns = [
     path("tasks/", include("assignments.urls")),
     path("surveys/", include("surveys.urls")),
     path("shop/", include("shop.urls")),
-    path("draws/", include("draws.urls")),
     path("rating/", include("achievements.urls")),
     path("notifications/", include("notifications.urls")),
+    path("career/", include("career.urls")),
+    path("portfolio/", include("career.portfolio_urls")),
+    path("p/<str:token>/", public_portfolio, name="public_portfolio"),
     path("", include("core.urls")),
 ]
 

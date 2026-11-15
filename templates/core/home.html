@@ -6,18 +6,11 @@
   <div class="hero-split">
     <div>
       <div class="hero-hi">Привет, {{ user.first_name }}!</div>
-      <div class="hero-title">{{ user.balance|steps }}</div>
-      <div>На балансе · за этот месяц заработано {{ earned_month }}</div>
+      {% if show_balance %}<div class="hero-title">{{ user.balance|steps }}</div><div>На балансе · за этот месяц заработано {{ earned_month }}</div>{% else %}<div class="hero-title">Твой опыт начинается здесь</div>{% endif %}
     </div>
     <div class="row" style="gap:1.5rem">
-      {% if level %}
-      <div class="level-panel">
-        <div class="lvl">LEVEL {{ level.level|stringformat:"02d" }}</div>
-        <div style="margin:.35rem 0 .6rem;font-weight:600">{{ level.current }} / {{ level.step }}</div>
-        <div class="progress"><div style="width:{{ level.percent }}%"></div></div>
-      </div>
-      {% endif %}
-      <a class="btn light" href="/shop/">В магазин →</a>
+      {% if my_tracks %}<div><strong>Твои треки</strong><div class="row" style="margin-top:.5rem">{% for enrollment in my_tracks %}<a class="chip" href="{% url 'career:tracks' %}">{{ enrollment.track.title }}{% if enrollment.is_main %} · основной{% endif %}</a>{% endfor %}</div></div>{% endif %}
+      {% if user.can_access_shop %}<a class="btn light" href="/shop/">В магазин →</a>{% endif %}
     </div>
   </div>
 </section>
@@ -30,10 +23,10 @@
       {% for e in my_events %}{% include "events/_item.html" with e=e %}{% endfor %}
     </div>
     {% endif %}
-    <div class="card accent">
+    {% if section_access.tasks %}<div class="card accent">
       <div class="card-head"><h2>Ближайшие мероприятия</h2><a href="/events/?view=list">Все →</a></div>
       {% for e in upcoming %}{% include "events/_item.html" with e=e %}{% empty %}<p class="muted">Скоро здесь появятся мероприятия</p>{% endfor %}
-    </div>
+    </div>{% endif %}
   </div>
   <div>
     <div class="card accent">
@@ -46,7 +39,7 @@
       </div>
       {% empty %}<p class="muted">Новых заданий нет</p>{% endfor %}
     </div>
-    {% for s in surveys|slice:":1" %}
+    {% if section_access.surveys %}{% for s in surveys|slice:":1" %}
     <div class="card dark accent">
       <div class="card-head"><h2>Ждут вашего ответа</h2></div>
       <div class="spread" style="margin-top:.6rem">
@@ -55,15 +48,7 @@
       </div>
       <p style="margin:1.4rem 0 0"><a class="btn light small" href="{% url 'surveys:detail' s.pk %}">{% if s.kind == 'vote' %}Проголосовать{% else %}Пройти опрос{% endif %} →</a> <span class="star" style="float:right;font-size:2.2rem;line-height:1">✦</span></p>
     </div>
-    {% endfor %}
-    {% if draws %}
-    <div class="card accent-terra">
-      <div class="card-head"><h2>Розыгрыши</h2><a href="/draws/">Все →</a></div>
-      {% for d in draws %}
-      <div class="list-item"><span class="star" style="font-size:1.4rem">✦</span><div style="flex:1"><a class="title" href="{% url 'draws:detail' d.pk %}">{{ d.title }}</a><div class="muted small">заявки до {{ d.entries_close|date:"j E" }}</div></div></div>
-      {% endfor %}
-    </div>
-    {% endif %}
+    {% endfor %}{% endif %}
   </div>
 </div>
 <span class="slogan">★ Живи. Пробуй. Создавай.</span>

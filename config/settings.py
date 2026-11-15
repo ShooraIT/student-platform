@@ -33,9 +33,9 @@ INSTALLED_APPS = [
     "assignments",
     "surveys",
     "shop",
-    "draws",
     "achievements",
     "notifications",
+    "career",
 ]
 
 MIDDLEWARE = [
@@ -47,6 +47,7 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "accounts.middleware.ForcePasswordChangeMiddleware",
+    "accounts.middleware.CourseAccessMiddleware",
 ]
 
 ROOT_URLCONF = "config.urls"
@@ -164,6 +165,3 @@ VAPID_SUBJECT = env("VAPID_SUBJECT", "mailto:admin@example.ru")
 PUSH_TITLE = env("PUSH_TITLE", "01:17")
 # Отправлять пуш сразу при создании уведомления (удобно локально). В продакшене пуши шлёт сервис scheduler.
 PUSH_SEND_INLINE = env_bool("PUSH_SEND_INLINE", DEBUG)
-
-# Уровни: сколько заработанных степов нужно на один уровень
-LEVEL_STEPS = int(env("LEVEL_STEPS", "200"))

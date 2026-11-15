@@ -1,4 +1,4 @@
-"""Автотесты критической логики (п. 16.2 ТЗ): начисления, покупки, чек-ин, видимость, опросы, розыгрыши, импорт."""
+"""Автотесты критической логики: начисления, покупки, чек-ин, видимость, опросы и импорт."""
 import io
 import json
 import time
@@ -13,8 +13,6 @@ from accounts import importer
 from accounts.models import StudyGroup, User
 from assignments import services as task_services
 from assignments.models import Submission, Task, TaskQuestion
-from draws import services as draw_services
-from draws.models import Draw, DrawCondition, DrawEntry, DrawPrize
 from events import services as ev
 from events.models import Category, Event, Registration
 from shop import services as shop
@@ -71,6 +69,15 @@ class WalletTests(Base):
 
 
 class EventTests(Base):
+    def test_career_badge_is_checked_when_event_has_no_step_reward(self):
+        from achievements.models import Achievement, UserAchievement
+
+        self.event.reward = 0
+        self.event.save(update_fields=["reward"])
+        badge = Achievement.objects.create(title="Исследователь", description="Первое посещение", kind=Achievement.Kind.EVENTS, count=1)
+        ev.mark_attended(self.event, self.st, Registration.Method.LIST, self.admin)
+        self.assertTrue(UserAchievement.objects.filter(user=self.st, achievement=badge).exists())
+
     def test_code_checkin_rewards_once(self):
         ev.checkin_by_code(self.event, self.st, "abc123")
         ev.checkin_by_code(self.event, self.st, "ABC123")
@@ -168,6 +175,40 @@ class ShopTests(Base):
         with self.assertRaises(shop.ShopError):
             shop.cancel(o, self.admin)
 
+    def test_experience_purchase_enrolls_before_settling(self):
+        from career.models import Employer
+
+        ev_future = Event.objects.create(title="Встреча с компанией", description="-", category=self.cat,
+                                         start=timezone.now() + timedelta(days=2), end=timezone.now() + timedelta(days=2, hours=2),
+                                         location="Онлайн", status=Event.Status.PUBLISHED, registration_required=True,
+                                         registration_deadline=timezone.now() + timedelta(days=2))
+        p = Product.objects.create(title="Место на встречу", kind=Product.Kind.EXPERIENCE, event=ev_future,
+                                   price=20, status=Product.Status.ON_SALE)
+        v = ProductVariant.objects.create(product=p, name="Место", stock=1)
+        order = shop.purchase(self.st, v.pk)
+        self.st.refresh_from_db()
+        self.assertEqual(self.st.balance, 80)
+        self.assertTrue(Registration.objects.filter(event=ev_future, user=self.st, status=Registration.Status.REGISTERED).exists())
+        self.assertEqual(order.variant_id, v.pk)
+
+    def test_experience_without_event_does_not_charge(self):
+        p = Product.objects.create(title="Без даты", kind=Product.Kind.EXPERIENCE, price=20, status=Product.Status.ON_SALE)
+        v = ProductVariant.objects.create(product=p, stock=1)
+        with self.assertRaisesMessage(shop.ShopError, "выберите мероприятие"):
+            shop.purchase(self.st, v.pk)
+        self.st.refresh_from_db()
+        self.assertEqual(self.st.balance, 100)
+        self.assertEqual(v.stock, 1)
+
+    def test_award_only_item_cannot_be_purchased(self):
+        p = Product.objects.create(title="Рюкзак", kind=Product.Kind.REWARD, price=0, status=Product.Status.ON_SALE)
+        v = ProductVariant.objects.create(product=p, stock=1)
+        with self.assertRaises(shop.ShopError):
+            shop.purchase(self.st, v.pk)
+        o = shop.award(self.st, v, self.admin, "За вклад")
+        self.assertEqual(o.price, 0)
+        self.assertEqual(o.status, Order.Status.READY)
+
 
 class TaskTests(Base):
     def test_quiz_passes_and_rewards_once(self):
@@ -234,24 +275,6 @@ class SurveyTests(Base):
             surveys.submit_survey(s, self.st, QueryDict(""))
 
 
-class DrawTests(Base):
-    def test_conditions_and_run(self):
-        now = timezone.now()
-        d = Draw.objects.create(title="D", status=Draw.Status.PUBLISHED, entries_close=now + timedelta(days=1), draw_at=now + timedelta(days=1))
-        DrawPrize.objects.create(draw=d, title="Наушники", quantity=1)
-        DrawCondition.objects.create(draw=d, kind=DrawCondition.Kind.EVENT, event=self.event)
-        with self.assertRaises(draw_services.DrawError):
-            draw_services.enter(d, self.st)
-        ev.checkin_by_code(self.event, self.st, "ABC123")
-        draw_services.enter(d, self.st)
-        winners = draw_services.run(d)
-        self.assertEqual(len(winners), 1)
-        self.assertEqual(winners[0].user, self.st)
-        self.assertEqual(winners[0].order.status, Order.Status.READY)
-        with self.assertRaises(draw_services.DrawError):
-            draw_services.run(d)
-        self.assertEqual(DrawEntry.objects.count(), 1)
-
 
 class ImportTests(TestCase):
     def _xlsx(self, rows):
@@ -314,13 +337,13 @@ class PushTests(Base):
         from pywebpush import WebPushException
 
         self._subscribe(self.st)
-        notify(self.st, "Выигрыш!", kind="draw")
+        notify(self.st, "Выигрыш!", kind="order")
         with mock.patch("pywebpush.webpush") as wp:
             self.assertEqual(send_pending(), 1)
             payload = json.loads(wp.call_args.kwargs["data"])
             self.assertEqual(payload["body"], "Выигрыш!")
         self.assertEqual(Notification.objects.get(text="Выигрыш!").push, Notification.Push.SENT)
-        notify(self.st, "Второе", kind="draw")
+        notify(self.st, "Второе", kind="order")
         gone = WebPushException("gone", response=mock.Mock(status_code=410))
         with mock.patch("pywebpush.webpush", side_effect=gone):
             self.assertEqual(send_pending(), 0)
@@ -376,7 +399,7 @@ class StudentPagesSmokeTests(Base):
         order = shop.purchase(self.st, v.pk)
         self.client.force_login(self.st)
         urls = ["/", "/events/", "/events/?view=list", f"/events/{self.event.pk}/", "/tasks/", "/surveys/", "/shop/",
-                f"/shop/{p.pk}/", f"/shop/orders/{order.pk}/", "/draws/", "/rating/", "/rating/groups/", "/rating/badges/",
+                f"/shop/{p.pk}/", f"/shop/orders/{order.pk}/", "/rating/", "/rating/groups/", "/rating/badges/",
                 "/profile/", "/notifications/", "/notifications/settings/"]
         for u in urls:
             self.assertEqual(self.client.get(u).status_code, 200, u)

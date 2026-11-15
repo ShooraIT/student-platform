@@ -27,6 +27,9 @@ def _award(sub, amount):
         sub.save()
     if amount:
         wallet.reward(sub.user, amount, Transaction.Kind.TASK, f"Задание: {task.title}", ("task", task.pk))
+    from achievements.services import check_achievements
+
+    check_achievements(sub.user)
     return amount
 
 

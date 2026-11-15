@@ -14,7 +14,9 @@
   <a href="/admin/assignments/task/add/">➕ Задание</a>
   <a href="/admin/surveys/survey/add/">➕ Опрос / голосование</a>
   <a href="/admin/shop/product/add/">➕ Товар</a>
-  <a href="/admin/draws/draw/add/">➕ Розыгрыш</a>
+  <a href="{% url 'shop:award' %}">🎁 Выдать награду</a>
+  <a href="{% url 'career:staff_route' %}">🧭 Отчёт по маршруту</a>
+  <a href="{% url 'career:staff_external' %}">📁 Проверить портфолио</a>
   <a href="{% url 'core:manual_credit' %}">💰 Начислить степы</a>
   <a href="{% url 'notifications:broadcast' %}">📣 Объявление</a>
   <a href="{% url 'core:import_students' %}">📥 Импорт студентов</a>
@@ -32,11 +34,6 @@
       <a class="btn small secondary" href="{% url 'events:staff_attendees' e.pk %}">Список</a>
     </div>
     {% empty %}<p class="muted">Нет запланированных мероприятий</p>{% endfor %}
-  </div>
-  <div class="card"><h2 style="margin-top:0">Розыгрыши</h2>
-    {% for d in draws_due %}
-    <div class="list-item"><div style="flex:1"><a href="{% url 'draws:staff' d.pk %}">{{ d.title }}</a><div class="muted small">розыгрыш {{ d.draw_at|date:"d.m H:i" }} · участников {{ d.entries.count }}</div></div></div>
-    {% empty %}<p class="muted">Активных розыгрышей нет</p>{% endfor %}
   </div>
 </div>
 {% endblock %}

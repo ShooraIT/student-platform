@@ -4,7 +4,6 @@ from datetime import timedelta
 from django.core.management.base import BaseCommand
 from django.utils import timezone
 
-from draws.services import run_due
 from events.models import Event, Registration
 from notifications.models import Notification
 from notifications.services import notify
@@ -12,13 +11,13 @@ from shop.services import expire_old_orders
 
 
 class Command(BaseCommand):
-    help = "Розыгрыши по расписанию, напоминания о мероприятиях, отмена невыданных заказов"
+    help = "Напоминания о мероприятиях и отмена невыданных заказов"
 
     def handle(self, *args, **opts):
-        draws = run_due()
+
         reminders = self.remind()
         expired = expire_old_orders()
-        self.stdout.write(f"Розыгрышей проведено: {draws}; напоминаний: {reminders}; заказов отменено: {expired}")
+        self.stdout.write(f"Напоминаний: {reminders}; заказов отменено: {expired}")
 
     def remind(self):
         now = timezone.now()

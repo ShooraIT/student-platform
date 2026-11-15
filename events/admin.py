@@ -41,7 +41,7 @@ class EventAdmin(AnnounceOnPublishAdmin):
     inlines = [RegistrationInline]
     fieldsets = (
         (None, {"fields": ("title", "description", "cover", "category", "status")}),
-        ("Когда и где", {"fields": ("start", "end", "location")}),
+        ("Когда и где", {"fields": ("start", "end", "location", "employer")}),
         ("Аудитория", {"fields": ("for_all", "courses", "groups")}),
         ("Запись", {"fields": ("registration_required", "capacity", "registration_deadline")}),
         ("Награда и отметка посещения", {"fields": ("reward", "checkin_qr", "checkin_code", "code_word", "checkin_list", "checkin_after_minutes")}),

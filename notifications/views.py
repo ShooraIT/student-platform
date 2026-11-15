@@ -28,7 +28,7 @@ BROADCASTS_PER_DAY = 3
 @login_required
 def index(request):
     items = request.user.notifications.all()[:100]
-    swaps = request.user.orders.select_related("variant__product", "prize").all()[:8]
+    swaps = request.user.orders.select_related("variant__product").all()[:8]
     return render(request, "notifications/index.html", {"items": items, "swaps": swaps})
 
 

@@ -1,5 +1,4 @@
 from django.db import IntegrityError, transaction
-from django.db.models import Sum
 
 from notifications.services import notify
 
@@ -9,8 +8,6 @@ from .models import Achievement, UserAchievement
 def _progress(ach, user):
     from assignments.models import Submission
     from events.models import Registration
-    from shop.models import Order
-    from wallet.models import Transaction
 
     K = Achievement.Kind
     if ach.kind == K.EVENTS:
@@ -20,19 +17,24 @@ def _progress(ach, user):
         return qs.count()
     if ach.kind == K.TASKS:
         return Submission.objects.filter(user=user, status=Submission.Status.APPROVED).count()
-    if ach.kind == K.SURVEYS:
-        return user.survey_completions.count()
-    if ach.kind == K.EARNED:
-        return Transaction.objects.filter(user=user, kind__in=Transaction.EARNING_KINDS).aggregate(s=Sum("amount"))["s"] or 0
-    if ach.kind == K.FIRST_PURCHASE:
-        return Order.objects.filter(user=user, variant__isnull=False).exclude(status=Order.Status.CANCELLED).count()
+    if ach.kind == K.EMPLOYERS:
+        return (Registration.objects.filter(user=user, status=Registration.Status.ATTENDED, event__employer__isnull=False)
+                .values("event__employer").distinct().count())
+    if ach.kind == K.MENTOR:
+        from career.models import MentorBooking
+
+        return MentorBooking.objects.filter(user=user, status=MentorBooking.Status.ATTENDED).count()
+    if ach.kind == K.DIAGNOSTIC:
+        return user.diag_results.count()
+    if ach.kind == K.MAIN_TRACK:
+        return user.track_enrollments.filter(is_main=True).count()
     if ach.kind == K.EVENT:
         return Registration.objects.filter(user=user, event_id=ach.event_id, status=Registration.Status.ATTENDED).count()
     return 0
 
 
 def _target(ach):
-    return 1 if ach.kind in (Achievement.Kind.FIRST_PURCHASE, Achievement.Kind.EVENT) else ach.count
+    return 1 if ach.kind in (Achievement.Kind.DIAGNOSTIC, Achievement.Kind.MAIN_TRACK, Achievement.Kind.EVENT) else ach.count
 
 
 def grant(user, ach, by=None):
@@ -41,12 +43,12 @@ def grant(user, ach, by=None):
             UserAchievement.objects.create(user=user, achievement=ach, granted_by=by)
     except IntegrityError:
         return False
-    notify(user, f"Новое достижение: {ach.icon} {ach.title}", "/profile/", "achievement")
+    notify(user, f"Новый значок: {ach.icon} {ach.title}", "/profile/", "achievement")
     if ach.reward:
         from wallet import services as wallet
         from wallet.models import Transaction
 
-        wallet.reward(user, ach.reward, Transaction.Kind.ACHIEVEMENT, f"Достижение «{ach.title}»", ("achievement", ach.pk))
+        wallet.reward(user, ach.reward, Transaction.Kind.ACHIEVEMENT, f"Значок «{ach.title}»", ("achievement", ach.pk))
     return True
 
 
