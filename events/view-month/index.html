@@ -1,0 +1,310 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#1d1f27">
+  <title>События · 01:17</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap">
+  <link rel="stylesheet" href="/student-platform/static/css/app.css">
+  <link rel="x-manifest" href="/student-platform/static/manifest.webmanifest">
+  <link rel="icon" href="/student-platform/static/icons/icon-192.png">
+  <link rel="apple-touch-icon" href="/student-platform/static/icons/apple-touch-icon.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="01:17">
+</head>
+<body>
+<div style="background:#1d1f27;color:#fff;text-align:center;font:600 13px/1.4 Inter,system-ui,sans-serif;padding:8px 12px">
+  ✦ Демо-версия платформы 01:17 · данные вымышленные · кнопки и формы не сохраняют изменения
+</div>
+<script>
+document.addEventListener("submit", function (e) {
+  e.preventDefault();
+  alert("Это демо-версия: действия не сохраняются. В рабочей платформе здесь выполнится действие.");
+}, true);
+</script>
+
+
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="logo" href="/student-platform/" aria-label="01:17 — на главную"><svg class="logo-mark" viewBox="95 340 1085 445" role="img" aria-label="01:17"><path d="M394.7 519.6 A140 140 0 1 1 345.7 476.4" fill="none" stroke="#f1a627" stroke-width="72"/><path d="M381 494 L374 489 L286 588 A27 27 0 1 0 299 610 Z" fill="#cb563d"/><path id="lg1" d="M505 755 V530 H481 Q472 530 472 521 V481 Q472 470 482 466 L570 431 Q590 424 590 446 V745 Q590 755 580 755 Z" fill="#cb563d"/><use href="#lg1" x="248"/><circle cx="662" cy="553" r="44" fill="#f1a627"/><circle cx="662" cy="672" r="44" fill="#f1a627"/><path d="M864 430 H1035 Q1095 430 1095 488 Q1095 512 1081 537 L960 748 Q956 755 947 755 H858 L992 517 H864 Q855 517 855 508 V439 Q855 430 864 430 Z" fill="#cb563d"/><path d="M1112 352 Q1120 401 1170 410 Q1120 419 1112 468 Q1104 419 1054 410 Q1104 401 1112 352 Z" fill="#f1a627" stroke="#fff" stroke-width="14" paint-order="stroke"/></svg>
+<span class="logo-tag">Учись. Пробуй. Становись.</span></a>
+    <nav class="nav">
+      <a href="/student-platform/" class="">Главная</a>
+      <a href="/student-platform/events/" class="active">События</a>
+
+      <a href="/student-platform/shop/" class="">Магазин</a>
+      <a href="/student-platform/profile/" class="">Личный кабинет</a>
+
+    </nav>
+    <div class="top-right">
+      <a class="balance" href="/student-platform/profile/" title="Баланс">✦ 70 степов</a>
+      <a class="bell" href="/student-platform/notifications/" title="Уведомления">🔔<span class="dot">4</span></a>
+      <a class="avatar" href="/student-platform/profile/" title="Иванова Анна">А</a>
+    </div>
+  </div>
+  <div class="speed-line" aria-hidden="true"><i></i><i></i><i></i></div>
+</header>
+<nav class="tabbar">
+  <a href="/student-platform/" class=""><b>⌂</b>Главная</a>
+  <a href="/student-platform/events/" class="active"><b>▦</b>События</a>
+
+  <a href="/student-platform/shop/" class=""><b>✦</b>Магазин</a>
+  <a href="/student-platform/profile/" class=""><b>☺</b>Кабинет</a>
+</nav>
+
+
+<main>
+
+
+<div class="page-head">
+  <span class="eyebrow">Сообщество · активности</span>
+  <h1>События</h1>
+  <p class="lead">Мероприятия, задания и опросы — всё, в чём можно участвовать.</p>
+</div>
+
+
+<nav class="section-switch" aria-label="Раздел событий">
+  <a href="/student-platform/events/" class="">Мои активности</a>
+  <a href="/student-platform/events/view-month/" class="active">Календарь</a>
+</nav>
+
+
+<div class="spread activity-filters" style="margin-bottom:1rem">
+  <form class="row" method="get">
+    <input type="hidden" name="view" value="month">
+    <select name="cat" onchange="this.form.submit()" style="width:auto;border-radius:999px;padding:.45rem 1rem"><option value="">Все категории</option><option value="4" >Волонтёрство</option><option value="5" >Профориентация</option><option value="1" >Спорт</option><option value="2" >Творчество</option><option value="3" >Учёба</option></select>
+    <label class="choice" style="margin:0;background:#fff;border-radius:999px;padding:.45rem 1rem"><input type="checkbox" name="mine" value="1"  onchange="this.form.submit()"> Только мои записи</label>
+  </form>
+</div>
+<div class="spread calendar-month-head" style="margin-bottom:.6rem;justify-content:center;gap:1.5rem">
+  <a class="btn secondary small" href="?view=month&y=2026&m=10" aria-label="Предыдущий месяц">←</a>
+  <b style="text-transform:uppercase;letter-spacing:.04em">Ноябрь 2026</b>
+  <a class="btn secondary small" href="?view=month&y=2026&m=12" aria-label="Следующий месяц">→</a>
+</div>
+<div class="cal">
+  <div class="dow">Пн</div><div class="dow">Вт</div><div class="dow">Ср</div><div class="dow">Чт</div><div class="dow">Пт</div><div class="dow">Сб</div><div class="dow">Вс</div>
+</div>
+<div class="cal" id="cal">
+
+  <div class="day out ">
+    <div class="num">26</div>
+
+  </div>
+
+  <div class="day out ">
+    <div class="num">27</div>
+
+  </div>
+
+  <div class="day out ">
+    <div class="num">28</div>
+
+  </div>
+
+  <div class="day out ">
+    <div class="num">29</div>
+
+  </div>
+
+  <div class="day out ">
+    <div class="num">30</div>
+
+  </div>
+
+  <div class="day out ">
+    <div class="num">31</div>
+
+  </div>
+
+  <div class="day  ">
+    <div class="num">1</div>
+
+  </div>
+
+  <div class="day  ">
+    <div class="num">2</div>
+
+  </div>
+
+  <div class="day  ">
+    <div class="num">3</div>
+    <a class="ev " href="/student-platform/events/1/" style="background:#2e7d4f" title="15:00 Турнир по настольному теннису">15:00 · Турнир по настольному теннису</a>
+  </div>
+
+  <div class="day  ">
+    <div class="num">4</div>
+
+  </div>
+
+  <div class="day  ">
+    <div class="num">5</div>
+
+  </div>
+
+  <div class="day  ">
+    <div class="num">6</div>
+
+  </div>
+
+  <div class="day  ">
+    <div class="num">7</div>
+
+  </div>
+
+  <div class="day  ">
+    <div class="num">8</div>
+    <a class="ev mine" href="/student-platform/events/2/" style="background:#cb563d" title="16:00 Мастер-класс по скетчингу">16:00 · Мастер-класс по скетчингу</a>
+  </div>
+
+  <div class="day  ">
+    <div class="num">9</div>
+
+  </div>
+
+  <div class="day  ">
+    <div class="num">10</div>
+
+  </div>
+
+  <div class="day  ">
+    <div class="num">11</div>
+    <a class="ev mine" href="/student-platform/events/3/" style="background:#f1a627" title="10:00 Хакатон «Цифровой колледж»">10:00 · Хакатон «Цифровой колледж»</a>
+  </div>
+
+  <div class="day  ">
+    <div class="num">12</div>
+
+  </div>
+
+  <div class="day  ">
+    <div class="num">13</div>
+    <a class="ev " href="/student-platform/events/4/" style="background:#cb563d" title="20:00 Субботник во дворе колледжа">20:00 · Субботник во дворе колледжа</a>
+  </div>
+
+  <div class="day  ">
+    <div class="num">14</div>
+
+  </div>
+
+  <div class="day  today">
+    <div class="num">15</div>
+    <a class="ev " href="/student-platform/events/5/" style="background:#1d1f27" title="14:00 Встреча с выпускниками-разработчиками">14:00 · Встреча с выпускниками-разработчиками</a>
+  </div>
+
+  <div class="day  ">
+    <div class="num">16</div>
+
+  </div>
+
+  <div class="day  ">
+    <div class="num">17</div>
+
+  </div>
+
+  <div class="day  ">
+    <div class="num">18</div>
+    <a class="ev " href="/student-platform/events/6/" style="background:#f1a627" title="17:00 Квиз «Своя игра»">17:00 · Квиз «Своя игра»</a>
+  </div>
+
+  <div class="day  ">
+    <div class="num">19</div>
+
+  </div>
+
+  <div class="day  ">
+    <div class="num">20</div>
+
+  </div>
+
+  <div class="day  ">
+    <div class="num">21</div>
+
+  </div>
+
+  <div class="day  ">
+    <div class="num">22</div>
+    <a class="ev " href="/student-platform/events/7/" style="background:#2e7d4f" title="15:00 Футбольный матч СИП vs СЭС">15:00 · Футбольный матч СИП vs СЭС</a>
+  </div>
+
+  <div class="day  ">
+    <div class="num">23</div>
+
+  </div>
+
+  <div class="day  ">
+    <div class="num">24</div>
+
+  </div>
+
+  <div class="day  ">
+    <div class="num">25</div>
+
+  </div>
+
+  <div class="day  ">
+    <div class="num">26</div>
+
+  </div>
+
+  <div class="day  ">
+    <div class="num">27</div>
+
+  </div>
+
+  <div class="day  ">
+    <div class="num">28</div>
+
+  </div>
+
+  <div class="day  ">
+    <div class="num">29</div>
+    <a class="ev " href="/student-platform/events/9/" style="background:#1d1f27" title="08:04 Встреча с ИТ-командой ТехноПульс">08:04 · Встреча с ИТ-командой ТехноПульс</a>
+  </div>
+
+  <div class="day  ">
+    <div class="num">30</div>
+
+  </div>
+
+  <div class="day out ">
+    <div class="num">1</div>
+
+  </div>
+
+  <div class="day out ">
+    <div class="num">2</div>
+
+  </div>
+
+  <div class="day out ">
+    <div class="num">3</div>
+
+  </div>
+
+  <div class="day out ">
+    <div class="num">4</div>
+
+  </div>
+
+  <div class="day out ">
+    <div class="num">5</div>
+
+  </div>
+
+  <div class="day out ">
+    <div class="num">6</div>
+
+  </div>
+
+</div>
+
+
+</main>
+
+
+</body>
+</html>

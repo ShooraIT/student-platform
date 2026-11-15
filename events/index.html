@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#1d1f27">
-  <title>Календарь · 01:17</title>
+  <title>События · 01:17</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap">
@@ -34,12 +34,10 @@ document.addEventListener("submit", function (e) {
 <span class="logo-tag">Учись. Пробуй. Становись.</span></a>
     <nav class="nav">
       <a href="/student-platform/" class="">Главная</a>
-      <a href="/student-platform/events/" class="active">Календарь</a>
-      <a href="/student-platform/career/" class="">Карьерный путь</a>
-      <a href="/student-platform/tasks/" class="">Задания</a>
-      <a href="/student-platform/surveys/" class="">Опросы</a>
+      <a href="/student-platform/events/" class="active">События</a>
+
       <a href="/student-platform/shop/" class="">Магазин</a>
-      <a href="/student-platform/rating/" class="">Рейтинг</a>
+      <a href="/student-platform/profile/" class="">Личный кабинет</a>
 
     </nav>
     <div class="top-right">
@@ -52,258 +50,164 @@ document.addEventListener("submit", function (e) {
 </header>
 <nav class="tabbar">
   <a href="/student-platform/" class=""><b>⌂</b>Главная</a>
-  <a href="/student-platform/events/" class="active"><b>▦</b>Календарь</a>
-  <a href="/student-platform/career/" class=""><b>↗</b>Путь</a>
-  <a href="/student-platform/tasks/" class=""><b>✓</b>Задания</a>
+  <a href="/student-platform/events/" class="active"><b>▦</b>События</a>
+
   <a href="/student-platform/shop/" class=""><b>✦</b>Магазин</a>
-  <a href="/student-platform/profile/" class=""><b>☺</b>Профиль</a>
+  <a href="/student-platform/profile/" class=""><b>☺</b>Кабинет</a>
 </nav>
 
 
 <main>
 
 
-
-  <div class="page-head">
-  <span class="eyebrow">Сообщество</span>
-  <h1>Календарь мероприятий</h1>
-  <p class="lead">Участвуй, развивайся и получай степы за события колледжа.</p>
+<div class="page-head">
+  <span class="eyebrow">Сообщество · активности</span>
+  <h1>События</h1>
+  <p class="lead">Мероприятия, задания и опросы — всё, в чём можно участвовать.</p>
 </div>
 
 
+<nav class="section-switch" aria-label="Раздел событий">
+  <a href="/student-platform/events/" class="active">Мои активности</a>
+  <a href="/student-platform/events/view-month/" class="">Календарь</a>
+</nav>
 
-<div class="spread" style="margin-bottom:1rem">
-  <form class="row" method="get">
-    <input type="hidden" name="view" value="month">
-    <select name="cat" onchange="this.form.submit()" style="width:auto;border-radius:999px;padding:.45rem 1rem"><option value="">Все категории</option><option value="4" >Волонтёрство</option><option value="5" >Профориентация</option><option value="1" >Спорт</option><option value="2" >Творчество</option><option value="3" >Учёба</option></select>
-    <label class="choice" style="margin:0;background:#fff;border-radius:999px;padding:.45rem 1rem"><input type="checkbox" name="mine" value="1"  onchange="this.form.submit()"> Только мои</label>
-  </form>
-  <div class="pill-tabs" style="margin:0">
-    <a href="?view=month" class="active">Месяц</a>
-    <a href="?view=list" class="">Список</a>
-  </div>
+
+<div class="spread activity-filters" style="margin-bottom:1rem">
+  <div class="muted">Все доступные события, задания и опросы</div>
+  <form method="get"><input type="hidden" name="view" value="activities"><label class="choice" style="margin:0;background:#fff;border-radius:999px;padding:.45rem 1rem"><input type="checkbox" name="mine" value="1"  onchange="this.form.submit()"> Только мои записи</label></form>
 </div>
-
-
-<div class="spread" style="margin-bottom:.6rem;justify-content:center;gap:1.5rem">
-  <a class="btn secondary small" href="?y=2026&m=10" aria-label="Предыдущий месяц">←</a>
-  <b style="text-transform:uppercase;letter-spacing:.04em">Ноябрь 2026</b>
-  <a class="btn secondary small" href="?y=2026&m=12" aria-label="Следующий месяц">→</a>
-</div>
-<div class="cal">
-  <div class="dow">Пн</div><div class="dow">Вт</div><div class="dow">Ср</div><div class="dow">Чт</div><div class="dow">Пт</div><div class="dow">Сб</div><div class="dow">Вс</div>
-</div>
-<div class="cal" id="cal">
-
-  <div class="day out ">
-    <div class="num">26</div>
-
-  </div>
-
-  <div class="day out ">
-    <div class="num">27</div>
-
-  </div>
-
-  <div class="day out ">
-    <div class="num">28</div>
-
-  </div>
-
-  <div class="day out ">
-    <div class="num">29</div>
-
-  </div>
-
-  <div class="day out ">
-    <div class="num">30</div>
-
-  </div>
-
-  <div class="day out ">
-    <div class="num">31</div>
-
-  </div>
-
-  <div class="day  ">
-    <div class="num">1</div>
-
-  </div>
-
-  <div class="day  ">
-    <div class="num">2</div>
-
-  </div>
-
-  <div class="day  ">
-    <div class="num">3</div>
-    <a class="ev " href="/student-platform/events/1/" style="background:#2e7d4f" title="15:00 Турнир по настольному теннису">15:00 · Турнир по настольному теннису</a>
-  </div>
-
-  <div class="day  ">
-    <div class="num">4</div>
-
-  </div>
-
-  <div class="day  ">
-    <div class="num">5</div>
-
-  </div>
-
-  <div class="day  ">
-    <div class="num">6</div>
-
-  </div>
-
-  <div class="day  ">
-    <div class="num">7</div>
-
-  </div>
-
-  <div class="day  ">
-    <div class="num">8</div>
-    <a class="ev mine" href="/student-platform/events/2/" style="background:#cb563d" title="16:00 Мастер-класс по скетчингу">16:00 · Мастер-класс по скетчингу</a>
-  </div>
-
-  <div class="day  ">
-    <div class="num">9</div>
-
-  </div>
-
-  <div class="day  ">
-    <div class="num">10</div>
-
-  </div>
-
-  <div class="day  ">
-    <div class="num">11</div>
-    <a class="ev mine" href="/student-platform/events/3/" style="background:#f1a627" title="10:00 Хакатон «Цифровой колледж»">10:00 · Хакатон «Цифровой колледж»</a>
-  </div>
-
-  <div class="day  ">
-    <div class="num">12</div>
-
-  </div>
-
-  <div class="day  ">
-    <div class="num">13</div>
-    <a class="ev " href="/student-platform/events/4/" style="background:#cb563d" title="20:00 Субботник во дворе колледжа">20:00 · Субботник во дворе колледжа</a>
-  </div>
-
-  <div class="day  ">
-    <div class="num">14</div>
-
-  </div>
-
-  <div class="day  today">
-    <div class="num">15</div>
-    <a class="ev " href="/student-platform/events/5/" style="background:#1d1f27" title="14:00 Встреча с выпускниками-разработчиками">14:00 · Встреча с выпускниками-разработчиками</a>
-  </div>
-
-  <div class="day  ">
-    <div class="num">16</div>
-
-  </div>
-
-  <div class="day  ">
-    <div class="num">17</div>
-
-  </div>
-
-  <div class="day  ">
-    <div class="num">18</div>
-    <a class="ev " href="/student-platform/events/6/" style="background:#f1a627" title="17:00 Квиз «Своя игра»">17:00 · Квиз «Своя игра»</a>
-  </div>
-
-  <div class="day  ">
-    <div class="num">19</div>
-
-  </div>
-
-  <div class="day  ">
-    <div class="num">20</div>
-
-  </div>
-
-  <div class="day  ">
-    <div class="num">21</div>
-
-  </div>
-
-  <div class="day  ">
-    <div class="num">22</div>
-    <a class="ev " href="/student-platform/events/7/" style="background:#2e7d4f" title="15:00 Футбольный матч СИП vs СЭС">15:00 · Футбольный матч СИП vs СЭС</a>
-  </div>
-
-  <div class="day  ">
-    <div class="num">23</div>
-
-  </div>
-
-  <div class="day  ">
-    <div class="num">24</div>
-
-  </div>
-
-  <div class="day  ">
-    <div class="num">25</div>
-
-  </div>
-
-  <div class="day  ">
-    <div class="num">26</div>
-
-  </div>
-
-  <div class="day  ">
-    <div class="num">27</div>
-
-  </div>
-
-  <div class="day  ">
-    <div class="num">28</div>
-
-  </div>
-
-  <div class="day  ">
-    <div class="num">29</div>
-    <a class="ev " href="/student-platform/events/9/" style="background:#1d1f27" title="08:04 Встреча с ИТ-командой ТехноПульс">08:04 · Встреча с ИТ-командой ТехноПульс</a>
-  </div>
-
-  <div class="day  ">
-    <div class="num">30</div>
-
-  </div>
-
-  <div class="day out ">
-    <div class="num">1</div>
-
-  </div>
-
-  <div class="day out ">
-    <div class="num">2</div>
-
-  </div>
-
-  <div class="day out ">
-    <div class="num">3</div>
-
-  </div>
-
-  <div class="day out ">
-    <div class="num">4</div>
-
-  </div>
-
-  <div class="day out ">
-    <div class="num">5</div>
-
-  </div>
-
-  <div class="day out ">
-    <div class="num">6</div>
-
-  </div>
+<div class="activity-list">
+
+  <article class="activity-card">
+    <div class="activity-date"><b>15</b><span>Ноя</span></div>
+    <div class="activity-copy">
+      <div class="activity-meta"><span class="activity-kind">Событие</span><time datetime="2026-11-15T14:00:00+03:00">14:00 · Актовый зал</time></div>
+      <a class="activity-title" href="/student-platform/events/5/">Встреча с выпускниками-разработчиками</a>
+    </div>
+    <div class="activity-actions">
+      <span class="badge ">Запись открыта</span>
+      <span class="reward">+10 ✦</span>
+      <a class="activity-arrow" href="/student-platform/events/5/" aria-label="Открыть: Встреча с выпускниками-разработчиками">→</a>
+    </div>
+  </article>
+
+  <article class="activity-card">
+    <div class="activity-date"><b>18</b><span>Ноя</span></div>
+    <div class="activity-copy">
+      <div class="activity-meta"><span class="activity-kind">Событие</span><time datetime="2026-11-18T17:00:00+03:00">17:00 · Ауд. 301</time></div>
+      <a class="activity-title" href="/student-platform/events/6/">Квиз «Своя игра»</a>
+    </div>
+    <div class="activity-actions">
+      <span class="badge ">Запись открыта</span>
+      <span class="reward">+10 ✦</span>
+      <a class="activity-arrow" href="/student-platform/events/6/" aria-label="Открыть: Квиз «Своя игра»">→</a>
+    </div>
+  </article>
+
+  <article class="activity-card">
+    <div class="activity-date"><b>18</b><span>Ноя</span></div>
+    <div class="activity-copy">
+      <div class="activity-meta"><span class="activity-kind">Голосование</span><time datetime="2026-11-18T20:58:39.873873+03:00">До 18.11 · 20:58</time></div>
+      <a class="activity-title" href="/student-platform/surveys/2/">Выбираем тему новогоднего вечера</a>
+    </div>
+    <div class="activity-actions">
+      <span class="badge ">Доступно</span>
+      <span class="reward">+10 ✦</span>
+      <a class="activity-arrow" href="/student-platform/surveys/2/" aria-label="Открыть: Выбираем тему новогоднего вечера">→</a>
+    </div>
+  </article>
+
+  <article class="activity-card">
+    <div class="activity-date"><b>20</b><span>Ноя</span></div>
+    <div class="activity-copy">
+      <div class="activity-meta"><span class="activity-kind">Задание</span><time datetime="2026-11-20T20:58:39.873873+03:00">До 20.11 · 20:58 · Ручная проверка</time></div>
+      <a class="activity-title" href="/student-platform/tasks/1/">Фото с субботника</a>
+    </div>
+    <div class="activity-actions">
+      <span class="badge ">Доступно</span>
+      <span class="reward">+20 ✦</span>
+      <a class="activity-arrow" href="/student-platform/tasks/1/" aria-label="Открыть: Фото с субботника">→</a>
+    </div>
+  </article>
+
+  <article class="activity-card">
+    <div class="activity-date"><b>22</b><span>Ноя</span></div>
+    <div class="activity-copy">
+      <div class="activity-meta"><span class="activity-kind">Событие</span><time datetime="2026-11-22T15:00:00+03:00">15:00 · Стадион</time></div>
+      <a class="activity-title" href="/student-platform/events/7/">Футбольный матч СИП vs СЭС</a>
+    </div>
+    <div class="activity-actions">
+      <span class="badge ">Запись открыта</span>
+      <span class="reward">+10 ✦</span>
+      <a class="activity-arrow" href="/student-platform/events/7/" aria-label="Открыть: Футбольный матч СИП vs СЭС">→</a>
+    </div>
+  </article>
+
+  <article class="activity-card">
+    <div class="activity-date"><b>23</b><span>Ноя</span></div>
+    <div class="activity-copy">
+      <div class="activity-meta"><span class="activity-kind">Задание</span><time datetime="2026-11-23T20:58:39.873873+03:00">До 23.11 · 20:58 · Квест (вопросы по цепочке)</time></div>
+      <a class="activity-title" href="/student-platform/tasks/3/">Квест «Тайны корпуса»</a>
+    </div>
+    <div class="activity-actions">
+      <span class="badge ">Доступно</span>
+      <span class="reward">+20 ✦</span>
+      <a class="activity-arrow" href="/student-platform/tasks/3/" aria-label="Открыть: Квест «Тайны корпуса»">→</a>
+    </div>
+  </article>
+
+  <article class="activity-card">
+    <div class="activity-date"><b>23</b><span>Ноя</span></div>
+    <div class="activity-copy">
+      <div class="activity-meta"><span class="activity-kind">Опрос</span><time datetime="2026-11-23T20:58:39.873873+03:00">До 23.11 · 20:58</time></div>
+      <a class="activity-title" href="/student-platform/surveys/1/">Как вам мероприятия этого месяца?</a>
+    </div>
+    <div class="activity-actions">
+      <span class="badge ">Доступно</span>
+      <span class="reward">+10 ✦</span>
+      <a class="activity-arrow" href="/student-platform/surveys/1/" aria-label="Открыть: Как вам мероприятия этого месяца?">→</a>
+    </div>
+  </article>
+
+  <article class="activity-card">
+    <div class="activity-date"><b>27</b><span>Ноя</span></div>
+    <div class="activity-copy">
+      <div class="activity-meta"><span class="activity-kind">Задание</span><time datetime="2026-11-27T20:58:39.873873+03:00">До 27.11 · 20:58 · Автопроверка (викторина)</time></div>
+      <a class="activity-title" href="/student-platform/tasks/2/">Викторина: история колледжа</a>
+    </div>
+    <div class="activity-actions">
+      <span class="badge ">Доступно</span>
+      <span class="reward">+20 ✦</span>
+      <a class="activity-arrow" href="/student-platform/tasks/2/" aria-label="Открыть: Викторина: история колледжа">→</a>
+    </div>
+  </article>
+
+  <article class="activity-card">
+    <div class="activity-date"><b>29</b><span>Ноя</span></div>
+    <div class="activity-copy">
+      <div class="activity-meta"><span class="activity-kind">Событие</span><time datetime="2026-11-29T08:04:22.989113+03:00">08:04 · Коворкинг колледжа</time></div>
+      <a class="activity-title" href="/student-platform/events/9/">Встреча с ИТ-командой ТехноПульс</a>
+    </div>
+    <div class="activity-actions">
+      <span class="badge ">Запись открыта</span>
+      <span class="reward">+10 ✦</span>
+      <a class="activity-arrow" href="/student-platform/events/9/" aria-label="Открыть: Встреча с ИТ-командой ТехноПульс">→</a>
+    </div>
+  </article>
+
+  <article class="activity-card">
+    <div class="activity-date"><b>3</b><span>Дек</span></div>
+    <div class="activity-copy">
+      <div class="activity-meta"><span class="activity-kind">Событие</span><time datetime="2026-12-03T18:00:00+03:00">18:00 · Актовый зал</time></div>
+      <a class="activity-title" href="/student-platform/events/8/">Концерт ко Дню студента</a>
+    </div>
+    <div class="activity-actions">
+      <span class="badge ">Запись открыта</span>
+      <span class="reward">+10 ✦</span>
+      <a class="activity-arrow" href="/student-platform/events/8/" aria-label="Открыть: Концерт ко Дню студента">→</a>
+    </div>
+  </article>
 
 </div>
 

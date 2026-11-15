@@ -34,12 +34,10 @@ document.addEventListener("submit", function (e) {
 <span class="logo-tag">Учись. Пробуй. Становись.</span></a>
     <nav class="nav">
       <a href="/student-platform/" class="">Главная</a>
-      <a href="/student-platform/events/" class="">Календарь</a>
-      <a href="/student-platform/career/" class="">Карьерный путь</a>
-      <a href="/student-platform/tasks/" class="">Задания</a>
-      <a href="/student-platform/surveys/" class="">Опросы</a>
+      <a href="/student-platform/events/" class="">События</a>
+
       <a href="/student-platform/shop/" class="">Магазин</a>
-      <a href="/student-platform/rating/" class="">Рейтинг</a>
+      <a href="/student-platform/profile/" class="">Личный кабинет</a>
 
     </nav>
     <div class="top-right">
@@ -52,11 +50,10 @@ document.addEventListener("submit", function (e) {
 </header>
 <nav class="tabbar">
   <a href="/student-platform/" class=""><b>⌂</b>Главная</a>
-  <a href="/student-platform/events/" class=""><b>▦</b>Календарь</a>
-  <a href="/student-platform/career/" class=""><b>↗</b>Путь</a>
-  <a href="/student-platform/tasks/" class=""><b>✓</b>Задания</a>
+  <a href="/student-platform/events/" class=""><b>▦</b>События</a>
+
   <a href="/student-platform/shop/" class=""><b>✦</b>Магазин</a>
-  <a href="/student-platform/profile/" class=""><b>☺</b>Профиль</a>
+  <a href="/student-platform/profile/" class=""><b>☺</b>Кабинет</a>
 </nav>
 
 
@@ -73,13 +70,13 @@ document.addEventListener("submit", function (e) {
     <div class="row">
       <button class="btn" id="push-on" hidden>Включить на этом устройстве</button>
       <button class="btn danger" id="push-off" hidden>Выключить на этом устройстве</button>
-      <form method="post" action="/student-platform/"><input type="hidden" name="csrfmiddlewaretoken" value="nhSK5DzKcf7DJcBu9qAxqOQmc1GoIuKBJt2ncYGHPCAXN3gZvfqskt6F9WsjFfEv"><button class="btn secondary" id="push-test" hidden>Прислать тестовое</button></form>
+      <form method="post" action="/student-platform/"><input type="hidden" name="csrfmiddlewaretoken" value="NRW31WNL7EaUOhMlb1KLk3sy7H8bxTyxXvXeTmdwaQGY5He8A9cP6LHwe5KyAcrq"><button class="btn secondary" id="push-test" hidden>Прислать тестовое</button></form>
     </div>
 
 
 </div>
 
-<form method="post" class="card"><input type="hidden" name="csrfmiddlewaretoken" value="nhSK5DzKcf7DJcBu9qAxqOQmc1GoIuKBJt2ncYGHPCAXN3gZvfqskt6F9WsjFfEv">
+<form method="post" class="card"><input type="hidden" name="csrfmiddlewaretoken" value="NRW31WNL7EaUOhMlb1KLk3sy7H8bxTyxXvXeTmdwaQGY5He8A9cP6LHwe5KyAcrq">
   <h2 style="margin-top:0">О чём присылать пуш</h2>
   <p class="muted small">На сайте (🔔) все уведомления видны всегда. Здесь — только то, что будет всплывать на телефоне.</p>
 

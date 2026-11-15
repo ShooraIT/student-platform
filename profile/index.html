@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#1d1f27">
-  <title>Профиль · 01:17</title>
+  <title>Личный кабинет · 01:17</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap">
@@ -34,12 +34,10 @@ document.addEventListener("submit", function (e) {
 <span class="logo-tag">Учись. Пробуй. Становись.</span></a>
     <nav class="nav">
       <a href="/student-platform/" class="">Главная</a>
-      <a href="/student-platform/events/" class="">Календарь</a>
-      <a href="/student-platform/career/" class="">Карьерный путь</a>
-      <a href="/student-platform/tasks/" class="">Задания</a>
-      <a href="/student-platform/surveys/" class="">Опросы</a>
+      <a href="/student-platform/events/" class="">События</a>
+
       <a href="/student-platform/shop/" class="">Магазин</a>
-      <a href="/student-platform/rating/" class="">Рейтинг</a>
+      <a href="/student-platform/profile/" class="active">Личный кабинет</a>
 
     </nav>
     <div class="top-right">
@@ -52,88 +50,85 @@ document.addEventListener("submit", function (e) {
 </header>
 <nav class="tabbar">
   <a href="/student-platform/" class=""><b>⌂</b>Главная</a>
-  <a href="/student-platform/events/" class=""><b>▦</b>Календарь</a>
-  <a href="/student-platform/career/" class=""><b>↗</b>Путь</a>
-  <a href="/student-platform/tasks/" class=""><b>✓</b>Задания</a>
+  <a href="/student-platform/events/" class=""><b>▦</b>События</a>
+
   <a href="/student-platform/shop/" class=""><b>✦</b>Магазин</a>
-  <a href="/student-platform/profile/" class="active"><b>☺</b>Профиль</a>
+  <a href="/student-platform/profile/" class="active"><b>☺</b>Кабинет</a>
 </nav>
 
 
 <main>
 
 
-<div class="page-head">
-  <span class="eyebrow">Твоя история</span>
-  <h1>Профиль и достижения</h1>
-  <p class="lead">Каждый шаг — часть твоего пути: проекты, события и награды.</p>
-</div>
-
-<section class="hero" style="min-height:0">
-  <div class="hero-split">
-    <div class="row" style="gap:1.4rem;flex:1;min-width:280px">
-      <span class="avatar lg">А</span>
-      <div style="flex:1;min-width:200px">
-        <div class="hero-title" style="font-size:1.8rem;text-transform:uppercase;margin:0">Анна Иванова</div>
-        <div class="eyebrow" style="color:var(--yellow);margin:.3rem 0 .8rem">СИП-11</div>
+<section class="profile-hero">
+  <div class="profile-identity">
+    <span class="avatar lg">А</span>
+    <div>
+      <span class="eyebrow">ЛИЧНЫЙ КАБИНЕТ</span>
+      <h1>Иванова Анна</h1>
+      <p>СИП-11 · 1 курс</p>
+      <div class="profile-links">
+        <a href="/student-platform/portfolio/">Портфолио →</a>
+        <a href="/student-platform/career/">Карьерный путь →</a>
+        <a href="/student-platform/notifications/settings/">Настройки уведомлений →</a>
       </div>
     </div>
+  </div>
+  <div class="profile-balance"><span>Баланс</span><strong>70 <i>✦</i></strong><small>Всего заработано 70</small></div>
+</section>
 
-    <div style="background:var(--terra);border-radius:14px;padding:1.1rem 1.3rem;min-width:220px">
-      <div class="hero-hi">Твой баланс</div>
-      <div class="stat" style="font-size:2.4rem">70 <span class="star" style="color:#fff">✦</span></div>
-      <div class="small">всего заработано 70</div>
+<section class="profile-stats" aria-label="Мои показатели">
+  <a class="profile-stat" href="/student-platform/shop/"><span>Степы</span><strong>70 <i>✦</i></strong><small>доступно для магазина</small></a>
+  <a class="profile-stat" href="/student-platform/rating/badges/"><span>Достижения</span><strong>1</strong><small>в моей коллекции</small></a>
+  <a class="profile-stat" href="/student-platform/career/"><span>Карьерный маршрут</span><strong>20%</strong><small>первый курс · мой прогресс</small></a>
+  <a class="profile-stat" href="/student-platform/rating/"><span>Рейтинг</span><strong>Открыть →</strong><small>студенты и группы</small></a>
+</section>
+
+
+<section class="profile-panels">
+  <div class="card profile-panel">
+    <div class="card-head"><div><span class="eyebrow">МОЙ ПУТЬ</span><h2>Карьерный маршрут</h2></div><a href="/student-platform/career/">Подробнее →</a></div>
+    <div class="profile-progress-label"><span>1 из 5 этапов</span><b>20%</b></div><div class="progress"><div style="width:20%"></div></div>
+    <p class="muted">Выбери направления, попробуй активности и собери свой опыт.</p><a class="btn small" href="/student-platform/career/tracks/">Выбрать треки →</a>
+  </div>
+  <div class="card profile-panel profile-shortcuts">
+    <span class="eyebrow">МОИ РАЗДЕЛЫ</span><h2>Продолжить</h2>
+    <a class="list-item" href="/student-platform/career/tracks/"><span>Профессиональные треки</span><b>→</b></a>
+    <a class="list-item" href="/student-platform/career/employers/"><span>Работодатели и пробы</span><b>→</b></a>
+    <a class="list-item" href="/student-platform/portfolio/"><span>Портфолио и резюме</span><b>→</b></a>
+    <a class="list-item" href="/student-platform/rating/"><span>Рейтинг студентов</span><b>→</b></a><a class="list-item" href="/student-platform/rating/groups/"><span>Рейтинг групп</span><b>→</b></a>
+  </div>
+</section>
+
+
+<section class="profile-panels">
+  <div class="card">
+    <div class="card-head"><div><span class="eyebrow">МОЯ КОЛЛЕКЦИЯ</span><h2>Достижения</h2></div><a href="/student-platform/rating/badges/">Все →</a></div>
+    <div class="profile-badges">
+      <div class="profile-badge" title="Посетить первое мероприятие"><span>★</span><strong>Первый шаг</strong><small>13.11.2026</small></div>
+
     </div>
+  </div>
+  <div class="card">
+    <div class="card-head"><div><span class="eyebrow">МОЯ ИСТОРИЯ</span><h2>Последние операции</h2></div></div>
+    <div class="list-item"><div style="flex:1"><strong>Достижение «Первый шаг»</strong><div class="muted small">13.11.2026 20:58 · Значок</div></div><b class="profile-positive">+5</b></div>
+    <div class="list-item"><div style="flex:1"><strong>Посещение: Хакатон «Цифровой колледж»</strong><div class="muted small">13.11.2026 20:58 · Посещение мероприятия</div></div><b class="profile-positive">+50</b></div>
+    <div class="list-item"><div style="flex:1"><strong>Посещение: Мастер-класс по скетчингу</strong><div class="muted small">13.11.2026 20:58 · Посещение мероприятия</div></div><b class="profile-positive">+15</b></div>
 
   </div>
 </section>
 
-<div class="grid-main">
-  <div>
-    <div class="card">
-      <div class="card-head"><h2>Коллекция достижений</h2><a href="/student-platform/rating/badges/">Все →</a></div>
-      <div class="grid" style="grid-template-columns:repeat(auto-fill,minmax(140px,1fr));margin-top:.8rem">
-        <div class="card achv" style="margin:0" title="Посетить первое мероприятие"><div class="icon">★</div><b class="small">Первый шаг</b></div>
-
-      </div>
-    </div>
 
 
-
-    <div class="card">
-      <div class="card-head"><h2>История операций</h2></div>
-
-      <div class="list-item">
-        <div style="flex:1">Достижение «Первый шаг»<div class="muted small">13.11.2026 20:58 · Значок</div></div>
-        <b style="color:var(--green)">+5</b>
-      </div>
-
-      <div class="list-item">
-        <div style="flex:1">Посещение: Хакатон «Цифровой колледж»<div class="muted small">13.11.2026 20:58 · Посещение мероприятия</div></div>
-        <b style="color:var(--green)">+50</b>
-      </div>
-
-      <div class="list-item">
-        <div style="flex:1">Посещение: Мастер-класс по скетчингу<div class="muted small">13.11.2026 20:58 · Посещение мероприятия</div></div>
-        <b style="color:var(--green)">+15</b>
-      </div>
-
-    </div>
+<section class="card profile-settings">
+  <div class="card-head"><div><span class="eyebrow">УПРАВЛЕНИЕ ПРОФИЛЕМ</span><h2>Настройки</h2></div></div>
+  <div class="profile-settings-grid">
+    <div class="profile-setting"><div><strong>В рейтинге</strong><div class="muted">Ваше имя видно участникам</div></div><form method="post" action="/student-platform/"><input type="hidden" name="csrfmiddlewaretoken" value="lKQbXycTkSTMekS4KbpJjqfnapaO6pYBvoRmPYCEn4pQvKkR9jRN58ulhNMb9IRu"><button class="btn secondary small">Изменить</button></form></div>
+    <a class="profile-setting" href="/student-platform/notifications/settings/"><div><strong>Уведомления</strong><div class="muted">Выбрать, о чём получать новости</div></div><b>→</b></a>
+    <a class="profile-setting" href="/student-platform/"><div><strong>Пароль</strong><div class="muted">Обновить пароль аккаунта</div></div><b>→</b></a>
+    <form class="profile-setting" method="post" action="/student-platform/"><input type="hidden" name="csrfmiddlewaretoken" value="lKQbXycTkSTMekS4KbpJjqfnapaO6pYBvoRmPYCEn4pQvKkR9jRN58ulhNMb9IRu"><div><strong>Завершить работу</strong><div class="muted">Выйти из аккаунта на этом устройстве</div></div><button class="btn danger small">Выйти</button></form>
   </div>
-
-  <div class="card">
-    <h2 style="margin-top:0">Мои действия</h2>
-    <a class="list-item" href="#orders"><span style="flex:1">Мои заказы</span><span class="reward">↗</span></a>
-    <a class="list-item" href="/student-platform/events/"><span style="flex:1">Мои мероприятия</span><span class="reward">↗</span></a>
-    <a class="list-item" href="/student-platform/notifications/settings/"><span style="flex:1">Уведомления на телефон</span><span class="reward">↗</span></a>
-    <a class="list-item" href="/student-platform/"><span style="flex:1">Сменить пароль</span><span class="reward">↗</span></a>
-    <div class="list-item">
-      <span style="flex:1">В публичном рейтинге: <b>виден</b></span>
-      <form method="post" action="/student-platform/"><input type="hidden" name="csrfmiddlewaretoken" value="hGPAmP8m0GLUL1FKHANu31cUMenZ4PzdDSZdtafjD3eePSkf3pDpXGsdJ99U1At7"><button class="btn secondary small">Изменить</button></form>
-    </div>
-    <form method="post" action="/student-platform/" style="margin-top:1rem"><input type="hidden" name="csrfmiddlewaretoken" value="hGPAmP8m0GLUL1FKHANu31cUMenZ4PzdDSZdtafjD3eePSkf3pDpXGsdJ99U1At7"><button class="btn danger small">Выйти</button></form>
-  </div>
-</div>
+</section>
 
 </main>
 
