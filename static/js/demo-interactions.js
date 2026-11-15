@@ -111,16 +111,37 @@
     return !!form.querySelector('[name="track"], [name="only"], [name="cat"], [name="mine"], input[type="search"], [name="q"], [name="search"]');
   }
 
+  function applyShopCategory(kind) {
+    var cards = document.querySelectorAll(".shop-grid [data-demo-shop-category]");
+    if (!cards.length) return;
+    cards.forEach(function (card) {
+      card.hidden = !!kind && card.dataset.demoShopCategory !== kind;
+    });
+    document.querySelectorAll("[data-demo-shop-filter]").forEach(function (link) {
+      var active = link.dataset.demoShopFilter === kind;
+      link.classList.toggle("active", active);
+      if (active) link.setAttribute("aria-current", "page");
+      else link.removeAttribute("aria-current");
+    });
+  }
+
+  function initShopCategory() {
+    if (!document.querySelector(".shop-grid [data-demo-shop-kind]")) return;
+    applyShopCategory(new URLSearchParams(location.search).get("category") || "");
+  }
+
   document.addEventListener("submit", function (event) {
     var form = event.target;
     if (!(form instanceof HTMLFormElement)) return;
     var method = (form.getAttribute("method") || "get").toLowerCase();
     event.preventDefault();
-    if (form.id === "activity-demo-form") {
-      var activityDialog = document.getElementById("activity-dialog");
-      if (activityDialog) activityDialog.close();
+    if (form.id === "activity-demo-form" || form.id === "shop-demo-form") {
+      var submittedDialog = form.closest("dialog");
+      if (submittedDialog) submittedDialog.close();
       form.reset();
-      toast("Демо: активность не создана. Данные не сохраняются и не отправляются.");
+      toast(form.id === "activity-demo-form"
+        ? "Демо: активность не создана. Данные не сохраняются и не отправляются."
+        : "Демо: изменения каталога не сохранены.");
       return;
     }
     if (method === "get") {
@@ -153,11 +174,76 @@
   }
 
   document.addEventListener("click", function (event) {
+    var shopFilter = event.target.closest("[data-demo-shop-filter]");
+    if (shopFilter) {
+      event.preventDefault();
+      var shopKind = shopFilter.dataset.demoShopFilter || "";
+      applyShopCategory(shopKind);
+      var nextUrl = new URL(location.href);
+      if (shopKind) nextUrl.searchParams.set("category", shopKind);
+      else nextUrl.searchParams.delete("category");
+      history.replaceState(null, "", nextUrl.pathname + nextUrl.search + nextUrl.hash);
+      return;
+    }
+
     var closeButton = event.target.closest("[data-demo-close]");
     if (closeButton) {
       event.preventDefault();
       var dialogToClose = closeButton.closest("dialog");
       if (dialogToClose) dialogToClose.close();
+      return;
+    }
+
+    var profileButton = event.target.closest("[data-student-profile]");
+    if (profileButton) {
+      var profileDialog = document.getElementById("student-profile-dialog");
+      if (profileDialog && typeof profileDialog.showModal === "function") {
+        profileDialog.querySelectorAll("[data-student-card]").forEach(function (card) { card.hidden = true; });
+        var profile = profileDialog.querySelector('[data-student-card="' + profileButton.dataset.studentProfile + '"]');
+        if (profile) profile.hidden = false;
+        profileDialog.showModal();
+      }
+      return;
+    }
+
+    var reviewToggle = event.target.closest("[data-review-toggle]");
+    if (reviewToggle) {
+      var reviewDetail = document.getElementById(reviewToggle.dataset.reviewToggle);
+      if (reviewDetail) {
+        reviewDetail.hidden = !reviewDetail.hidden;
+        reviewToggle.setAttribute("aria-expanded", String(!reviewDetail.hidden));
+        reviewToggle.textContent = reviewDetail.hidden
+          ? (reviewToggle.dataset.reviewOpen || "Открыть материалы")
+          : (reviewToggle.dataset.reviewClose || "Свернуть материалы");
+      }
+      return;
+    }
+
+    var reviewDecision = event.target.closest("[data-demo-write]");
+    if (reviewDecision) {
+      toast("Демо-режим: решение не отправлено и не сохранено.");
+      return;
+    }
+
+    var shopButton = event.target.closest("[data-shop-add], [data-shop-edit]");
+    if (shopButton) {
+      var shopDialog = document.getElementById("shop-dialog");
+      var shopForm = document.getElementById("shop-demo-form");
+      if (shopDialog && shopForm && typeof shopDialog.showModal === "function") {
+        shopForm.reset();
+        if (shopButton.hasAttribute("data-shop-edit")) {
+          shopForm.elements.product_title.value = shopButton.dataset.productName || "";
+          shopForm.elements.product_kind.value = shopButton.dataset.productKind || "merch";
+          shopForm.elements.product_category.value = shopButton.dataset.productCategory || "accessories";
+          shopForm.elements.product_price.value = shopButton.dataset.productPrice || 0;
+          shopForm.elements.product_stock.value = shopButton.dataset.productStock || 0;
+          document.getElementById("shop-dialog-title").textContent = "Редактировать товар";
+        } else {
+          document.getElementById("shop-dialog-title").textContent = "Добавить товар";
+        }
+        shopDialog.showModal();
+        shopForm.elements.product_title.focus();
+      }
       return;
     }
 
@@ -279,6 +365,10 @@
     hero.parentNode.insertBefore(section, hero);
   }
 
-  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", addRoleChooser);
-  else addRoleChooser();
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", function () { addRoleChooser(); initShopCategory(); });
+  } else {
+    addRoleChooser();
+    initShopCategory();
+  }
 })();
