@@ -1,4 +1,4 @@
-{% extends "base.html" %}{% load platform %}
+{% extends "base.html" %}{% load static platform %}
 {% block title %}Главная{% endblock %}
 {% block content %}
 <section class="dashboard-hero">
@@ -10,6 +10,7 @@
     <div class="dashboard-hero-actions">
       {% if show_balance %}<div class="dashboard-balance"><span>Твой баланс</span><strong>{{ user.balance|steps }} <i>✦</i></strong><small>+{{ earned_month }} за этот месяц</small></div>{% endif %}
       <a class="btn light" href="/events/">Смотреть активности <span aria-hidden="true">→</span></a>
+      {% if user.is_student %}<button class="btn light" type="button" data-qr-scan data-checkin-prefix="{% url 'events:calendar' %}">▦ Отсканировать QR</button>{% endif %}
     </div>
   </div>
 </section>
@@ -57,4 +58,14 @@
 
 {% if my_tracks %}<section class="card dark dashboard-track-card"><div><span class="eyebrow">МОЁ НАПРАВЛЕНИЕ</span><h2>Профессиональные треки</h2><div class="row">{% for enrollment in my_tracks %}<a class="chip" href="{% url 'career:path' %}">{{ enrollment.track.title }}{% if enrollment.is_main %} · основной{% endif %}</a>{% endfor %}</div></div><a class="btn light" href="{% url 'career:path' %}">Мой путь →</a></section>{% endif %}
 <span class="slogan">★ Живи. Пробуй. Создавай.</span>
+<dialog class="qr-scan-dialog" id="qr-scan-dialog" aria-labelledby="qr-scan-title">
+  <div class="qr-scan-content">
+    <div class="card-head"><div><span class="eyebrow">ПОСЕЩЕНИЕ МЕРОПРИЯТИЯ</span><h2 id="qr-scan-title">Отсканировать QR</h2></div><button class="btn secondary small" type="button" data-qr-close>Закрыть</button></div>
+    <p id="qr-scan-status" class="muted" role="status" aria-live="polite">Разрешите доступ к камере и наведите её на QR-код мероприятия.</p>
+    <video id="qr-scan-video" playsinline muted aria-label="Изображение с камеры"></video>
+    <p class="small muted">Отметка посещения произойдёт только при сканировании действующего QR-кода мероприятия.</p>
+  </div>
+</dialog>
 {% endblock %}
+
+{% block scripts %}<script src="{% static 'js/qr-scanner.js' %}" defer></script>{% endblock %}

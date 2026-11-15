@@ -10,7 +10,7 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap">
   <link rel="stylesheet" href="__BASE__/static/css/app.css">
   <style>
-    .admin-demo { max-width: 1240px; margin: 0 auto; padding: 1.5rem 1.9rem 6rem; }
+    .admin-demo { width: 100%; max-width: 1240px; margin: 0 auto; padding: 1.5rem clamp(.75rem,3vw,1.9rem) 6rem; }
     .admin-top { display:flex; align-items:center; justify-content:space-between; gap:1rem; margin-bottom:1.5rem; }
     .admin-brand { color:var(--ink); font-weight:900; font-size:1.25rem; letter-spacing:.04em; }
     .admin-role { display:inline-flex; align-items:center; gap:.45rem; border-radius:999px; background:var(--yellow-soft); padding:.45rem .8rem; font-size:.82rem; font-weight:800; color:var(--ink); }
@@ -22,16 +22,18 @@
     .admin-stat { background:var(--card); padding:1.2rem; border-radius:var(--radius-sm); box-shadow:var(--shadow); }
     .admin-stat span,.admin-stat small { display:block; color:var(--muted); }
     .admin-stat strong { display:block; margin:.3rem 0; font-size:1.8rem; line-height:1.15; }
-    .admin-grid { display:grid; grid-template-columns:1.2fr .8fr; gap:1rem; margin:1rem 0 2rem; }
-    .admin-card { background:var(--card); border-radius:var(--radius); padding:1.25rem; box-shadow:var(--shadow); }
+    .admin-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1rem; margin:1rem 0 2rem; align-items:stretch; }
+    .admin-grid > .admin-card { min-width:0; }
+    .admin-card { min-width:0; background:var(--card); border-radius:var(--radius); padding:1.25rem; box-shadow:var(--shadow); }
     .admin-card h2 { margin:.1rem 0 1rem; }
-    .admin-row { display:flex; justify-content:space-between; align-items:center; gap:1rem; padding:.9rem 0; border-top:1px solid var(--line); }
+    .admin-row { display:flex; justify-content:space-between; align-items:flex-start; gap:1rem; padding:.9rem 0; border-top:1px solid var(--line); }
     .admin-row:first-of-type { border-top:0; }
+    .admin-row > div { min-width:0; overflow-wrap:anywhere; }
     .admin-row strong { display:block; }
     .admin-row small { color:var(--muted); }
     .admin-status { border-radius:999px; background:var(--green-soft); color:var(--green); padding:.3rem .65rem; font-size:.75rem; font-weight:800; white-space:nowrap; }
     .admin-status.pending { background:var(--yellow-soft); color:#80530b; }
-    .admin-table-wrap { overflow-x:auto; }
+    .admin-table-wrap { max-width:100%; overflow-x:auto; }
     .admin-table { width:100%; border-collapse:collapse; min-width:560px; text-align:left; }
     .admin-table th,.admin-table td { padding:.8rem .55rem; border-bottom:1px solid var(--line); }
     .admin-table th { color:var(--muted); font-size:.78rem; text-transform:uppercase; letter-spacing:.04em; }
@@ -51,7 +53,7 @@
     .activity-dialog-head { display:flex; justify-content:space-between; align-items:flex-start; gap:1rem; margin-bottom:1rem; }
     .activity-dialog-head h2 { margin:0; }
     .activity-form-actions { display:flex; justify-content:flex-end; gap:.65rem; margin-top:1.25rem; }
-    .admin-section-head { display:flex; justify-content:space-between; align-items:flex-end; gap:1rem; margin-bottom:1rem; }
+    .admin-section-head { display:flex; justify-content:space-between; align-items:flex-end; gap:1rem; margin-bottom:1rem; min-width:0; }
     .admin-section-head h2 { margin:0; }
     .admin-analytics { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1rem; }
     .admin-analytics .admin-card { min-width:0; }
@@ -66,11 +68,19 @@
     .review-actions { display:flex; flex-wrap:wrap; gap:.5rem; }
     .shop-tools { display:flex; flex-wrap:wrap; gap:.6rem; }
     .admin-dialog { width:min(760px,calc(100vw - 2rem)); max-width:none; max-height:calc(100dvh - 2rem); overflow:auto; padding:0; border:0; border-radius:var(--radius); color:var(--ink); background:var(--card); box-shadow:0 24px 80px #0005; }
+    #student-profile-dialog { width:min(1120px,calc(100vw - 2rem)); }
     .admin-dialog::backdrop { background:#171923a8; backdrop-filter:blur(3px); }
     .admin-dialog-content { padding:1.5rem; }
-    .group-checks { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:.5rem; }
-    .group-checks label { display:flex; align-items:center; gap:.5rem; padding:.55rem .65rem; border:1px solid var(--line); border-radius:10px; font-weight:600; }
-    @media(max-width:800px) {
+    .group-picker { position:relative; }
+    .group-picker > summary { display:flex; justify-content:space-between; align-items:center; gap:.75rem; min-height:44px; padding:.6rem .75rem; border:1px solid var(--line); border-radius:10px; background:var(--card); cursor:pointer; font-weight:600; list-style:none; }
+    .group-picker > summary::-webkit-details-marker { display:none; }
+    .group-picker > summary::after { content:"⌄"; color:var(--terra); font-size:1.1rem; }
+    .group-picker[open] > summary { border-color:var(--terra); border-radius:10px 10px 0 0; }
+    .group-picker-menu { position:absolute; z-index:30; top:100%; left:0; right:0; max-height:220px; overflow-y:auto; padding:.4rem .65rem; border:1px solid var(--terra); border-top:0; border-radius:0 0 10px 10px; background:var(--card); box-shadow:0 12px 28px #17192324; }
+    .group-checks { display:grid; gap:.15rem; }
+    .group-checks label { display:flex; align-items:center; gap:.55rem; padding:.5rem .25rem; border-bottom:1px solid var(--line); font-weight:600; cursor:pointer; }
+    .group-checks label:last-child { border-bottom:0; }
+    @media(max-width:960px) {
       .admin-stats { grid-template-columns:repeat(2,minmax(0,1fr)); }
       .admin-grid { grid-template-columns:1fr; }
       .admin-hero { align-items:flex-start; flex-direction:column; }
@@ -86,8 +96,23 @@
       .activity-form .field-wide { grid-column:auto; }
       .activity-form { padding:1rem; }
       .admin-analytics { grid-template-columns:1fr; }
-      .group-checks { grid-template-columns:1fr; }
       .admin-dialog-content { padding:1rem; }
+    }
+    @media(max-width:760px) {
+      .admin-analytics { grid-template-columns:minmax(0,1fr); }
+      .admin-section-head { align-items:flex-start; flex-direction:column; }
+      .admin-row { gap:.55rem; }
+      .admin-row .admin-status { white-space:normal; text-align:center; }
+      .admin-table { min-width:520px; }
+      .activity-form-actions { flex-wrap:wrap; }
+    }
+    @media(max-width:420px) {
+      .admin-demo { padding-left:.75rem; padding-right:.75rem; }
+      .admin-stats { grid-template-columns:minmax(0,1fr); }
+      .admin-card { padding:.9rem; }
+      .admin-row { flex-direction:column; }
+      .admin-actions .btn { width:100%; }
+      .activity-dialog-head { flex-direction:column; }
     }
   </style>
   <script src="__BASE__/static/js/demo-interactions.js" data-base="__BASE__" defer></script>
@@ -119,10 +144,6 @@
         <article class="admin-stat"><span>Маршрут 1 курса</span><strong>76%</strong><small>средний прогресс</small></article>
       </section>
 
-      <div class="admin-actions" style="justify-content:flex-end;margin:1rem 0">
-        <button class="btn" type="button" data-demo-action="activity">＋ Создать активность</button>
-      </div>
-
       <section class="admin-grid" id="events">
         <article class="admin-card">
           <span class="eyebrow">РАСПИСАНИЕ</span>
@@ -132,12 +153,15 @@
           <div class="admin-row"><div><strong>Футбольный матч СИП vs СЭС</strong><small>22 ноября · 15:00 · Спорт</small></div><span class="admin-status pending">Набор участников</span></div>
         </article>
         <article class="admin-card">
-          <span class="eyebrow">МАРШРУТ КУРСА</span>
-          <h2>Первый курс</h2>
-          <p class="admin-note">Среднее выполнение этапов студентами</p>
-          <div class="admin-row"><div><strong>Знакомство с колледжем</strong><small>Этап 1 · срок до 30 ноября</small></div><strong>92%</strong></div>
-          <div class="admin-row"><div><strong>Профориентационная диагностика</strong><small>Этап 2 · срок до 15 декабря</small></div><strong>71%</strong></div>
-          <div class="admin-row"><div><strong>Выбор профессиональных треков</strong><small>Этап 3 · срок до 20 января</small></div><strong>64%</strong></div>
+          <span class="eyebrow">КОМАНДА</span>
+          <h2>Быстрые действия</h2>
+          <p class="admin-note">Пример панели управления колледжа</p>
+          <div class="admin-actions">
+            <button class="btn" type="button" data-demo-action="activity" data-activity-type="event">＋ Добавить событие</button>
+            <button class="btn" type="button" data-demo-action="activity" data-activity-type="task">＋ Создать задание</button>
+            <button class="btn" type="button" data-demo-action="activity" data-activity-type="survey">＋ Создать опрос</button>
+            <button class="btn" type="button" data-demo-action>Скачать отчёт</button>
+          </div>
         </article>
       </section>
 
@@ -178,15 +202,12 @@
           <button class="btn" type="button" data-demo-action="queue" aria-expanded="false">Подробнее об очереди</button>
         </article>
         <article class="admin-card">
-          <span class="eyebrow">КОМАНДА</span>
-          <h2>Быстрые действия</h2>
-          <p class="admin-note">Пример панели управления колледжа</p>
-          <div class="admin-actions">
-            <button class="btn" type="button" data-demo-action="activity" data-activity-type="event">＋ Добавить событие</button>
-            <button class="btn" type="button" data-demo-action="activity" data-activity-type="task">＋ Создать задание</button>
-            <button class="btn" type="button" data-demo-action="activity" data-activity-type="survey">＋ Создать опрос</button>
-            <button class="btn" type="button" data-demo-action>Скачать отчёт</button>
-          </div>
+          <span class="eyebrow">МАРШРУТ КУРСА</span>
+          <h2>Первый курс</h2>
+          <p class="admin-note">Среднее выполнение этапов студентами</p>
+          <div class="admin-row"><div><strong>Знакомство с колледжем</strong><small>Этап 1 · срок до 30 ноября</small></div><strong>92%</strong></div>
+          <div class="admin-row"><div><strong>Профориентационная диагностика</strong><small>Этап 2 · срок до 15 декабря</small></div><strong>71%</strong></div>
+          <div class="admin-row"><div><strong>Выбор профессиональных треков</strong><small>Этап 3 · срок до 20 января</small></div><strong>64%</strong></div>
         </article>
       </section>
 
@@ -260,11 +281,14 @@
         </label>
         <fieldset class="field-wide" style="border:0;padding:0;margin:0">
           <legend style="font-weight:700;margin-bottom:.45rem">Группы получателей</legend>
-          <div class="group-checks">
-            <label><input type="checkbox" name="groups" value="sip-11"> СИП-11</label>
-            <label><input type="checkbox" name="groups" value="sip-21"> СИП-21</label>
-            <label><input type="checkbox" name="groups" value="ses-31"> СЭС-31</label>
-          </div>
+          <details class="group-picker">
+            <summary><span data-groups-summary>Выберите группы</span></summary>
+            <div class="group-picker-menu"><div class="group-checks">
+              <label><input type="checkbox" name="groups" value="sip-11"> СИП-11</label>
+              <label><input type="checkbox" name="groups" value="sip-21"> СИП-21</label>
+              <label><input type="checkbox" name="groups" value="ses-31"> СЭС-31</label>
+            </div></div>
+          </details>
           <small class="admin-note">Можно выбрать несколько групп.</small>
         </fieldset>
         <label class="field-wide">Название
@@ -288,11 +312,28 @@
   </dialog>
   <dialog class="admin-dialog" id="student-profile-dialog" aria-labelledby="student-profile-dialog-title">
     <div class="admin-dialog-content">
-      <div class="activity-dialog-head"><div><span class="eyebrow">КАРТОЧКА СТУДЕНТА</span><h2 id="student-profile-dialog-title">Личный кабинет</h2></div><button class="btn secondary small" type="button" data-demo-close>Закрыть</button></div>
-      <article data-student-card="anna" hidden><h3>Анна Иванова · СИП-11 · 1 курс</h3><p>Профессиональный трек: ИТ · Разработка</p><p>Карьерный маршрут: 84% · 4 из 5 этапов</p><p>Портфолио: 3 подтверждённых записи · 1 достижение на проверке</p><p>Активность за месяц: 5 событий, 2 задания</p></article>
-      <article data-student-card="dmitry" hidden><h3>Дмитрий Смирнов · СИП-21 · 2 курс</h3><p>Профессиональный трек: ИТ · ИИ</p><p>Карьерный маршрут: 68% · 3 из 5 этапов</p><p>Портфолио: 2 подтверждённые записи · 1 достижение на проверке</p><p>Активность за месяц: 4 события, 3 задания</p></article>
-      <article data-student-card="ekaterina" hidden><h3>Екатерина Петрова · СЭС-31 · 3 курс</h3><p>Профессиональный трек: Креатив · Дизайн</p><p>Карьерный маршрут: 91% · 5 из 5 этапов</p><p>Портфолио: 5 подтверждённых записей</p><p>Активность за месяц: 7 событий, 2 задания</p></article>
-      <p class="admin-note">Профиль демонстрационный. Персональные данные и действия в демо не сохраняются.</p>
+      <div class="activity-dialog-head"><div><span class="eyebrow">ПРОСМОТР ПРОФИЛЯ · ДЕМО</span><h2 id="student-profile-dialog-title">Личный кабинет студента</h2></div><button class="btn secondary small" type="button" data-demo-close>Закрыть</button></div>
+      <article class="student-profile-view" data-student-card hidden>
+        <section class="profile-hero">
+          <div class="profile-identity"><span class="avatar lg" data-profile-initial></span><div><span class="eyebrow">ЛИЧНЫЙ КАБИНЕТ</span><h1 data-profile-name></h1><p><span data-profile-group></span> · <span data-profile-course></span> курс</p><div class="profile-links"><span>Портфолио →</span><span>Карьерный путь →</span><span>Настройки уведомлений →</span></div></div></div>
+          <div class="profile-balance"><span>Баланс</span><strong><span data-profile-balance></span> <i>✦</i></strong><small>Всего заработано <span data-profile-earned></span></small></div>
+        </section>
+        <section class="profile-stats" aria-label="Показатели студента">
+          <div class="profile-stat"><span>Достижения</span><strong data-profile-achievement-count></strong><small>в коллекции</small></div>
+          <div class="profile-stat"><span>Карьерный маршрут / трек</span><strong data-profile-progress></strong><small data-profile-progress-caption></small></div>
+          <div class="profile-stat"><span>Рейтинг</span><strong>Открыть →</strong><small>студенты и группы</small></div>
+        </section>
+        <section class="profile-panels">
+          <div class="card profile-panel"><div class="card-head"><div><span class="eyebrow">МОЙ ПУТЬ</span><h2 data-profile-path-title></h2></div><span>Подробнее →</span></div><div class="profile-progress-label"><span data-profile-stage-count></span><b data-profile-progress></b></div><div class="progress"><div data-profile-progress-bar></div></div><p class="muted" data-profile-track></p><p class="admin-note">Показатели в этом профиле приведены для демонстрации.</p></div>
+          <div class="card profile-panel profile-shortcuts"><span class="eyebrow">МОИ РАЗДЕЛЫ</span><h2>Продолжить</h2><div class="list-item"><span>Профессиональные треки</span><b>→</b></div><div class="list-item"><span>Работодатели и пробы</span><b>→</b></div><div class="list-item"><span>Портфолио и резюме</span><b>→</b></div><div class="list-item"><span>Рейтинг студентов</span><b>→</b></div><div class="list-item"><span>Рейтинг групп</span><b>→</b></div></div>
+        </section>
+        <section class="profile-panels">
+          <div class="card"><div class="card-head"><div><span class="eyebrow">МОЯ КОЛЛЕКЦИЯ</span><h2>Достижения</h2></div><span>Все →</span></div><div class="profile-badges" data-profile-achievements></div></div>
+          <div class="card"><div class="card-head"><div><span class="eyebrow">МОЯ ИСТОРИЯ</span><h2>Последние операции</h2></div></div><div data-profile-history></div></div>
+        </section>
+        <section class="card profile-settings"><div class="card-head"><div><span class="eyebrow">УПРАВЛЕНИЕ ПРОФИЛЕМ</span><h2>Настройки</h2></div></div><div class="profile-settings-grid"><div class="profile-setting"><div><strong>В рейтинге</strong><div class="muted">Настройка видимости имени</div></div><span>Включено</span></div><div class="profile-setting"><div><strong>Уведомления</strong><div class="muted">Параметры подписок</div></div><span>Настроены</span></div></div></section>
+      </article>
+      <p class="admin-note">Демонстрационные данные. В этом окне нельзя изменять профиль студента.</p>
     </div>
   </dialog>
   <dialog class="admin-dialog" id="shop-dialog" aria-labelledby="shop-dialog-title">

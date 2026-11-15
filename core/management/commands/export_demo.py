@@ -72,6 +72,8 @@ class Command(BaseCommand):
                 ok += 1
 
         shutil.copytree(Path(settings.BASE_DIR) / "static", out / "static")
+        # Camera scanning writes attendance through the Django backend; it is not part of Pages demo.
+        (out / "static" / "js" / "qr-scanner.js").unlink(missing_ok=True)
         admin_demo = Path(settings.BASE_DIR) / "templates" / "demo_admin.html"
         if admin_demo.exists():
             admin_path = out / "admin-demo" / "index.html"
@@ -148,6 +150,8 @@ class Command(BaseCommand):
             '<p class="muted">В статическом демо уведомления доступны только внутри сайта. '
             'Настройки устройства и подписки не изменяются.</p></div>', html, flags=re.S)
         html = re.sub(r'<script src="[^"]*/static/js/push\.js"></script>', "", html)
+        # The static demo has no attendance backend; keep QR actions informational there.
+        html = re.sub(r'<script src="[^"]*/static/js/qr-scanner\.js"[^>]*></script>', "", html)
         html = re.sub(r'<input type="hidden" name="csrfmiddlewaretoken" value="[^"]*">', "", html)
         html = html.replace('<link rel="manifest"', '<link rel="x-manifest"')
         html = re.sub(r'\s+onclick="return confirm\([^"]*\)"', "", html)

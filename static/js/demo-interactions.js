@@ -126,8 +126,65 @@
   }
 
   function initShopCategory() {
-    if (!document.querySelector(".shop-grid [data-demo-shop-kind]")) return;
+    if (!document.querySelector(".shop-grid [data-demo-shop-category]")) return;
     applyShopCategory(new URLSearchParams(location.search).get("category") || "");
+  }
+
+  function updateGroupSummary(form) {
+    if (!form || form.id !== "activity-demo-form") return;
+    var summary = form.querySelector("[data-groups-summary]");
+    if (!summary) return;
+    var selected = form.querySelectorAll('[name="groups"]:checked').length;
+    summary.textContent = selected ? ("Выбрано групп: " + selected) : "Выберите группы";
+  }
+
+  var demoStudents = {
+    anna: { initial: "А", name: "Анна Иванова", group: "СИП-11", course: 1, balance: 70, earned: 70, achievementCount: 1, progress: 84, stages: "4 из 5 этапов", track: "ИТ · Разработка", achievements: [{ icon: "★", name: "Первый шаг", date: "13.11.2026" }], history: [{ title: "Достижение «Первый шаг»", detail: "13.11.2026 · Значок", amount: "+5" }, { title: "Посещение: Хакатон «Цифровой колледж»", detail: "13.11.2026 · Посещение мероприятия", amount: "+50" }, { title: "Посещение: Мастер-класс по скетчингу", detail: "13.11.2026 · Посещение мероприятия", amount: "+15" }] },
+    dmitry: { initial: "Д", name: "Дмитрий Смирнов", group: "СИП-21", course: 2, balance: 120, earned: 160, achievementCount: 3, progress: 68, stages: "Текущий трек", track: "ИТ · ИИ", achievements: [{ icon: "◎", name: "Профиль интересов", date: "12.11.2026" }, { icon: "↗", name: "Путь выбран", date: "10.11.2026" }, { icon: "★", name: "Первый шаг", date: "08.11.2026" }], history: [{ title: "Посещение: Встреча с ИТ-командой", detail: "14.11.2026 · Посещение мероприятия", amount: "+40" }, { title: "Профдиагностика завершена", detail: "12.11.2026 · Карьерный трек", amount: "+20" }, { title: "Задание «Мой первый проект»", detail: "10.11.2026 · Задание", amount: "+10" }] },
+    ekaterina: { initial: "Е", name: "Екатерина Петрова", group: "СЭС-31", course: 3, balance: 95, earned: 135, achievementCount: 4, progress: 91, stages: "Текущий трек", track: "Креатив · Дизайн", achievements: [{ icon: "✦", name: "Автор идеи", date: "14.11.2026" }, { icon: "◎", name: "Профиль интересов", date: "12.11.2026" }, { icon: "↗", name: "Путь выбран", date: "09.11.2026" }], history: [{ title: "Внешнее достижение подтверждено", detail: "14.11.2026 · Портфолио", amount: "+25" }, { title: "Посещение: Дизайн-сессия", detail: "12.11.2026 · Посещение мероприятия", amount: "+15" }, { title: "Задание «Визуальная концепция»", detail: "09.11.2026 · Задание", amount: "+20" }] }
+  };
+
+  function fillStudentProfile(id, dialog) {
+    var student = demoStudents[id];
+    if (!student || !dialog) return;
+    var root = dialog.querySelector("[data-student-card]");
+    root.hidden = false;
+    root.querySelector("[data-profile-initial]").textContent = student.initial;
+    root.querySelector("[data-profile-name]").textContent = student.name;
+    root.querySelector("[data-profile-group]").textContent = student.group;
+    root.querySelector("[data-profile-course]").textContent = student.course;
+    root.querySelector("[data-profile-balance]").textContent = student.balance;
+    root.querySelector("[data-profile-earned]").textContent = student.earned;
+    root.querySelector("[data-profile-achievement-count]").textContent = student.achievementCount;
+    root.querySelectorAll("[data-profile-progress]").forEach(function (node) { node.textContent = student.progress + "%"; });
+    root.querySelector("[data-profile-progress-caption]").textContent = student.course === 1 ? "первый курс · мой прогресс" : "прогресс профессионального трека";
+    root.querySelector("[data-profile-stage-count]").textContent = student.stages;
+    root.querySelector("[data-profile-progress-bar]").style.width = student.progress + "%";
+    root.querySelector("[data-profile-track]").textContent = student.course === 1
+      ? ("Трек «" + student.track + "» выбран для карьерного маршрута.")
+      : ("Активный профессиональный трек: " + student.track + ".");
+    root.querySelector("[data-profile-path-title]").textContent = student.course === 1 ? "Карьерный маршрут" : "Профессиональный трек";
+
+    var achievements = root.querySelector("[data-profile-achievements]");
+    achievements.replaceChildren();
+    student.achievements.forEach(function (item) {
+      var badge = document.createElement("div");
+      badge.className = "profile-badge";
+      var icon = document.createElement("span"); icon.textContent = item.icon;
+      var name = document.createElement("strong"); name.textContent = item.name;
+      var date = document.createElement("small"); date.textContent = item.date;
+      badge.append(icon, name, date); achievements.appendChild(badge);
+    });
+    var history = root.querySelector("[data-profile-history]");
+    history.replaceChildren();
+    student.history.forEach(function (item) {
+      var row = document.createElement("div"); row.className = "list-item";
+      var copy = document.createElement("div"); copy.style.flex = "1";
+      var title = document.createElement("strong"); title.textContent = item.title;
+      var detail = document.createElement("div"); detail.className = "muted small"; detail.textContent = item.detail;
+      var amount = document.createElement("b"); amount.className = "profile-positive"; amount.textContent = item.amount;
+      copy.append(title, detail); row.append(copy, amount); history.appendChild(row);
+    });
   }
 
   document.addEventListener("submit", function (event) {
@@ -161,6 +218,14 @@
     }
   }, true);
 
+  document.addEventListener("change", function (event) {
+    if (event.target.matches('#activity-demo-form [name="groups"]')) updateGroupSummary(event.target.form);
+  });
+
+  document.addEventListener("reset", function (event) {
+    if (event.target.id === "activity-demo-form") setTimeout(function () { updateGroupSummary(event.target); }, 0);
+  });
+
   function download(name, content, type) {
     var blob = new Blob([content], { type: type });
     var url = URL.createObjectURL(blob);
@@ -174,6 +239,13 @@
   }
 
   document.addEventListener("click", function (event) {
+    var demoQrButton = event.target.closest("[data-qr-scan]");
+    if (demoQrButton) {
+      event.preventDefault();
+      toast("Отметка по QR доступна в основной платформе. Эта демонстрационная версия не сохраняет посещения.");
+      return;
+    }
+
     var shopFilter = event.target.closest("[data-demo-shop-filter]");
     if (shopFilter) {
       event.preventDefault();
@@ -198,9 +270,9 @@
     if (profileButton) {
       var profileDialog = document.getElementById("student-profile-dialog");
       if (profileDialog && typeof profileDialog.showModal === "function") {
-        profileDialog.querySelectorAll("[data-student-card]").forEach(function (card) { card.hidden = true; });
-        var profile = profileDialog.querySelector('[data-student-card="' + profileButton.dataset.studentProfile + '"]');
-        if (profile) profile.hidden = false;
+        var profile = profileDialog.querySelector("[data-student-card]");
+        if (profile) profile.hidden = true;
+        fillStudentProfile(profileButton.dataset.studentProfile, profileDialog);
         profileDialog.showModal();
       }
       return;
@@ -366,9 +438,10 @@
   }
 
   if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", function () { addRoleChooser(); initShopCategory(); });
+    document.addEventListener("DOMContentLoaded", function () { addRoleChooser(); initShopCategory(); updateGroupSummary(document.getElementById("activity-demo-form")); });
   } else {
     addRoleChooser();
     initShopCategory();
+    updateGroupSummary(document.getElementById("activity-demo-form"));
   }
 })();
