@@ -116,6 +116,13 @@
     if (!(form instanceof HTMLFormElement)) return;
     var method = (form.getAttribute("method") || "get").toLowerCase();
     event.preventDefault();
+    if (form.id === "activity-demo-form") {
+      var activityDialog = document.getElementById("activity-dialog");
+      if (activityDialog) activityDialog.close();
+      form.reset();
+      toast("Демо: активность не создана. Данные не сохраняются и не отправляются.");
+      return;
+    }
     if (method === "get") {
       if (form.querySelector('[name="track"]')) applyEmployerFilter(form);
       else if (form.querySelector('[name="only"]')) applyMeetingFilter(form);
@@ -146,6 +153,14 @@
   }
 
   document.addEventListener("click", function (event) {
+    var closeButton = event.target.closest("[data-demo-close]");
+    if (closeButton) {
+      event.preventDefault();
+      var dialogToClose = closeButton.closest("dialog");
+      if (dialogToClose) dialogToClose.close();
+      return;
+    }
+
     var ics = event.target.closest("[data-demo-ics]");
     if (ics) {
       event.preventDefault();
@@ -183,6 +198,17 @@
           toast(queue.hidden ? "Подробности очереди свернуты." : "Показаны заявки на проверку.");
         } else {
           toast("Очередь проверки доступна в рабочей панели колледжа.");
+        }
+      } else if (action.dataset.demoAction === "activity") {
+        var dialog = document.getElementById("activity-dialog");
+        var typeSelect = dialog && dialog.querySelector('[name="activity_type"]');
+        if (dialog && typeof dialog.showModal === "function") {
+          if (typeSelect && action.dataset.activityType) typeSelect.value = action.dataset.activityType;
+          dialog.showModal();
+          var titleInput = dialog.querySelector('[name="title"]');
+          if (titleInput) titleInput.focus();
+        } else {
+          toast("Форма создания активности недоступна в этом браузере.");
         }
       } else {
         toast("В реальной платформе это действие создаст запись. В демо данные не сохраняются.");
