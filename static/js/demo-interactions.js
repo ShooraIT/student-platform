@@ -133,9 +133,11 @@
   function updateGroupSummary(form) {
     if (!form || form.id !== "activity-demo-form") return;
     var summary = form.querySelector("[data-groups-summary]");
-    if (!summary) return;
     var selected = form.querySelectorAll('[name="groups"]:checked').length;
-    summary.textContent = selected ? ("Выбрано групп: " + selected) : "Выберите группы";
+    if (summary) summary.textContent = selected ? ("Выбрано групп: " + selected) : "Выберите группы";
+    var trackSummary = form.querySelector("[data-tracks-summary]");
+    var selectedTracks = form.querySelectorAll('[name="tracks"]:checked').length;
+    if (trackSummary) trackSummary.textContent = selectedTracks ? ("Выбрано направлений: " + selectedTracks) : "Выберите направления";
   }
 
   var demoStudents = {
@@ -219,7 +221,7 @@
   }, true);
 
   document.addEventListener("change", function (event) {
-    if (event.target.matches('#activity-demo-form [name="groups"]')) updateGroupSummary(event.target.form);
+    if (event.target.matches('#activity-demo-form [name="groups"], #activity-demo-form [name="tracks"]')) updateGroupSummary(event.target.form);
   });
 
   document.addEventListener("reset", function (event) {
