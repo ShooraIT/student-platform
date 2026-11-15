@@ -88,7 +88,16 @@ def profile(request):
     orders = request.user.orders.select_related("variant__product").all()[:20]
     from django.db.models import Sum
     earned = request.user.transactions.filter(amount__gt=0).aggregate(total=Sum("amount"))["total"] or 0
-    return render(request, "accounts/profile.html", {"transactions": tx, "achievements": achievements, "orders": orders, "earned_total": earned})
+    tracks, route = [], None
+    if request.user.can_access("career"):
+        from career.services import my_tracks, route_status
+
+        tracks = my_tracks(request.user)
+        route = route_status(request.user)
+    return render(request, "accounts/profile.html", {
+        "transactions": tx, "achievements": achievements, "achievement_count": achievements.count(),
+        "orders": orders, "earned_total": earned, "tracks": tracks, "route": route,
+    })
 
 
 @login_required

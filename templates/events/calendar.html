@@ -1,35 +1,25 @@
 {% extends "base.html" %}{% load platform %}
-{% block title %}Календарь{% endblock %}
+{% block title %}События{% endblock %}
 {% block content %}
-{% if view == "list" %}
-  {% include "_page_head.html" with eyebrow="Сообщество" title="Календарь · список событий" lead="Все события и активности колледжа. Записывайся и получай степы за участие." %}
-{% else %}
-  {% include "_page_head.html" with eyebrow="Сообщество" title="Календарь мероприятий" lead="Участвуй, развивайся и получай степы за события колледжа." %}
-{% endif %}
+{% include "_page_head.html" with eyebrow="Сообщество · активности" title="События" lead="Мероприятия, задания и опросы — всё, в чём можно участвовать." %}
 
-<div class="spread" style="margin-bottom:1rem">
+<nav class="section-switch" aria-label="Раздел событий">
+  <a href="{% url 'events:calendar' %}" class="{% if view != 'month' %}active{% endif %}">Мои активности</a>
+  <a href="{% url 'events:calendar' %}?view=month{% if cat %}&cat={{ cat }}{% endif %}{% if mine %}&mine=1{% endif %}" class="{% if view == 'month' %}active{% endif %}">Календарь</a>
+</nav>
+
+{% if view == 'month' %}
+<div class="spread activity-filters" style="margin-bottom:1rem">
   <form class="row" method="get">
-    <input type="hidden" name="view" value="{{ view }}">
+    <input type="hidden" name="view" value="month">
     <select name="cat" onchange="this.form.submit()" style="width:auto;border-radius:999px;padding:.45rem 1rem"><option value="">Все категории</option>{% for c in categories %}<option value="{{ c.pk }}" {% if cat == c.pk|stringformat:"s" %}selected{% endif %}>{{ c.name }}</option>{% endfor %}</select>
-    <label class="choice" style="margin:0;background:#fff;border-radius:999px;padding:.45rem 1rem"><input type="checkbox" name="mine" value="1" {% if mine %}checked{% endif %} onchange="this.form.submit()"> Только мои</label>
+    <label class="choice" style="margin:0;background:#fff;border-radius:999px;padding:.45rem 1rem"><input type="checkbox" name="mine" value="1" {% if mine %}checked{% endif %} onchange="this.form.submit()"> Только мои записи</label>
   </form>
-  <div class="pill-tabs" style="margin:0">
-    <a href="?view=month{% if cat %}&cat={{ cat }}{% endif %}{% if mine %}&mine=1{% endif %}" class="{% if view != 'list' %}active{% endif %}">Месяц</a>
-    <a href="?view=list{% if cat %}&cat={{ cat }}{% endif %}{% if mine %}&mine=1{% endif %}" class="{% if view == 'list' %}active{% endif %}">Список</a>
-  </div>
 </div>
-
-{% if view == "list" %}
-<div class="card accent">
-  <div class="card-head"><h2>Список мероприятий</h2></div>
-  {% for e in events %}{% include "events/_item.html" with e=e %}{% empty %}<p class="muted">Нет предстоящих мероприятий</p>{% endfor %}
-</div>
-<span class="slogan">Не пропускай своё ↗</span>
-{% else %}
-<div class="spread" style="margin-bottom:.6rem;justify-content:center;gap:1.5rem">
-  <a class="btn secondary small" href="?y={{ prev.0 }}&m={{ prev.1 }}{% if cat %}&cat={{ cat }}{% endif %}{% if mine %}&mine=1{% endif %}" aria-label="Предыдущий месяц">←</a>
+<div class="spread calendar-month-head" style="margin-bottom:.6rem;justify-content:center;gap:1.5rem">
+  <a class="btn secondary small" href="?view=month&y={{ prev.0 }}&m={{ prev.1 }}{% if cat %}&cat={{ cat }}{% endif %}{% if mine %}&mine=1{% endif %}" aria-label="Предыдущий месяц">←</a>
   <b style="text-transform:uppercase;letter-spacing:.04em">{{ title }}</b>
-  <a class="btn secondary small" href="?y={{ next.0 }}&m={{ next.1 }}{% if cat %}&cat={{ cat }}{% endif %}{% if mine %}&mine=1{% endif %}" aria-label="Следующий месяц">→</a>
+  <a class="btn secondary small" href="?view=month&y={{ next.0 }}&m={{ next.1 }}{% if cat %}&cat={{ cat }}{% endif %}{% if mine %}&mine=1{% endif %}" aria-label="Следующий месяц">→</a>
 </div>
 <div class="cal">
   <div class="dow">Пн</div><div class="dow">Вт</div><div class="dow">Ср</div><div class="dow">Чт</div><div class="dow">Пт</div><div class="dow">Сб</div><div class="dow">Вс</div>
@@ -41,6 +31,29 @@
     {% for e in d.events %}<a class="ev {% if my_regs|get_item:e.pk %}mine{% endif %}" href="{% url 'events:detail' e.pk %}" style="background:{{ e.category.color }}" title="{{ e.start|date:'H:i' }} {{ e.title }}">{{ e.start|date:"H:i" }} · {{ e.title }}</a>{% endfor %}
   </div>
   {% endfor %}{% endfor %}
+</div>
+{% else %}
+<div class="spread activity-filters" style="margin-bottom:1rem">
+  <div class="muted">Все доступные события, задания и опросы</div>
+  <form method="get"><input type="hidden" name="view" value="activities"><label class="choice" style="margin:0;background:#fff;border-radius:999px;padding:.45rem 1rem"><input type="checkbox" name="mine" value="1" {% if mine %}checked{% endif %} onchange="this.form.submit()"> Только мои записи</label></form>
+</div>
+<div class="activity-list">
+{% for a in activities %}
+  <article class="activity-card">
+    <div class="activity-date"><b>{{ a.when|date:"j" }}</b><span>{{ a.when|date:"M"|slice:":3" }}</span></div>
+    <div class="activity-copy">
+      <div class="activity-meta"><span class="activity-kind">{{ a.kind }}</span><time datetime="{{ a.when|date:'c' }}">{{ a.detail }}</time></div>
+      <a class="activity-title" href="{{ a.href }}">{{ a.title }}</a>
+    </div>
+    <div class="activity-actions">
+      {% if a.status %}<span class="badge {{ a.status_class }}">{{ a.status }}</span>{% endif %}
+      {% if a.reward %}<span class="reward">+{{ a.reward }} ✦</span>{% endif %}
+      <a class="activity-arrow" href="{{ a.href }}" aria-label="Открыть: {{ a.title }}">→</a>
+    </div>
+  </article>
+{% empty %}
+  <div class="card empty-state"><div class="empty-icon">✦</div><h2>Пока нет активностей</h2><p class="muted">Новые события, задания и опросы появятся здесь.</p></div>
+{% endfor %}
 </div>
 {% endif %}
 {% endblock %}

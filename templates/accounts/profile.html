@@ -1,70 +1,79 @@
 {% extends "base.html" %}{% load platform %}
-{% block title %}Профиль{% endblock %}
+{% block title %}Личный кабинет{% endblock %}
 {% block content %}
-{% include "_page_head.html" with eyebrow="Твоя история" title="Профиль и достижения" lead="Каждый шаг — часть твоего пути: проекты, события и награды." %}
-<section class="hero" style="min-height:0">
-  <div class="hero-split">
-    <div class="row" style="gap:1.4rem;flex:1;min-width:280px">
-      <span class="avatar lg">{{ user.first_name|first|upper }}</span>
-      <div style="flex:1;min-width:200px">
-        <div class="hero-title" style="font-size:1.8rem;text-transform:uppercase;margin:0">{{ user.first_name }} {{ user.last_name }}</div>
-        <div class="eyebrow" style="color:var(--yellow);margin:.3rem 0 .8rem">{{ user.group|default:"" }}</div>
+<section class="profile-hero">
+  <div class="profile-identity">
+    <span class="avatar lg">{{ user.first_name|default:user.username|first|upper }}</span>
+    <div>
+      <span class="eyebrow">ЛИЧНЫЙ КАБИНЕТ</span>
+      <h1>{{ user.full_name|default:user.username }}</h1>
+      <p>{{ user.group|default:"Участник проекта 01:17" }}{% if user.group %} · {{ user.course }} курс{% endif %}</p>
+      <div class="profile-links">
+        <a href="{% url 'portfolio:index' %}">Портфолио →</a>
+        {% if section_access.career %}<a href="{% url 'career:path' %}">Карьерный путь →</a>{% endif %}
+        <a href="{% url 'notifications:settings' %}">Настройки уведомлений →</a>
       </div>
     </div>
-    {% if user.is_student %}
-    <div style="background:var(--terra);border-radius:14px;padding:1.1rem 1.3rem;min-width:220px">
-      <div class="hero-hi">Твой баланс</div>
-      <div class="stat" style="font-size:2.4rem">{{ user.balance }} <span class="star" style="color:#fff">✦</span></div>
-      <div class="small">всего заработано {{ earned_total }}</div>
+  </div>
+  {% if user.is_student %}<div class="profile-balance"><span>Баланс</span><strong>{{ user.balance }} <i>✦</i></strong><small>Всего заработано {{ earned_total }}</small></div>{% endif %}
+</section>
+
+<section class="profile-stats" aria-label="Мои показатели">
+  {% if user.is_student %}<a class="profile-stat" href="{% url 'shop:catalog' %}"><span>Степы</span><strong>{{ user.balance }} <i>✦</i></strong><small>доступно для магазина</small></a>{% endif %}
+  <a class="profile-stat" href="{% url 'achievements:list' %}"><span>Достижения</span><strong>{{ achievement_count }}</strong><small>в моей коллекции</small></a>
+  {% if section_access.career %}<a class="profile-stat" href="{% url 'career:path' %}"><span>Карьерный маршрут</span><strong>{% if route %}{{ route.percent }}%{% else %}—{% endif %}</strong><small>первый курс · мой прогресс</small></a>{% endif %}
+  {% if section_access.rating %}<a class="profile-stat" href="{% url 'achievements:rating' %}"><span>Рейтинг</span><strong>Открыть →</strong><small>студенты и группы</small></a>{% endif %}
+</section>
+
+{% if section_access.career %}
+<section class="profile-panels">
+  <div class="card profile-panel">
+    <div class="card-head"><div><span class="eyebrow">МОЙ ПУТЬ</span><h2>Карьерный маршрут</h2></div><a href="{% url 'career:path' %}">Подробнее →</a></div>
+    {% if route %}<div class="profile-progress-label"><span>{{ route.passed }} из {{ route.total }} этапов</span><b>{{ route.percent }}%</b></div><div class="progress"><div style="width:{{ route.percent }}%"></div></div>{% endif %}
+    {% if tracks %}<div class="profile-track-list">{% for t in tracks|slice:":3" %}<div class="profile-track"><div><strong>{{ t.track.title }}</strong>{% if t.enrollment.is_main %}<span class="badge warn">Основной</span>{% endif %}</div><div class="progress"><div style="width:{{ t.percent }}%"></div></div><small>{{ t.percent }}% · {{ t.required_done }}/{{ t.required }} обязательных активностей</small></div>{% endfor %}</div>
+    {% else %}<p class="muted">Выбери направления, попробуй активности и собери свой опыт.</p><a class="btn small" href="{% url 'career:tracks' %}">Выбрать треки →</a>{% endif %}
+  </div>
+  <div class="card profile-panel profile-shortcuts">
+    <span class="eyebrow">МОИ РАЗДЕЛЫ</span><h2>Продолжить</h2>
+    <a class="list-item" href="{% url 'career:tracks' %}"><span>Профессиональные треки</span><b>→</b></a>
+    <a class="list-item" href="{% url 'career:employers' %}"><span>Работодатели и пробы</span><b>→</b></a>
+    <a class="list-item" href="{% url 'portfolio:index' %}"><span>Портфолио и резюме</span><b>→</b></a>
+    {% if section_access.rating %}<a class="list-item" href="{% url 'achievements:rating' %}"><span>Рейтинг студентов</span><b>→</b></a><a class="list-item" href="{% url 'achievements:groups' %}"><span>Рейтинг групп</span><b>→</b></a>{% endif %}
+  </div>
+</section>
+{% elif section_access.rating %}
+<section class="card profile-rating">
+  <div><span class="eyebrow">МОЁ МЕСТО В СООБЩЕСТВЕ</span><h2>Рейтинг студентов и групп</h2><p class="muted">Сравнивай свои результаты и следи за вкладом группы.</p></div>
+  <div class="row"><a class="btn" href="{% url 'achievements:rating' %}">Рейтинг студентов →</a><a class="btn secondary" href="{% url 'achievements:groups' %}">Рейтинг групп →</a></div>
+</section>
+{% endif %}
+
+<section class="profile-panels">
+  <div class="card">
+    <div class="card-head"><div><span class="eyebrow">МОЯ КОЛЛЕКЦИЯ</span><h2>Достижения</h2></div><a href="{% url 'achievements:list' %}">Все →</a></div>
+    <div class="profile-badges">
+      {% for ua in achievements|slice:":6" %}<div class="profile-badge" title="{{ ua.achievement.description }}"><span>{{ ua.achievement.icon }}</span><strong>{{ ua.achievement.title }}</strong><small>{{ ua.created_at|date:"d.m.Y" }}</small></div>
+      {% empty %}<div class="empty-state"><div class="empty-icon">✦</div><p>Первые достижения появятся здесь после активностей.</p></div>{% endfor %}
     </div>
-    {% endif %}
+  </div>
+  <div class="card">
+    <div class="card-head"><div><span class="eyebrow">МОЯ ИСТОРИЯ</span><h2>Последние операции</h2></div></div>
+    {% for t in transactions|slice:":7" %}<div class="list-item"><div style="flex:1"><strong>{{ t.reason }}</strong><div class="muted small">{{ t.created_at|date:"d.m.Y H:i" }} · {{ t.get_kind_display }}</div></div><b class="{% if t.amount > 0 %}profile-positive{% else %}reward{% endif %}">{% if t.amount > 0 %}+{% endif %}{{ t.amount }}</b></div>
+    {% empty %}<p class="muted">История появится после первой активности.</p>{% endfor %}
   </div>
 </section>
 
-<div class="grid-main">
-  <div>
-    <div class="card">
-      <div class="card-head"><h2>Коллекция достижений</h2><a href="{% url 'achievements:list' %}">Все →</a></div>
-      <div class="grid" style="grid-template-columns:repeat(auto-fill,minmax(140px,1fr));margin-top:.8rem">
-        {% for ua in achievements %}<div class="card achv" style="margin:0" title="{{ ua.achievement.description }}"><div class="icon">{{ ua.achievement.icon }}</div><b class="small">{{ ua.achievement.title }}</b></div>
-        {% empty %}<p class="muted">Пока нет достижений — посети первое мероприятие!</p>{% endfor %}
-      </div>
-    </div>
+{% if orders %}<section class="card"><div class="card-head"><div><span class="eyebrow">МАГАЗИН</span><h2>Мои заказы</h2></div><a href="{% url 'shop:catalog' %}">В магазин →</a></div>
+  {% for o in orders|slice:":5" %}<div class="list-item"><div style="flex:1"><a class="title" href="{% url 'shop:order' o.pk %}">{{ o.item_title }}</a><div class="muted small">{{ o.created_at|date:"d.m.Y" }} · код {{ o.pickup_code }}</div></div><span class="badge {% if o.status == 'issued' %}gray{% elif o.status == 'ready' %}ok{% elif o.status == 'cancelled' %}err{% endif %}">{{ o.get_status_display }}</span></div>{% endfor %}
+</section>{% endif %}
 
-    {% if orders %}
-    <div class="card" id="orders">
-      <div class="card-head"><h2>Мои заказы и призы</h2></div>
-      {% for o in orders %}
-      <div class="list-item">
-        <div style="flex:1"><a class="title" href="{% url 'shop:order' o.pk %}">{{ o.item_title }}</a><div class="muted small">{{ o.created_at|date:"d.m.Y" }} · код <b>{{ o.pickup_code }}</b></div></div>
-        <span class="badge {% if o.status == 'issued' %}gray{% elif o.status == 'ready' %}ok{% elif o.status == 'cancelled' %}err{% endif %}">{{ o.get_status_display }}</span>
-      </div>
-      {% endfor %}
-    </div>
-    {% endif %}
-
-    <div class="card">
-      <div class="card-head"><h2>История операций</h2></div>
-      {% for t in transactions %}
-      <div class="list-item">
-        <div style="flex:1">{{ t.reason }}<div class="muted small">{{ t.created_at|date:"d.m.Y H:i" }} · {{ t.get_kind_display }}</div></div>
-        <b style="color:{% if t.amount > 0 %}var(--green){% else %}var(--terra){% endif %}">{% if t.amount > 0 %}+{% endif %}{{ t.amount }}</b>
-      </div>
-      {% empty %}<p class="muted">Пока операций нет. Посети мероприятие или выполни задание!</p>{% endfor %}
-    </div>
+<section class="card profile-settings">
+  <div class="card-head"><div><span class="eyebrow">УПРАВЛЕНИЕ ПРОФИЛЕМ</span><h2>Настройки</h2></div></div>
+  <div class="profile-settings-grid">
+    {% if user.is_student %}<div class="profile-setting"><div><strong>В рейтинге</strong><div class="muted">{% if user.hide_from_rating %}Ваше имя скрыто{% else %}Ваше имя видно участникам{% endif %}</div></div><form method="post" action="{% url 'core:toggle_rating' %}">{% csrf_token %}<button class="btn secondary small">Изменить</button></form></div>{% endif %}
+    <a class="profile-setting" href="{% url 'notifications:settings' %}"><div><strong>Уведомления</strong><div class="muted">Выбрать, о чём получать новости</div></div><b>→</b></a>
+    <a class="profile-setting" href="{% url 'accounts:password_change' %}"><div><strong>Пароль</strong><div class="muted">Обновить пароль аккаунта</div></div><b>→</b></a>
+    <form class="profile-setting" method="post" action="{% url 'accounts:logout' %}">{% csrf_token %}<div><strong>Завершить работу</strong><div class="muted">Выйти из аккаунта на этом устройстве</div></div><button class="btn danger small">Выйти</button></form>
   </div>
-
-  <div class="card">
-    <h2 style="margin-top:0">Мои действия</h2>
-    <a class="list-item" href="#orders"><span style="flex:1">Мои заказы</span><span class="reward">↗</span></a>
-    <a class="list-item" href="/events/?mine=1&view=list"><span style="flex:1">Мои мероприятия</span><span class="reward">↗</span></a>
-    <a class="list-item" href="{% url 'notifications:settings' %}"><span style="flex:1">Уведомления на телефон</span><span class="reward">↗</span></a>
-    <a class="list-item" href="{% url 'accounts:password_change' %}"><span style="flex:1">Сменить пароль</span><span class="reward">↗</span></a>
-    <div class="list-item">
-      <span style="flex:1">В публичном рейтинге: <b>{% if user.hide_from_rating %}скрыт{% else %}виден{% endif %}</b></span>
-      <form method="post" action="{% url 'core:toggle_rating' %}">{% csrf_token %}<button class="btn secondary small">Изменить</button></form>
-    </div>
-    <form method="post" action="{% url 'accounts:logout' %}" style="margin-top:1rem">{% csrf_token %}<button class="btn danger small">Выйти</button></form>
-  </div>
-</div>
+</section>
 {% endblock %}

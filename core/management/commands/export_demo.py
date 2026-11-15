@@ -87,7 +87,7 @@ class Command(BaseCommand):
 
     def collect_pages(self, user):
         pages = [
-            "/", "/events/", "/events/?view=list", "/tasks/", "/surveys/", "/shop/",
+            "/", "/events/", "/events/?view=month", "/tasks/", "/surveys/", "/shop/",
             "/rating/", "/rating/?period=semester", "/rating/?period=year", "/rating/?period=all",
             "/rating/groups/", "/rating/badges/", "/profile/", "/notifications/", "/notifications/settings/",
             "/career/", "/career/tracks/", "/career/meetings/", "/career/employers/",

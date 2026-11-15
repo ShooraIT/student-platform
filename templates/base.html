@@ -23,12 +23,10 @@
     <a class="logo" href="/" aria-label="01:17 — на главную">{% include "_logo.html" %}<span class="logo-tag">Учись. Пробуй. Становись.</span></a>
     <nav class="nav">
       <a href="/" class="{% if p == '/' %}active{% endif %}">Главная</a>
-      <a href="/events/" class="{% if '/events/' in p %}active{% endif %}">Календарь</a>
-      {% if section_access.career %}<a href="/career/" class="{% if '/career/' in p %}active{% endif %}">Карьерный путь</a>{% elif section_access.mentor %}<a href="/career/mentor/">Наставничество</a>{% endif %}
-      {% if section_access.tasks %}<a href="/tasks/" class="{% if '/tasks/' in p %}active{% endif %}">Задания</a>{% endif %}
-      {% if section_access.surveys %}<a href="/surveys/" class="{% if '/surveys/' in p %}active{% endif %}">Опросы</a>{% endif %}
+      <a href="/events/" class="{% if '/events/' in p or '/tasks/' in p or '/surveys/' in p %}active{% endif %}">События</a>
+      {% if section_access.mentor %}<a href="/career/mentor/" class="{% if '/career/mentor/' in p %}active{% endif %}">Наставничество</a>{% endif %}
       {% if section_access.shop %}<a href="/shop/" class="{% if '/shop/' in p %}active{% endif %}">Магазин</a>{% endif %}
-      {% if section_access.rating %}<a href="/rating/" class="{% if '/rating/' in p %}active{% endif %}">Рейтинг</a>{% endif %}
+      <a href="{% if section_access.shop %}/profile/{% else %}/portfolio/{% endif %}" class="{% if '/profile/' in p or '/portfolio/' in p or '/rating/' in p or '/career/' in p and not '/career/mentor/' in p %}active{% endif %}">Личный кабинет</a>
       {% if user.is_staff_role %}<a href="/staff/" class="{% if '/staff/' in p %}active{% endif %}">Управление</a>{% endif %}
     </nav>
     <div class="top-right">
@@ -41,11 +39,10 @@
 </header>
 <nav class="tabbar">
   <a href="/" class="{% if p == '/' %}active{% endif %}"><b>⌂</b>Главная</a>
-  <a href="/events/" class="{% if '/events/' in p %}active{% endif %}"><b>▦</b>Календарь</a>
-  {% if section_access.career %}<a href="/career/" class="{% if '/career/' in p %}active{% endif %}"><b>↗</b>Путь</a>{% elif section_access.mentor %}<a href="/career/mentor/" class="{% if '/career/mentor/' in p %}active{% endif %}"><b>↗</b>Наставник</a>{% endif %}
-  {% if section_access.tasks %}<a href="/tasks/" class="{% if '/tasks/' in p or '/surveys/' in p %}active{% endif %}"><b>✓</b>Задания</a>{% endif %}
+  <a href="/events/" class="{% if '/events/' in p or '/tasks/' in p or '/surveys/' in p %}active{% endif %}"><b>▦</b>События</a>
+  {% if section_access.mentor %}<a href="/career/mentor/" class="{% if '/career/mentor/' in p %}active{% endif %}"><b>↗</b>Наставник</a>{% endif %}
   {% if section_access.shop %}<a href="/shop/" class="{% if '/shop/' in p %}active{% endif %}"><b>✦</b>Магазин</a>{% endif %}
-  <a href="/profile/" class="{% if '/profile/' in p or '/rating/' in p %}active{% endif %}"><b>☺</b>Профиль</a>
+  <a href="{% if section_access.shop %}/profile/{% else %}/portfolio/{% endif %}" class="{% if '/profile/' in p or '/portfolio/' in p or '/rating/' in p or '/career/' in p and not '/career/mentor/' in p %}active{% endif %}"><b>☺</b>Кабинет</a>
 </nav>
 {% endwith %}
 {% endif %}

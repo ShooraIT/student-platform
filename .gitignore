@@ -8,3 +8,4 @@ staticfiles/
 .vapid.json
 .claude/
 *.sqlite3.bak
+AUDIT_SECURITY_RELIABILITY.md

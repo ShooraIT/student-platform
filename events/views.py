@@ -16,8 +16,10 @@ from django.urls import reverse
 from django.utils import timezone
 from django.views.decorators.http import require_POST
 
+from assignments.models import Submission, Task
 from core.decorators import staff_required
 from core.excel import xlsx_response
+from surveys.models import Completion, Survey
 
 from . import services
 from .models import Category, Event, Registration
@@ -41,7 +43,9 @@ def calendar_view(request):
         date(year, month, 1)
     except ValueError:
         year, month = today.year, today.month
-    view = request.GET.get("view", "month")
+    view = request.GET.get("view", "activities")
+    if view == "calendar":
+        view = "month"
     cat = request.GET.get("cat")
     mine = request.GET.get("mine") == "1"
     qs = _visible(request.user)
@@ -52,9 +56,7 @@ def calendar_view(request):
     my_regs = dict(Registration.objects.filter(user=request.user).values_list("event_id", "status"))
 
     ctx = {"categories": Category.objects.all(), "cat": cat, "mine": mine, "view": view, "my_regs": my_regs}
-    if view == "list":
-        ctx["events"] = qs.filter(end__gte=timezone.now()).order_by("start")[:100]
-    else:
+    if view == "month":
         first = date(year, month, 1)
         last = date(year, month, calendar.monthrange(year, month)[1])
         tz = timezone.get_current_timezone()
@@ -75,6 +77,74 @@ def calendar_view(request):
         prev_m = first - timedelta(days=1)
         next_m = last + timedelta(days=1)
         ctx.update(weeks=weeks, title=f"{MONTHS[month]} {year}", prev=(prev_m.year, prev_m.month), next=(next_m.year, next_m.month))
+    else:
+        now = timezone.now()
+        user = request.user
+        activities = []
+        reg_status = dict(Registration.objects.filter(user=user).values_list("event_id", "status"))
+        events = qs.filter(status=Event.Status.PUBLISHED, end__gte=now).order_by("start")
+        if mine:
+            events = events.filter(registrations__user=user, registrations__status__in=Registration.ACTIVE)
+        for event in events:
+            state = reg_status.get(event.pk)
+            activities.append({
+                "kind": "Событие", "title": event.title, "when": event.start,
+                "detail": f"{timezone.localtime(event.start):%H:%M} · {event.location}",
+                "href": reverse("events:detail", args=[event.pk]),
+                "status": {
+                    Registration.Status.REGISTERED: "Записан",
+                    Registration.Status.ATTENDED: "Посещено",
+                    Registration.Status.WAITLIST: "Лист ожидания",
+                }.get(state, "Запись открыта" if event.registration_open else "Скоро"),
+                "status_class": "ok" if state in Registration.ACTIVE else "",
+                "reward": event.reward,
+            })
+
+        if user.can_access("tasks"):
+            submissions = dict(Submission.objects.filter(user=user).values_list("task_id", "status"))
+            tasks = Task.visible_to(user, Task.objects.filter(
+                status=Task.Status.PUBLISHED, starts_at__lte=now, deadline__gte=now,
+            )).order_by("deadline")
+            if mine:
+                tasks = tasks.filter(pk__in=submissions)
+            for task in tasks:
+                state = submissions.get(task.pk)
+                status = {
+                    Submission.Status.APPROVED: "Выполнено",
+                    Submission.Status.SUBMITTED: "На проверке",
+                    Submission.Status.REVISION: "Нужна доработка",
+                    Submission.Status.FAILED: "Не пройдено",
+                    Submission.Status.REJECTED: "Можно попробовать снова",
+                }.get(state, "Доступно")
+                activities.append({
+                    "kind": "Задание", "title": task.title, "when": task.deadline,
+                    "detail": f"До {timezone.localtime(task.deadline):%d.%m · %H:%M} · {task.get_kind_display()}",
+                    "href": reverse("assignments:detail", args=[task.pk]), "status": status,
+                    "status_class": "ok" if state == Submission.Status.APPROVED else "",
+                    "reward": task.reward,
+                })
+
+        if user.can_access("surveys"):
+            completed = set(Completion.objects.filter(user=user).values_list("survey_id", flat=True))
+            surveys = Survey.visible_to(user, Survey.objects.filter(
+                status=Survey.Status.PUBLISHED, closes_at__gte=now,
+            )).order_by("closes_at")
+            if mine:
+                surveys = surveys.filter(pk__in=completed)
+            for survey in surveys:
+                done = survey.pk in completed
+                opens_later = survey.opens_at > now
+                activities.append({
+                    "kind": "Опрос" if survey.kind == Survey.Kind.SURVEY else "Голосование",
+                    "title": survey.title, "when": survey.closes_at,
+                    "detail": f"До {timezone.localtime(survey.closes_at):%d.%m · %H:%M}",
+                    "href": reverse("surveys:detail", args=[survey.pk]),
+                    "status": "Пройдено" if done else "Скоро откроется" if opens_later else "Доступно",
+                    "status_class": "ok" if done else "",
+                    "reward": survey.reward,
+                })
+        activities.sort(key=lambda item: item["when"])
+        ctx["activities"] = activities
     return render(request, "events/calendar.html", ctx)
 
 
