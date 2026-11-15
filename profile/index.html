@@ -35,12 +35,12 @@ document.addEventListener("submit", function (e) {
     <nav class="nav">
       <a href="/student-platform/" class="">Главная</a>
       <a href="/student-platform/events/" class="">Календарь</a>
+      <a href="/student-platform/career/" class="">Карьерный путь</a>
       <a href="/student-platform/tasks/" class="">Задания</a>
       <a href="/student-platform/surveys/" class="">Опросы</a>
       <a href="/student-platform/shop/" class="">Магазин</a>
-      <a href="/student-platform/draws/" class="">Розыгрыши</a>
       <a href="/student-platform/rating/" class="">Рейтинг</a>
-      
+
     </nav>
     <div class="top-right">
       <a class="balance" href="/student-platform/profile/" title="Баланс">✦ 70 степов</a>
@@ -53,6 +53,7 @@ document.addEventListener("submit", function (e) {
 <nav class="tabbar">
   <a href="/student-platform/" class=""><b>⌂</b>Главная</a>
   <a href="/student-platform/events/" class=""><b>▦</b>Календарь</a>
+  <a href="/student-platform/career/" class=""><b>↗</b>Путь</a>
   <a href="/student-platform/tasks/" class=""><b>✓</b>Задания</a>
   <a href="/student-platform/shop/" class=""><b>✦</b>Магазин</a>
   <a href="/student-platform/profile/" class="active"><b>☺</b>Профиль</a>
@@ -60,8 +61,8 @@ document.addEventListener("submit", function (e) {
 
 
 <main>
-  
-  
+
+
 <div class="page-head">
   <span class="eyebrow">Твоя история</span>
   <h1>Профиль и достижения</h1>
@@ -74,17 +75,16 @@ document.addEventListener("submit", function (e) {
       <span class="avatar lg">А</span>
       <div style="flex:1;min-width:200px">
         <div class="hero-title" style="font-size:1.8rem;text-transform:uppercase;margin:0">Анна Иванова</div>
-        <div class="eyebrow" style="color:var(--yellow);margin:.3rem 0 .8rem">СИП-11 / уровень 01</div>
-        <div class="small" style="margin-bottom:.4rem">70 / 200 до следующего уровня</div><div class="progress" style="max-width:340px"><div style="width:35%"></div></div>
+        <div class="eyebrow" style="color:var(--yellow);margin:.3rem 0 .8rem">СИП-11</div>
       </div>
     </div>
-    
+
     <div style="background:var(--terra);border-radius:14px;padding:1.1rem 1.3rem;min-width:220px">
       <div class="hero-hi">Твой баланс</div>
       <div class="stat" style="font-size:2.4rem">70 <span class="star" style="color:#fff">✦</span></div>
       <div class="small">всего заработано 70</div>
     </div>
-    
+
   </div>
 </section>
 
@@ -94,30 +94,30 @@ document.addEventListener("submit", function (e) {
       <div class="card-head"><h2>Коллекция достижений</h2><a href="/student-platform/rating/badges/">Все →</a></div>
       <div class="grid" style="grid-template-columns:repeat(auto-fill,minmax(140px,1fr));margin-top:.8rem">
         <div class="card achv" style="margin:0" title="Посетить первое мероприятие"><div class="icon">★</div><b class="small">Первый шаг</b></div>
-        
+
       </div>
     </div>
 
-    
+
 
     <div class="card">
       <div class="card-head"><h2>История операций</h2></div>
-      
+
       <div class="list-item">
-        <div style="flex:1">Достижение «Первый шаг»<div class="muted small">13.11.2026 20:58 · Достижение</div></div>
+        <div style="flex:1">Достижение «Первый шаг»<div class="muted small">13.11.2026 20:58 · Значок</div></div>
         <b style="color:var(--green)">+5</b>
       </div>
-      
+
       <div class="list-item">
         <div style="flex:1">Посещение: Хакатон «Цифровой колледж»<div class="muted small">13.11.2026 20:58 · Посещение мероприятия</div></div>
         <b style="color:var(--green)">+50</b>
       </div>
-      
+
       <div class="list-item">
         <div style="flex:1">Посещение: Мастер-класс по скетчингу<div class="muted small">13.11.2026 20:58 · Посещение мероприятия</div></div>
         <b style="color:var(--green)">+15</b>
       </div>
-      
+
     </div>
   </div>
 
@@ -129,9 +129,9 @@ document.addEventListener("submit", function (e) {
     <a class="list-item" href="/student-platform/"><span style="flex:1">Сменить пароль</span><span class="reward">↗</span></a>
     <div class="list-item">
       <span style="flex:1">В публичном рейтинге: <b>виден</b></span>
-      <form method="post" action="/student-platform/"><input type="hidden" name="csrfmiddlewaretoken" value="iXx8JSakQp6Y8RtG2367zaohFa6Z6zwvIxAgsCplNM35y4KvpD1rm7bRor0ijl2f"><button class="btn secondary small">Изменить</button></form>
+      <form method="post" action="/student-platform/"><input type="hidden" name="csrfmiddlewaretoken" value="hGPAmP8m0GLUL1FKHANu31cUMenZ4PzdDSZdtafjD3eePSkf3pDpXGsdJ99U1At7"><button class="btn secondary small">Изменить</button></form>
     </div>
-    <form method="post" action="/student-platform/" style="margin-top:1rem"><input type="hidden" name="csrfmiddlewaretoken" value="iXx8JSakQp6Y8RtG2367zaohFa6Z6zwvIxAgsCplNM35y4KvpD1rm7bRor0ijl2f"><button class="btn danger small">Выйти</button></form>
+    <form method="post" action="/student-platform/" style="margin-top:1rem"><input type="hidden" name="csrfmiddlewaretoken" value="hGPAmP8m0GLUL1FKHANu31cUMenZ4PzdDSZdtafjD3eePSkf3pDpXGsdJ99U1At7"><button class="btn danger small">Выйти</button></form>
   </div>
 </div>
 

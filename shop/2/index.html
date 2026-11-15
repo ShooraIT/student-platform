@@ -35,12 +35,12 @@ document.addEventListener("submit", function (e) {
     <nav class="nav">
       <a href="/student-platform/" class="">Главная</a>
       <a href="/student-platform/events/" class="">Календарь</a>
+      <a href="/student-platform/career/" class="">Карьерный путь</a>
       <a href="/student-platform/tasks/" class="">Задания</a>
       <a href="/student-platform/surveys/" class="">Опросы</a>
       <a href="/student-platform/shop/" class="active">Магазин</a>
-      <a href="/student-platform/draws/" class="">Розыгрыши</a>
       <a href="/student-platform/rating/" class="">Рейтинг</a>
-      
+
     </nav>
     <div class="top-right">
       <a class="balance" href="/student-platform/profile/" title="Баланс">✦ 70 степов</a>
@@ -53,6 +53,7 @@ document.addEventListener("submit", function (e) {
 <nav class="tabbar">
   <a href="/student-platform/" class=""><b>⌂</b>Главная</a>
   <a href="/student-platform/events/" class=""><b>▦</b>Календарь</a>
+  <a href="/student-platform/career/" class=""><b>↗</b>Путь</a>
   <a href="/student-platform/tasks/" class=""><b>✓</b>Задания</a>
   <a href="/student-platform/shop/" class="active"><b>✦</b>Магазин</a>
   <a href="/student-platform/profile/" class=""><b>☺</b>Профиль</a>
@@ -60,8 +61,8 @@ document.addEventListener("submit", function (e) {
 
 
 <main>
-  
-  
+
+
 <a class="back" href="/student-platform/shop/">← В магазин</a>
 <div class="grid-main" style="grid-template-columns:1.25fr 1fr">
   <div class="card" style="background:#e9ebf0;padding:1rem">
@@ -84,25 +85,27 @@ document.addEventListener("submit", function (e) {
 Повара — «ЩЕПОТКА ХАРАКТЕРА»
 Сервис на транспорте — «ХОРОШЕГО ПУТИ»
 Гостиницы — «ВСЁ ДЛЯ ГОСТЯ»</div>
+
+    <span class="chip">ИТ · Поддержка</span><span class="chip">ИТ · ИИ</span><span class="chip">ИТ · Разработка</span><span class="chip">Креатив · Дизайн</span><span class="chip">Креатив · Анимация</span><span class="chip">Финансы</span><span class="chip">Повара</span><span class="chip">Сервис на транспорте</span><span class="chip">Гостиницы</span>
     <div class="spread" style="margin:1.2rem 0">
       <span class="price-big">60 <span style="font-size:1.6rem">✦</span></span>
       <span class="badge ok">В наличии · 45 шт.</span>
     </div>
     <p class="muted small">Не больше 2 шт. в одни руки</p>
-    
-    <form method="post" action="/student-platform/"><input type="hidden" name="csrfmiddlewaretoken" value="8lllRnU2vtaYMTvUG5ctjwKnWJbSeT9yyVotA793sQ75c6MJ3F7N6txXF05brFFi">
-      
-      
+
+    <form method="post" action="/student-platform/"><input type="hidden" name="csrfmiddlewaretoken" value="lse442rfcsyjyzIVLsUL0eFoFzQKr2KdHEoHbnycPP1DCqnq7hKGUTVHCuCFoNE7">
+
+
         <label>Вариант</label>
         <div class="size-pills"><label title="осталось 5"><input type="radio" name="variant" value="2"  required><span>ИТ · Поддержка</span></label><label title="осталось 5"><input type="radio" name="variant" value="3"  required><span>ИТ · ИИ</span></label><label title="осталось 5"><input type="radio" name="variant" value="4"  required><span>ИТ · Разработка</span></label><label title="осталось 5"><input type="radio" name="variant" value="5"  required><span>Креатив · Дизайн</span></label><label title="осталось 5"><input type="radio" name="variant" value="6"  required><span>Креатив · Анимация</span></label><label title="осталось 5"><input type="radio" name="variant" value="7"  required><span>Финансы</span></label><label title="осталось 5"><input type="radio" name="variant" value="8"  required><span>Повара</span></label><label title="осталось 5"><input type="radio" name="variant" value="9"  required><span>Сервис на транспорте</span></label><label title="осталось 5"><input type="radio" name="variant" value="10"  required><span>Гостиницы</span></label></div>
-      
-      
+
+
       <p class="muted" style="margin-top:1.2rem">Твой баланс: 70 степов</p>
       <button class="btn cta block"  onclick="return confirm('Обменять 60 степов на «Ремувка профессиональной линейки»?')">
         Обменять на 60 степов ↗
       </button>
     </form>
-    
+
   </div>
 </div>
 <span class="slogan">01:17 / College drop</span>

@@ -35,12 +35,12 @@ document.addEventListener("submit", function (e) {
     <nav class="nav">
       <a href="/student-platform/" class="">Главная</a>
       <a href="/student-platform/events/" class="">Календарь</a>
+      <a href="/student-platform/career/" class="">Карьерный путь</a>
       <a href="/student-platform/tasks/" class="">Задания</a>
       <a href="/student-platform/surveys/" class="active">Опросы</a>
       <a href="/student-platform/shop/" class="">Магазин</a>
-      <a href="/student-platform/draws/" class="">Розыгрыши</a>
       <a href="/student-platform/rating/" class="">Рейтинг</a>
-      
+
     </nav>
     <div class="top-right">
       <a class="balance" href="/student-platform/profile/" title="Баланс">✦ 70 степов</a>
@@ -53,6 +53,7 @@ document.addEventListener("submit", function (e) {
 <nav class="tabbar">
   <a href="/student-platform/" class=""><b>⌂</b>Главная</a>
   <a href="/student-platform/events/" class=""><b>▦</b>Календарь</a>
+  <a href="/student-platform/career/" class=""><b>↗</b>Путь</a>
   <a href="/student-platform/tasks/" class="active"><b>✓</b>Задания</a>
   <a href="/student-platform/shop/" class=""><b>✦</b>Магазин</a>
   <a href="/student-platform/profile/" class=""><b>☺</b>Профиль</a>
@@ -60,42 +61,42 @@ document.addEventListener("submit", function (e) {
 
 
 <main>
-  
-  
+
+
 <p><a href="/student-platform/surveys/">← Опросы</a></p>
 <div class="card">
   <div class="row"><span class="badge gray">Опрос</span><span class="reward">+10 степов</span></div>
   <h1 style="margin:.5rem 0">Как вам мероприятия этого месяца?</h1>
   <p class="muted">Принимается до 23 ноября 2026, 20:58</p>
-  
-  
+
+
 </div>
 
 
-<form method="post" action="/student-platform/" class="card"><input type="hidden" name="csrfmiddlewaretoken" value="Qlq8EMEm4gOYbd1ibhE3HlbTzQiAPmyfgVtgnwTn1DL5Bqi7yRznuiYti7cT284Z">
-  
-    
+<form method="post" action="/student-platform/" class="card"><input type="hidden" name="csrfmiddlewaretoken" value="mxVyM6XQObz74ejZBUaf2HsZ5T7E8qrrIJ5bTr4Nry2r85YuXJ0aWmIi2OTz5bll">
+
+
     <div style="margin:1rem 0">
       <b>1. Оцените мероприятия в целом <span style="color:var(--err)">*</span></b>
-      
+
         <div class="row"><label class="choice"><input type="radio" name="q1" value="1"> 1</label><label class="choice"><input type="radio" name="q1" value="2"> 2</label><label class="choice"><input type="radio" name="q1" value="3"> 3</label><label class="choice"><input type="radio" name="q1" value="4"> 4</label><label class="choice"><input type="radio" name="q1" value="5"> 5</label></div>
-      
+
     </div>
-    
+
     <div style="margin:1rem 0">
       <b>2. Что хотите чаще? <span style="color:var(--err)">*</span></b>
-      
+
         <label class="choice"><input type="checkbox" name="q2" value="Спорт"> Спорт</label><label class="choice"><input type="checkbox" name="q2" value="Творчество"> Творчество</label><label class="choice"><input type="checkbox" name="q2" value="Хакатоны"> Хакатоны</label><label class="choice"><input type="checkbox" name="q2" value="Экскурсии"> Экскурсии</label>
-      
+
     </div>
-    
+
     <div style="margin:1rem 0">
       <b>3. Ваши предложения</b>
       <textarea name="q3"></textarea>
     </div>
-    
+
     <button class="btn">Отправить ответы</button>
-  
+
 </form>
 
 

@@ -35,12 +35,12 @@ document.addEventListener("submit", function (e) {
     <nav class="nav">
       <a href="/student-platform/" class="active">Главная</a>
       <a href="/student-platform/events/" class="">Календарь</a>
+      <a href="/student-platform/career/" class="">Карьерный путь</a>
       <a href="/student-platform/tasks/" class="">Задания</a>
       <a href="/student-platform/surveys/" class="">Опросы</a>
       <a href="/student-platform/shop/" class="">Магазин</a>
-      <a href="/student-platform/draws/" class="">Розыгрыши</a>
       <a href="/student-platform/rating/" class="">Рейтинг</a>
-      
+
     </nav>
     <div class="top-right">
       <a class="balance" href="/student-platform/profile/" title="Баланс">✦ 70 степов</a>
@@ -53,6 +53,7 @@ document.addEventListener("submit", function (e) {
 <nav class="tabbar">
   <a href="/student-platform/" class="active"><b>⌂</b>Главная</a>
   <a href="/student-platform/events/" class=""><b>▦</b>Календарь</a>
+  <a href="/student-platform/career/" class=""><b>↗</b>Путь</a>
   <a href="/student-platform/tasks/" class=""><b>✓</b>Задания</a>
   <a href="/student-platform/shop/" class=""><b>✦</b>Магазин</a>
   <a href="/student-platform/profile/" class=""><b>☺</b>Профиль</a>
@@ -60,24 +61,17 @@ document.addEventListener("submit", function (e) {
 
 
 <main>
-  
-  
+
+
 <section class="hero">
   <span class="deco c1"></span><span class="deco c2"></span>
   <div class="hero-split">
     <div>
       <div class="hero-hi">Привет, Анна!</div>
-      <div class="hero-title">70 степов</div>
-      <div>На балансе · за этот месяц заработано 70</div>
+      <div class="hero-title">70 степов</div><div>На балансе · за этот месяц заработано 70</div>
     </div>
     <div class="row" style="gap:1.5rem">
-      
-      <div class="level-panel">
-        <div class="lvl">LEVEL 01</div>
-        <div style="margin:.35rem 0 .6rem;font-weight:600">70 / 200</div>
-        <div class="progress"><div style="width:35%"></div></div>
-      </div>
-      
+
       <a class="btn light" href="/student-platform/shop/">В магазин →</a>
     </div>
   </div>
@@ -85,24 +79,16 @@ document.addEventListener("submit", function (e) {
 
 <div class="grid-2">
   <div>
-    
+
     <div class="card accent">
       <div class="card-head"><h2>Ближайшие мероприятия</h2><a href="/student-platform/events/view-list/">Все →</a></div>
       <div class="list-item">
-  <div class="date-box"><b>13</b><span>Ноя</span></div>
-  <div style="flex:1;min-width:0">
-    <a class="title" href="/student-platform/events/4/">Субботник во дворе колледжа</a>
-    <div class="muted small">Пт, 20:00 · Двор колледжа</div>
-  </div>
-  <span class="reward">+30</span>
-</div>
-<div class="list-item">
   <div class="date-box"><b>15</b><span>Ноя</span></div>
   <div style="flex:1;min-width:0">
     <a class="title" href="/student-platform/events/5/">Встреча с выпускниками-разработчиками</a>
     <div class="muted small">Вс, 14:00 · Актовый зал</div>
   </div>
-  <span class="reward">+25</span>
+  <span class="reward">+10</span>
 </div>
 <div class="list-item">
   <div class="date-box"><b>18</b><span>Ноя</span></div>
@@ -110,7 +96,7 @@ document.addEventListener("submit", function (e) {
     <a class="title" href="/student-platform/events/6/">Квиз «Своя игра»</a>
     <div class="muted small">Ср, 17:00 · Ауд. 301</div>
   </div>
-  <span class="reward">+20</span>
+  <span class="reward">+10</span>
 </div>
 <div class="list-item">
   <div class="date-box"><b>22</b><span>Ноя</span></div>
@@ -118,7 +104,15 @@ document.addEventListener("submit", function (e) {
     <a class="title" href="/student-platform/events/7/">Футбольный матч СИП vs СЭС</a>
     <div class="muted small">Вс, 15:00 · Стадион</div>
   </div>
-  <span class="reward">+20</span>
+  <span class="reward">+10</span>
+</div>
+<div class="list-item">
+  <div class="date-box"><b>29</b><span>Ноя</span></div>
+  <div style="flex:1;min-width:0">
+    <a class="title" href="/student-platform/events/9/">Встреча с ИТ-командой ТехноПульс</a>
+    <div class="muted small">Вс, 08:04 · Коворкинг колледжа</div>
+  </div>
+  <span class="reward">+10</span>
 </div>
 <div class="list-item">
   <div class="date-box"><b>3</b><span>Дек</span></div>
@@ -126,7 +120,7 @@ document.addEventListener("submit", function (e) {
     <a class="title" href="/student-platform/events/8/">Концерт ко Дню студента</a>
     <div class="muted small">Чт, 18:00 · Актовый зал</div>
   </div>
-  <span class="reward">+30</span>
+  <span class="reward">+10</span>
 </div>
 
     </div>
@@ -134,44 +128,36 @@ document.addEventListener("submit", function (e) {
   <div>
     <div class="card accent">
       <div class="card-head"><h2>Задания</h2><a href="/student-platform/tasks/">Все →</a></div>
-      
+
       <div class="list-item">
         <div class="date-box"><b>20</b><span>Ноя</span></div>
         <div style="flex:1;min-width:0"><a class="title" href="/student-platform/tasks/1/">Фото с субботника</a><div class="muted small">До 20.11 · ручная проверка</div></div>
-        <span class="reward">+30</span>
+        <span class="reward">+20</span>
       </div>
-      
+
       <div class="list-item">
         <div class="date-box"><b>23</b><span>Ноя</span></div>
         <div style="flex:1;min-width:0"><a class="title" href="/student-platform/tasks/3/">Квест «Тайны корпуса»</a><div class="muted small">До 23.11 · квест (вопросы по цепочке)</div></div>
-        <span class="reward">+50</span>
+        <span class="reward">+20</span>
       </div>
-      
+
       <div class="list-item">
         <div class="date-box"><b>27</b><span>Ноя</span></div>
         <div style="flex:1;min-width:0"><a class="title" href="/student-platform/tasks/2/">Викторина: история колледжа</a><div class="muted small">До 27.11 · автопроверка (викторина)</div></div>
         <span class="reward">+20</span>
       </div>
-      
+
     </div>
-    
+
     <div class="card dark accent">
       <div class="card-head"><h2>Ждут вашего ответа</h2></div>
       <div class="spread" style="margin-top:.6rem">
         <div><div style="font-weight:600">Выбираем тему новогоднего вечера</div><div class="muted small" style="margin-top:.3rem">До 18 ноября · Голосование</div></div>
-        <span class="reward" style="font-size:1.3rem">+5</span>
+        <span class="reward" style="font-size:1.3rem">+10</span>
       </div>
       <p style="margin:1.4rem 0 0"><a class="btn light small" href="/student-platform/surveys/2/">Проголосовать →</a> <span class="star" style="float:right;font-size:2.2rem;line-height:1">✦</span></p>
     </div>
-    
-    
-    <div class="card accent-terra">
-      <div class="card-head"><h2>Розыгрыши</h2><a href="/student-platform/draws/">Все →</a></div>
-      
-      <div class="list-item"><span class="star" style="font-size:1.4rem">✦</span><div style="flex:1"><a class="title" href="/student-platform/draws/1/">Розыгрыш беспроводных наушников</a><div class="muted small">заявки до 25 ноября</div></div></div>
-      
-    </div>
-    
+
   </div>
 </div>
 <span class="slogan">★ Живи. Пробуй. Создавай.</span>

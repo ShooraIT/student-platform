@@ -35,12 +35,12 @@ document.addEventListener("submit", function (e) {
     <nav class="nav">
       <a href="/student-platform/" class="">Главная</a>
       <a href="/student-platform/events/" class="">Календарь</a>
+      <a href="/student-platform/career/" class="">Карьерный путь</a>
       <a href="/student-platform/tasks/" class="active">Задания</a>
       <a href="/student-platform/surveys/" class="">Опросы</a>
       <a href="/student-platform/shop/" class="">Магазин</a>
-      <a href="/student-platform/draws/" class="">Розыгрыши</a>
       <a href="/student-platform/rating/" class="">Рейтинг</a>
-      
+
     </nav>
     <div class="top-right">
       <a class="balance" href="/student-platform/profile/" title="Баланс">✦ 70 степов</a>
@@ -53,6 +53,7 @@ document.addEventListener("submit", function (e) {
 <nav class="tabbar">
   <a href="/student-platform/" class=""><b>⌂</b>Главная</a>
   <a href="/student-platform/events/" class=""><b>▦</b>Календарь</a>
+  <a href="/student-platform/career/" class=""><b>↗</b>Путь</a>
   <a href="/student-platform/tasks/" class="active"><b>✓</b>Задания</a>
   <a href="/student-platform/shop/" class=""><b>✦</b>Магазин</a>
   <a href="/student-platform/profile/" class=""><b>☺</b>Профиль</a>
@@ -60,11 +61,11 @@ document.addEventListener("submit", function (e) {
 
 
 <main>
-  
-  
+
+
 <p><a href="/student-platform/tasks/">← Задания</a></p>
 <div class="card">
-  
+
   <div class="row"><span class="badge gray">Автопроверка (викторина)</span><span class="reward">до +20 степов</span></div>
   <h1 style="margin:.5rem 0">Викторина: история колледжа</h1>
   <p class="muted">Дедлайн: 27 ноября 2026, 20:58</p>
@@ -75,36 +76,36 @@ document.addEventListener("submit", function (e) {
 
 
 <div class="card">
-  
+
     <h2 style="margin-top:0">Викторина</h2>
     <p class="muted">Нужно 60% правильных ответов. Попыток: 3.</p>
-    <form method="post" action="/student-platform/"><input type="hidden" name="csrfmiddlewaretoken" value="D5tCA3uf64UxHjRpFna9dczXAaPrTe6M3FwKjNJg3rRE7w8e2X5t09mxjrJK60Cw">
-      
+    <form method="post" action="/student-platform/"><input type="hidden" name="csrfmiddlewaretoken" value="b7MH2HBADOsDVRqjBwHVD7xrSdJPGZzKxjWk92IxgbVXZI5OXlxQxMNKP8vKDKtE">
+
       <div style="margin:1rem 0"><b>1. В каком году основан колледж?</b>
         <label class="choice"><input type="radio" name="q1" value="1945"> 1945</label><label class="choice"><input type="radio" name="q1" value="1961"> 1961</label><label class="choice"><input type="radio" name="q1" value="1980"> 1980</label>
       </div>
-      
+
       <div style="margin:1rem 0"><b>2. Как называется студенческая валюта платформы?</b>
         <input type="text" name="q2" autocomplete="off">
-        
+
       </div>
-      
+
       <div style="margin:1rem 0"><b>3. Какие направления есть в колледже?</b>
         <label class="choice"><input type="checkbox" name="q3" value="Программирование"> Программирование</label><label class="choice"><input type="checkbox" name="q3" value="Энергетика"> Энергетика</label><label class="choice"><input type="checkbox" name="q3" value="Медицина"> Медицина</label>
       </div>
-      
+
       <div style="margin:1rem 0"><b>4. Сколько этажей в главном корпусе?</b>
         <label class="choice"><input type="radio" name="q4" value="3"> 3</label><label class="choice"><input type="radio" name="q4" value="4"> 4</label><label class="choice"><input type="radio" name="q4" value="5"> 5</label>
       </div>
-      
+
       <div style="margin:1rem 0"><b>5. Столица России?</b>
         <input type="text" name="q5" autocomplete="off">
-        
+
       </div>
-      
+
       <button class="btn">Проверить</button>
     </form>
-  
+
 </div>
 
 

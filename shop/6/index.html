@@ -35,12 +35,12 @@ document.addEventListener("submit", function (e) {
     <nav class="nav">
       <a href="/student-platform/" class="">Главная</a>
       <a href="/student-platform/events/" class="">Календарь</a>
+      <a href="/student-platform/career/" class="">Карьерный путь</a>
       <a href="/student-platform/tasks/" class="">Задания</a>
       <a href="/student-platform/surveys/" class="">Опросы</a>
       <a href="/student-platform/shop/" class="active">Магазин</a>
-      <a href="/student-platform/draws/" class="">Розыгрыши</a>
       <a href="/student-platform/rating/" class="">Рейтинг</a>
-      
+
     </nav>
     <div class="top-right">
       <a class="balance" href="/student-platform/profile/" title="Баланс">✦ 70 степов</a>
@@ -53,6 +53,7 @@ document.addEventListener("submit", function (e) {
 <nav class="tabbar">
   <a href="/student-platform/" class=""><b>⌂</b>Главная</a>
   <a href="/student-platform/events/" class=""><b>▦</b>Календарь</a>
+  <a href="/student-platform/career/" class=""><b>↗</b>Путь</a>
   <a href="/student-platform/tasks/" class=""><b>✓</b>Задания</a>
   <a href="/student-platform/shop/" class="active"><b>✦</b>Магазин</a>
   <a href="/student-platform/profile/" class=""><b>☺</b>Профиль</a>
@@ -60,8 +61,8 @@ document.addEventListener("submit", function (e) {
 
 
 <main>
-  
-  
+
+
 <a class="back" href="/student-platform/shop/">← В магазин</a>
 <div class="grid-main" style="grid-template-columns:1.25fr 1fr">
   <div class="card" style="background:#e9ebf0;padding:1rem">
@@ -75,25 +76,27 @@ document.addEventListener("submit", function (e) {
     <span class="eyebrow">Мерч</span>
     <h1 style="font-size:1.7rem">Свитшот 01:17</h1>
     <div style="white-space:pre-line;margin:1rem 0;color:#4b4e5a">Свитшот с нанесением. Количество ограничено.</div>
+
+
     <div class="spread" style="margin:1.2rem 0">
       <span class="price-big">690 <span style="font-size:1.6rem">✦</span></span>
       <span class="badge ok">В наличии · 6 шт.</span>
     </div>
     <p class="muted small">Не больше 1 шт. в одни руки</p>
-    
-    <form method="post" action="/student-platform/"><input type="hidden" name="csrfmiddlewaretoken" value="2xmcyfYmN4w2AeSEGFSPkwhp3UvjiJMrs7pkhZdnKrt90r9t3fN97t4ZMbpCvvib">
-      
-      
+
+    <form method="post" action="/student-platform/"><input type="hidden" name="csrfmiddlewaretoken" value="Y7oWD4dTPD0dOeDajpveuXi2kHA24zg4kjyzKpkQs0txS5iFFel9oCylhCmX1kaY">
+
+
         <label>Вариант</label>
         <div class="size-pills"><label title="осталось 1"><input type="radio" name="variant" value="30"  required><span>S</span></label><label title="осталось 2"><input type="radio" name="variant" value="31"  required><span>M</span></label><label title="осталось 2"><input type="radio" name="variant" value="32"  required><span>L</span></label><label title="осталось 1"><input type="radio" name="variant" value="33"  required><span>XL</span></label></div>
-      
-      
+
+
       <p class="muted" style="margin-top:1.2rem">Твой баланс: 70 степов</p>
       <button class="btn cta block" disabled onclick="return confirm('Обменять 690 степов на «Свитшот 01:17»?')">
         Не хватает степов
       </button>
     </form>
-    
+
   </div>
 </div>
 <span class="slogan">01:17 / College drop</span>

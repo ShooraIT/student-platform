@@ -35,12 +35,12 @@ document.addEventListener("submit", function (e) {
     <nav class="nav">
       <a href="/student-platform/" class="">Главная</a>
       <a href="/student-platform/events/" class="">Календарь</a>
+      <a href="/student-platform/career/" class="">Карьерный путь</a>
       <a href="/student-platform/tasks/" class="active">Задания</a>
       <a href="/student-platform/surveys/" class="">Опросы</a>
       <a href="/student-platform/shop/" class="">Магазин</a>
-      <a href="/student-platform/draws/" class="">Розыгрыши</a>
       <a href="/student-platform/rating/" class="">Рейтинг</a>
-      
+
     </nav>
     <div class="top-right">
       <a class="balance" href="/student-platform/profile/" title="Баланс">✦ 70 степов</a>
@@ -53,6 +53,7 @@ document.addEventListener("submit", function (e) {
 <nav class="tabbar">
   <a href="/student-platform/" class=""><b>⌂</b>Главная</a>
   <a href="/student-platform/events/" class=""><b>▦</b>Календарь</a>
+  <a href="/student-platform/career/" class=""><b>↗</b>Путь</a>
   <a href="/student-platform/tasks/" class="active"><b>✓</b>Задания</a>
   <a href="/student-platform/shop/" class=""><b>✦</b>Магазин</a>
   <a href="/student-platform/profile/" class=""><b>☺</b>Профиль</a>
@@ -60,12 +61,12 @@ document.addEventListener("submit", function (e) {
 
 
 <main>
-  
-  
+
+
 <p><a href="/student-platform/tasks/">← Задания</a></p>
 <div class="card">
-  
-  <div class="row"><span class="badge gray">Ручная проверка</span><span class="reward">до +30 степов</span></div>
+
+  <div class="row"><span class="badge gray">Ручная проверка</span><span class="reward">до +20 степов</span></div>
   <h1 style="margin:.5rem 0">Фото с субботника</h1>
   <p class="muted">Дедлайн: 20 ноября 2026, 20:58</p>
   <div style="white-space:pre-line">Пришлите фото с субботника, где видно вас и результат работы.</div>
@@ -75,15 +76,15 @@ document.addEventListener("submit", function (e) {
 
 
 <div class="card">
-  
+
     <h2 style="margin-top:0">Ваш ответ</h2>
-    <form method="post" action="/student-platform/" enctype="multipart/form-data"><input type="hidden" name="csrfmiddlewaretoken" value="y92sYEyNFqMCOHY6zWK5U0Um7GS8zve2YJ5AHoNOCNJJeUfVWwFpHXHWQXMrMhKM">
+    <form method="post" action="/student-platform/" enctype="multipart/form-data"><input type="hidden" name="csrfmiddlewaretoken" value="CmFirSt1dfWruImTN7EzyaccSfBHEWVkYyPVydAYQCpLyz1o9WuusPsvPanCBHPe">
       <label>Текст</label><textarea name="text"></textarea>
-      
+
       <label>Файлы или фото (до 5 шт., до 10 МБ)</label><input type="file" name="files" multiple accept=".jpg,.jpeg,.png,.heic,.pdf,.docx,.pptx,.xlsx,.zip">
       <p><button class="btn">Отправить на проверку</button></p>
     </form>
-  
+
 </div>
 
 

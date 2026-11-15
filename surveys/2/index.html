@@ -35,12 +35,12 @@ document.addEventListener("submit", function (e) {
     <nav class="nav">
       <a href="/student-platform/" class="">Главная</a>
       <a href="/student-platform/events/" class="">Календарь</a>
+      <a href="/student-platform/career/" class="">Карьерный путь</a>
       <a href="/student-platform/tasks/" class="">Задания</a>
       <a href="/student-platform/surveys/" class="active">Опросы</a>
       <a href="/student-platform/shop/" class="">Магазин</a>
-      <a href="/student-platform/draws/" class="">Розыгрыши</a>
       <a href="/student-platform/rating/" class="">Рейтинг</a>
-      
+
     </nav>
     <div class="top-right">
       <a class="balance" href="/student-platform/profile/" title="Баланс">✦ 70 степов</a>
@@ -53,6 +53,7 @@ document.addEventListener("submit", function (e) {
 <nav class="tabbar">
   <a href="/student-platform/" class=""><b>⌂</b>Главная</a>
   <a href="/student-platform/events/" class=""><b>▦</b>Календарь</a>
+  <a href="/student-platform/career/" class=""><b>↗</b>Путь</a>
   <a href="/student-platform/tasks/" class="active"><b>✓</b>Задания</a>
   <a href="/student-platform/shop/" class=""><b>✦</b>Магазин</a>
   <a href="/student-platform/profile/" class=""><b>☺</b>Профиль</a>
@@ -60,46 +61,46 @@ document.addEventListener("submit", function (e) {
 
 
 <main>
-  
-  
+
+
 <p><a href="/student-platform/surveys/">← Опросы</a></p>
 <div class="card">
-  <div class="row"><span class="badge warn">Голосование</span><span class="reward">+5 степов</span></div>
+  <div class="row"><span class="badge warn">Голосование</span><span class="reward">+10 степов</span></div>
   <h1 style="margin:.5rem 0">Выбираем тему новогоднего вечера</h1>
   <p class="muted">Принимается до 18 ноября 2026, 20:58</p>
-  
-  
+
+
 </div>
 
 
-<form method="post" action="/student-platform/" class="card"><input type="hidden" name="csrfmiddlewaretoken" value="XDdcRkeV55HFu9GqYAfKxcDq2jrsX4PEndgkA4tW2sEMUmXflaa4k9q0LAlLaQlo">
-  
+<form method="post" action="/student-platform/" class="card"><input type="hidden" name="csrfmiddlewaretoken" value="x9pbXKjgCpB1V8jJ66ZAiAr7u9m0DdGdTlzO45qdfM4lZZYesVPvcfHqr48VAYA7">
+
     <p class="muted">Выберите один вариант. Переголосовать нельзя.</p>
     <div class="grid">
-    
+
       <label class="card choice" style="margin:0;cursor:pointer">
         <input type="radio" name="option" value="1">
         <span><b>Киберпанк</b></span>
       </label>
-    
+
       <label class="card choice" style="margin:0;cursor:pointer">
         <input type="radio" name="option" value="2">
         <span><b>Голливуд</b></span>
       </label>
-    
+
       <label class="card choice" style="margin:0;cursor:pointer">
         <input type="radio" name="option" value="3">
         <span><b>Зимняя сказка</b></span>
       </label>
-    
+
       <label class="card choice" style="margin:0;cursor:pointer">
         <input type="radio" name="option" value="4">
         <span><b>80-е</b></span>
       </label>
-    
+
     </div>
     <p><button class="btn" onclick="return confirm('Подтвердить голос? Изменить его будет нельзя.')">Проголосовать</button></p>
-  
+
 </form>
 
 

@@ -35,12 +35,12 @@ document.addEventListener("submit", function (e) {
     <nav class="nav">
       <a href="/student-platform/" class="">Главная</a>
       <a href="/student-platform/events/" class="">Календарь</a>
+      <a href="/student-platform/career/" class="">Карьерный путь</a>
       <a href="/student-platform/tasks/" class="">Задания</a>
       <a href="/student-platform/surveys/" class="">Опросы</a>
       <a href="/student-platform/shop/" class="">Магазин</a>
-      <a href="/student-platform/draws/" class="">Розыгрыши</a>
       <a href="/student-platform/rating/" class="">Рейтинг</a>
-      
+
     </nav>
     <div class="top-right">
       <a class="balance" href="/student-platform/profile/" title="Баланс">✦ 70 степов</a>
@@ -53,6 +53,7 @@ document.addEventListener("submit", function (e) {
 <nav class="tabbar">
   <a href="/student-platform/" class=""><b>⌂</b>Главная</a>
   <a href="/student-platform/events/" class=""><b>▦</b>Календарь</a>
+  <a href="/student-platform/career/" class=""><b>↗</b>Путь</a>
   <a href="/student-platform/tasks/" class=""><b>✓</b>Задания</a>
   <a href="/student-platform/shop/" class=""><b>✦</b>Магазин</a>
   <a href="/student-platform/profile/" class=""><b>☺</b>Профиль</a>
@@ -60,46 +61,44 @@ document.addEventListener("submit", function (e) {
 
 
 <main>
-  
-  
+
+
 <p><a href="/student-platform/notifications/">← Уведомления</a></p>
 <h1>Настройки уведомлений</h1>
 
 <div class="card" id="push-box" data-key="BJp76VkLxkLcOFHBag65gyVyU2x_kWT-Xjl4Qd-ojkiyRoH78vw_o-PYHj0hg5hr-1l6fWyutV9AACskPpx7czA">
   <h2 style="margin-top:0">📲 Пуш-уведомления на телефон</h2>
-  
+
     <p id="push-status" class="muted">Проверяем…</p>
     <div class="row">
       <button class="btn" id="push-on" hidden>Включить на этом устройстве</button>
       <button class="btn danger" id="push-off" hidden>Выключить на этом устройстве</button>
-      <form method="post" action="/student-platform/"><input type="hidden" name="csrfmiddlewaretoken" value="A3gajcDIs4WbqCInDffPomurAaYkHWYE0Dji2WSJprTiQPZc0Pa9bjh1jrSDUIuo"><button class="btn secondary" id="push-test" hidden>Прислать тестовое</button></form>
+      <form method="post" action="/student-platform/"><input type="hidden" name="csrfmiddlewaretoken" value="nhSK5DzKcf7DJcBu9qAxqOQmc1GoIuKBJt2ncYGHPCAXN3gZvfqskt6F9WsjFfEv"><button class="btn secondary" id="push-test" hidden>Прислать тестовое</button></form>
     </div>
-    
-  
+
+
 </div>
 
-<form method="post" class="card"><input type="hidden" name="csrfmiddlewaretoken" value="A3gajcDIs4WbqCInDffPomurAaYkHWYE0Dji2WSJprTiQPZc0Pa9bjh1jrSDUIuo">
+<form method="post" class="card"><input type="hidden" name="csrfmiddlewaretoken" value="nhSK5DzKcf7DJcBu9qAxqOQmc1GoIuKBJt2ncYGHPCAXN3gZvfqskt6F9WsjFfEv">
   <h2 style="margin-top:0">О чём присылать пуш</h2>
   <p class="muted small">На сайте (🔔) все уведомления видны всегда. Здесь — только то, что будет всплывать на телефоне.</p>
-  
+
   <label class="choice"><input type="checkbox" name="new_content" value="1" > Новые мероприятия, задания, опросы для меня</label>
-  
+
   <label class="choice"><input type="checkbox" name="reminder" value="1" checked> Напоминания о мероприятиях, на которые я записан</label>
-  
+
   <label class="choice"><input type="checkbox" name="event" value="1" checked> Отмена или перенос мероприятия, освободилось место</label>
-  
+
   <label class="choice"><input type="checkbox" name="credit" value="1" > Начисление степов</label>
-  
+
   <label class="choice"><input type="checkbox" name="task" value="1" checked> Проверка моих заданий</label>
-  
+
   <label class="choice"><input type="checkbox" name="order" value="1" checked> Заказ готов к выдаче или отменён</label>
-  
-  <label class="choice"><input type="checkbox" name="draw" value="1" checked> Выигрыш в розыгрыше</label>
-  
+
   <label class="choice"><input type="checkbox" name="achievement" value="1" > Новое достижение</label>
-  
+
   <label class="choice"><input type="checkbox" name="announcement" value="1" checked> Объявления администрации</label>
-  
+
   <p><button class="btn">Сохранить</button></p>
 </form>
 

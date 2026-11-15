@@ -35,12 +35,12 @@ document.addEventListener("submit", function (e) {
     <nav class="nav">
       <a href="/student-platform/" class="">Главная</a>
       <a href="/student-platform/events/" class="">Календарь</a>
+      <a href="/student-platform/career/" class="">Карьерный путь</a>
       <a href="/student-platform/tasks/" class="">Задания</a>
       <a href="/student-platform/surveys/" class="">Опросы</a>
       <a href="/student-platform/shop/" class="active">Магазин</a>
-      <a href="/student-platform/draws/" class="">Розыгрыши</a>
       <a href="/student-platform/rating/" class="">Рейтинг</a>
-      
+
     </nav>
     <div class="top-right">
       <a class="balance" href="/student-platform/profile/" title="Баланс">✦ 70 степов</a>
@@ -53,6 +53,7 @@ document.addEventListener("submit", function (e) {
 <nav class="tabbar">
   <a href="/student-platform/" class=""><b>⌂</b>Главная</a>
   <a href="/student-platform/events/" class=""><b>▦</b>Календарь</a>
+  <a href="/student-platform/career/" class=""><b>↗</b>Путь</a>
   <a href="/student-platform/tasks/" class=""><b>✓</b>Задания</a>
   <a href="/student-platform/shop/" class="active"><b>✦</b>Магазин</a>
   <a href="/student-platform/profile/" class=""><b>☺</b>Профиль</a>
@@ -60,40 +61,40 @@ document.addEventListener("submit", function (e) {
 
 
 <main>
-  
-  
+
+
 <section class="hero" style="min-height:170px">
   <span class="deco c1 terra" style="width:300px;height:300px;right:-60px;top:-60px"></span>
   <div class="hero-split">
     <div>
-      <div class="eyebrow" style="color:var(--yellow)">Магазин мерча / 01:17</div>
-      <div class="hero-title" style="font-size:2.2rem">Мерч, который ты заслужил</div>
-      <div>Используй степы для вещей, которые напоминают о твоих достижениях.</div>
+      <div class="eyebrow" style="color:var(--yellow)">МАГАЗИН / 01:17</div>
+      <div class="hero-title" style="font-size:2.2rem">Мерч и впечатления</div>
+      <div>Вещи и места на события с ограниченным количеством участников.</div>
     </div>
     <span class="balance" style="font-size:.95rem;padding:.5rem 1.3rem">✦ 70 степов</span>
-    
+
   </div>
 </section>
 <div class="spread"><h2 style="margin:.5rem 0">Каталог коллекции</h2><span class="eyebrow">Drop 01 / 2026</span></div>
-<div class="pill-tabs ink"><a class="active" href="/student-platform/shop/">Мерч</a><a href="/student-platform/draws/">Розыгрыши</a><a href="/student-platform/rating/badges/">Патчи достижений</a></div>
+<div class="pill-tabs ink"><a class="active" href="/student-platform/shop/">Мерч</a><a href="/student-platform/rating/badges/">Значки</a></div>
 <div class="grid shop-grid">
+
+  <a class="card product-card" href="/student-platform/shop/8/">
+    <div class="product-photo"><span style="font-weight:900;font-size:1.6rem;color:var(--terra)">01:17</span>
+      <span class="sticker ">01:17</span>
+    </div>
+    <h3>Встреча с ИТ-командой — ограниченные места</h3>
+    <div class="muted small">29.11.2026 08:04 · Коворкинг колледжа<br>Осталось 8</div>
+    <div class="spread" style="margin-top:auto;padding-top:.8rem"><span class="reward">40 степов</span><span class="btn round small" aria-hidden="true">↗</span></div>
+  </a>
 
   <a class="card product-card" href="/student-platform/shop/1/">
     <div class="product-photo"><span style="font-weight:900;font-size:1.6rem;color:var(--terra)">01:17</span>
-      <span class="sticker ">01:17</span>
+      <span class="sticker terra">NEW</span>
     </div>
     <h3>Круглый значок 01:17</h3>
     <div class="muted small">Осталось 72</div>
     <div class="spread" style="margin-top:auto;padding-top:.8rem"><span class="reward">20 степов</span><span class="btn round small" aria-hidden="true">↗</span></div>
-  </a>
-
-  <a class="card product-card" href="/student-platform/shop/4/">
-    <div class="product-photo"><span style="font-weight:900;font-size:1.6rem;color:var(--terra)">01:17</span>
-      <span class="sticker terra">NEW</span>
-    </div>
-    <h3>Патч на велкро</h3>
-    <div class="muted small">Осталось 30</div>
-    <div class="spread" style="margin-top:auto;padding-top:.8rem"><span class="reward">60 степов</span><span class="btn round small" aria-hidden="true">↗</span></div>
   </a>
 
   <a class="card product-card" href="/student-platform/shop/3/">
@@ -101,7 +102,7 @@ document.addEventListener("submit", function (e) {
       <span class="sticker ">01:17</span>
     </div>
     <h3>Прямоугольный значок линейки</h3>
-    <div class="muted small">Осталось 36</div>
+    <div class="muted small"><span class="chip">ИТ · Поддержка</span><span class="chip">ИТ · ИИ</span><span class="chip">ИТ · Разработка</span><span class="chip">Креатив · Дизайн</span><span class="chip">Креатив · Анимация</span><span class="chip">Финансы</span><span class="chip">Повара</span><span class="chip">Сервис на транспорте</span><span class="chip">Гостиницы</span>Осталось 36</div>
     <div class="spread" style="margin-top:auto;padding-top:.8rem"><span class="reward">70 степов</span><span class="btn round small" aria-hidden="true">↗</span></div>
   </a>
 
@@ -110,7 +111,7 @@ document.addEventListener("submit", function (e) {
       <span class="sticker terra">NEW</span>
     </div>
     <h3>Ремувка профессиональной линейки</h3>
-    <div class="muted small">Осталось 45</div>
+    <div class="muted small"><span class="chip">ИТ · Поддержка</span><span class="chip">ИТ · ИИ</span><span class="chip">ИТ · Разработка</span><span class="chip">Креатив · Дизайн</span><span class="chip">Креатив · Анимация</span><span class="chip">Финансы</span><span class="chip">Повара</span><span class="chip">Сервис на транспорте</span><span class="chip">Гостиницы</span>Осталось 45</div>
     <div class="spread" style="margin-top:auto;padding-top:.8rem"><span class="reward">60 степов</span><span class="btn round small" aria-hidden="true">↗</span></div>
   </a>
 
@@ -128,7 +129,7 @@ document.addEventListener("submit", function (e) {
       <span class="sticker terra">NEW</span>
     </div>
     <h3>Шопер профессиональной линейки</h3>
-    <div class="muted small">Осталось 15</div>
+    <div class="muted small"><span class="chip">ИТ · Поддержка</span><span class="chip">ИТ · ИИ</span><span class="chip">ИТ · Разработка</span><span class="chip">Креатив · Дизайн</span><span class="chip">Креатив · Анимация</span><span class="chip">Финансы</span><span class="chip">Повара</span><span class="chip">Сервис на транспорте</span><span class="chip">Гостиницы</span>Осталось 15</div>
     <div class="spread" style="margin-top:auto;padding-top:.8rem"><span class="reward">440 степов</span><span class="btn round small" aria-hidden="true">↗</span></div>
   </a>
 
