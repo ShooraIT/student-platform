@@ -62,27 +62,28 @@ class Command(BaseCommand):
         employers[2].tracks.set(Track.objects.filter(slug__in=["cooks", "transport-service", "hospitality"]))
         today = timezone.localtime(now).replace(hour=0, minute=0, second=0, microsecond=0)
         ev_specs = [
-            ("Турнир по настольному теннису", "Спорт", -10, 15, "Спортзал", 10),
-            ("Мастер-класс по скетчингу", "Творчество", -5, 16, "Ауд. 204", 10),
-            ("Хакатон «Цифровой колледж»", "Учёба", -2, 10, "Коворкинг", 10),
-            ("Субботник во дворе колледжа", "Волонтёрство", 0, timezone.localtime(now).hour, "Двор колледжа", 10),
-            ("Встреча с выпускниками-разработчиками", "Профориентация", 2, 14, "Актовый зал", 10),
-            ("Квиз «Своя игра»", "Учёба", 5, 17, "Ауд. 301", 10),
-            ("Футбольный матч СИП vs СЭС", "Спорт", 9, 15, "Стадион", 10),
-            ("Концерт ко Дню студента", "Творчество", 20, 18, "Актовый зал", 10),
+            ("Экскурсия в отель «Полюс»: как устроена работа изнутри", "Профориентация", -10, 15, "Отель «Полюс»", 10, 2),
+            ("Разговор со старшекурсниками: как выбрать профессиональный трек", "Профориентация", -5, 16, "Ауд. 204", 10, None),
+            ("Профпроба в студии «Форма»: один день дизайнера", "Профориентация", -2, 10, "Студия «Форма»", 10, 1),
+            ("Встреча с HR «ТехноПульс»: резюме и первое собеседование", "Профориентация", 0, timezone.localtime(now).hour, "Актовый зал", 10, 0),
+            ("Экскурсия в ИТ-компанию «ТехноПульс»", "Профориентация", 2, 14, "Офис «ТехноПульс»", 10, 0),
+            ("Встреча с действующими специалистами студии «Форма»", "Профориентация", 5, 17, "Студия «Форма»", 10, 1),
+            ("Экскурсия и проба профессий в отеле «Полюс»", "Профориентация", 9, 15, "Отель «Полюс»", 10, 2),
+            ("Встреча с выпускниками: первый год работы после колледжа", "Профориентация", 20, 18, "Актовый зал", 10, None),
         ]
         events = []
-        for title, cat, day, hour, place, reward in ev_specs:
+        for title, cat, day, hour, place, reward, employer_index in ev_specs:
             start = today + timedelta(days=day, hours=hour)
             e = Event.objects.create(
-                title=title, description=f"{title}. Приходите — будет интересно!\nНаграда за посещение — {reward} степов.",
+                title=title, description=f"{title}. Познакомьтесь с профессиями, задайте вопросы и попробуйте себя в деле.\nНаграда за посещение — {reward} степов.",
                 category=cats[cat], start=start, end=start + timedelta(hours=2), location=place, reward=reward,
                 status=Event.Status.PUBLISHED, checkin_code=True, capacity=40 if day > 0 else None, created_by=admin,
             )
+            if employer_index is not None:
+                e.employer = employers[employer_index]
+                e.registration_required = True
+                e.save(update_fields=["employer", "registration_required"])
             events.append(e)
-        events[4].employer = employers[0]
-        events[4].registration_required = True
-        events[4].save(update_fields=["employer", "registration_required"])
         for e in events[:3]:  # прошедшие — часть студентов посетила
             for u in rnd.sample(students, 12):
                 mark_attended(e, u, "list", admin)
@@ -169,7 +170,7 @@ class Command(BaseCommand):
         ProductVariant.objects.create(product=backpack, name="—", stock=6)
         FundItem.objects.get_or_create(name="Велком-набор (стикерпак, пуллер, упаковка)", defaults={"kind": FundItem.Kind.WELCOME, "stock": 1500})
         FundItem.objects.get_or_create(name="Поло наставника / преподавателя", defaults={"kind": FundItem.Kind.LOAN, "stock": 30})
-        experience = Product.objects.create(title="Встреча с ИТ-командой — ограниченные места", description="Место на встречу с работодателем. Покупка записывает на мероприятие.",
+        experience = Product.objects.create(title="Экскурсия в ИТ-компанию «ТехноПульс» — ограниченные места", description="Место на экскурсию и встречу с командой работодателя. Покупка записывает на мероприятие.",
                                             kind=Product.Kind.EXPERIENCE, category=Product.Category.EXPERIENCE, event=events[4], price=40, per_user_limit=1, status=Product.Status.ON_SALE)
         ProductVariant.objects.create(product=experience, name="Место", stock=8)
 
