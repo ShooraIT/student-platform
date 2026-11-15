@@ -21,6 +21,9 @@ class Survey(Audience):
     kind = models.CharField("Тип", max_length=10, choices=Kind.choices, default=Kind.SURVEY)
     title = models.CharField("Название", max_length=200)
     description = models.TextField("Описание", blank=True)
+    tracks = models.ManyToManyField(
+        "career.Track", blank=True, related_name="career_surveys", verbose_name="Профессиональные направления"
+    )
     status = models.CharField("Статус", max_length=10, choices=Status.choices, default=Status.DRAFT)
     opens_at = models.DateTimeField("Открывается", default=timezone.now)
     closes_at = models.DateTimeField("Закрывается")

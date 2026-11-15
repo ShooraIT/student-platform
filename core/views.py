@@ -32,20 +32,20 @@ def home(request):
     now = timezone.now()
     my_events = Event.objects.filter(
         registrations__user=u, registrations__status=Registration.Status.REGISTERED, end__gte=now
-    ).order_by("start")[:5]
-    upcoming = Event.visible_to(u, Event.objects.filter(status=Event.Status.PUBLISHED, end__gte=now)).order_by("start")[:5]
+    ).prefetch_related("tracks").order_by("start")[:5]
+    upcoming = Event.visible_to(u, Event.objects.filter(status=Event.Status.PUBLISHED, end__gte=now).prefetch_related("tracks")).order_by("start")[:5]
     event_count = Event.objects.filter(registrations__user=u, registrations__status=Registration.Status.REGISTERED, end__gte=now).count()
     tasks_count = surveys_count = 0
     if u.can_access("tasks"):
         done_tasks = set(Submission.objects.filter(user=u).exclude(status__in=[Submission.Status.IN_PROGRESS, Submission.Status.REVISION]).values_list("task_id", flat=True))
-        task_qs = Task.visible_to(u, Task.objects.filter(status=Task.Status.PUBLISHED, starts_at__lte=now, deadline__gte=now)).order_by("deadline")
+        task_qs = Task.visible_to(u, Task.objects.filter(status=Task.Status.PUBLISHED, starts_at__lte=now, deadline__gte=now).prefetch_related("tracks")).order_by("deadline")
         tasks_count = task_qs.exclude(pk__in=done_tasks).count()
         tasks = [t for t in task_qs[:30] if t.pk not in done_tasks][:4]
     else:
         tasks = []
     if u.can_access("surveys"):
         done_surveys = set(Completion.objects.filter(user=u).values_list("survey_id", flat=True))
-        survey_qs = Survey.visible_to(u, Survey.objects.filter(status=Survey.Status.PUBLISHED, opens_at__lte=now, closes_at__gte=now))
+        survey_qs = Survey.visible_to(u, Survey.objects.filter(status=Survey.Status.PUBLISHED, opens_at__lte=now, closes_at__gte=now).prefetch_related("tracks"))
         surveys_count = survey_qs.exclude(pk__in=done_surveys).count()
         surveys = [s for s in survey_qs[:30] if s.pk not in done_surveys][:3]
     else:

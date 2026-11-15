@@ -14,6 +14,7 @@
 <div class="grid-main">
   <div class="card">
     <h2 style="margin-top:0">О мероприятии</h2>
+    {% if event.tracks.all %}<p><strong>Профессиональные направления</strong></p><div class="track-tags">{% for track in event.tracks.all %}<a class="chip" href="{% url 'career:track' track.slug %}">{{ track.title }}</a>{% endfor %}</div>{% endif %}
     <dl class="kv">
       <dt>Дата</dt><dd>{{ event.start|date:"j E Y, l" }}</dd>
       <dt>Время</dt><dd>{{ event.start|date:"H:i" }} – {{ event.end|date:"H:i" }}</dd>

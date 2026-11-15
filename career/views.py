@@ -11,6 +11,9 @@ from django.views.decorators.http import require_POST
 
 from core.decorators import staff_required
 from core.excel import build_workbook, workbook_response
+from assignments.models import Task
+from events.models import Event
+from surveys.models import Survey
 
 from . import services as career
 from .models import (
@@ -61,8 +64,19 @@ def tracks(request):
 def track_detail(request, slug):
     t = get_object_or_404(Track, slug=slug, is_active=True)
     en = request.user.track_enrollments.filter(track=t).first()
+    now = timezone.now()
+    related_events = Event.visible_to(
+        request.user, Event.objects.filter(tracks=t, status=Event.Status.PUBLISHED, end__gte=now)
+    ).order_by("start")[:6]
+    related_tasks = Task.visible_to(
+        request.user, Task.objects.filter(tracks=t, status=Task.Status.PUBLISHED, starts_at__lte=now, deadline__gte=now)
+    ).order_by("deadline")[:6] if request.user.can_access("tasks") else []
+    related_surveys = Survey.visible_to(
+        request.user, Survey.objects.filter(tracks=t, status=Survey.Status.PUBLISHED, opens_at__lte=now, closes_at__gte=now)
+    ).order_by("closes_at")[:6] if request.user.can_access("surveys") else []
     return render(request, "career/track.html", {
         "t": t, "en": en, "p": career.track_progress(request.user, t),
+        "related_events": related_events, "related_tasks": related_tasks, "related_surveys": related_surveys,
         "slots": t.slots.filter(start__gte=timezone.now(), is_cancelled=False).select_related("mentor")[:6],
         "employers": t.employers.filter(is_active=True),
         "mentors": t.mentors.filter(is_active=True),

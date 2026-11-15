@@ -19,6 +19,7 @@
       <span class="icon">{% if sub.status == 'approved' %}✓{% elif t.kind == 'quest' %}↗{% else %}✦{% endif %}</span>
     </div>
     <div class="muted small">До {{ t.deadline|date:"j E, H:i" }}</div>
+    {% with related_tracks=t.tracks.all %}{% if related_tracks %}<div class="track-tags">{% for track in related_tracks|slice:":3" %}<span class="chip">{{ track.title }}</span>{% endfor %}{% if related_tracks.count > 3 %}<span class="chip">+{{ related_tracks.count|add:"-3" }}</span>{% endif %}</div>{% endif %}{% endwith %}
     <div class="foot">
       {% if sub.status == 'approved' %}<span class="btn done block small">Пройдено ✓</span>
       {% elif sub.status == 'submitted' %}<span class="btn secondary block small">На проверке</span>

@@ -193,8 +193,8 @@
           <span class="eyebrow">ТРЕБУЕТ ВНИМАНИЯ</span>
           <h2>Проверка и модерация</h2>
           <div class="admin-row"><div><strong>Внешние достижения в портфолио</strong><small>7 заявок · ожидают решения куратора</small></div><span class="admin-status pending">7 новых</span></div>
-          <div class="admin-row"><div><strong>Задание «Фото с субботника»</strong><small>4 ответа · срок проверки сегодня</small></div><span class="admin-status pending">4 ответа</span></div>
-          <div class="admin-row"><div><strong>Опрос «Выбираем тему вечера»</strong><small>Идёт голосование · завершится 18 ноября</small></div><span class="admin-status">Активен</span></div>
+          <div class="admin-row"><div><strong>Задание «Профессия рядом: мини-интервью со специалистом»</strong><small>4 ответа · треки назначены по выбранным направлениям</small></div><span class="admin-status pending">4 ответа</span></div>
+          <div class="admin-row"><div><strong>Опрос «Какие направления и профессии тебе интересны?»</strong><small>Идёт сбор ответов · интересы по профессиональным трекам</small></div><span class="admin-status">Активен</span></div>
           <div id="demo-queue-details" hidden style="padding:.85rem 1rem;margin:.75rem 0;background:var(--yellow-soft);border-radius:var(--radius-sm)">
             <strong>Очередь на сегодня</strong>
             <p class="admin-note" style="margin:.35rem 0 0">7 внешних достижений ждут куратора, 4 ответа на задания — проверки преподавателя.</p>
@@ -231,9 +231,9 @@
         <div class="admin-section-head"><div><span class="eyebrow">РУЧНАЯ ПРОВЕРКА</span><h2>Работы и достижения на проверке</h2></div><span class="admin-status pending">2 ожидают решения</span></div>
         <div class="review-list">
           <article class="review-item">
-            <div class="review-item-head"><div><strong>Задание «Фото с субботника»</strong><p class="admin-note">Анна Иванова · СИП-11 · отправлено сегодня в 10:42</p></div><span class="admin-status pending">Задание</span></div>
+            <div class="review-item-head"><div><strong>Задание «Профессия рядом: мини-интервью со специалистом»</strong><p class="admin-note">Анна Иванова · СИП-11 · ИТ · Разработка · отправлено сегодня</p></div><span class="admin-status pending">Задание</span></div>
             <button class="btn secondary small" type="button" data-review-toggle="review-task-anna" data-review-open="Открыть ответ" data-review-close="Свернуть ответ" aria-expanded="false">Открыть ответ</button>
-            <div class="review-detail" id="review-task-anna" hidden><strong>Ответ студента</strong><p>Фотоотчёт о благоустройстве территории колледжа. В комментарии студент описал свою роль в команде и приложил подтверждение участия.</p><label>Комментарий проверяющего<input type="text" placeholder="Напишите комментарий студенту"></label><div class="review-actions"><button class="btn primary small" type="button" data-demo-write>Принять работу</button><button class="btn secondary small" type="button" data-demo-write>Вернуть на доработку</button></div></div>
+            <div class="review-detail" id="review-task-anna" hidden><strong>Ответ студента</strong><p>Студент поговорил со специалистом по разработке, описал его задачи и отметил навыки, которые хочет развивать в выбранном треке.</p><label>Комментарий проверяющего<input type="text" placeholder="Напишите комментарий студенту"></label><div class="review-actions"><button class="btn primary small" type="button" data-demo-write>Принять работу</button><button class="btn secondary small" type="button" data-demo-write>Вернуть на доработку</button></div></div>
           </article>
           <article class="review-item">
             <div class="review-item-head"><div><strong>Внешнее достижение «Хакатон»</strong><p class="admin-note">Дмитрий Смирнов · СИП-21 · отправлено вчера</p></div><span class="admin-status pending">Портфолио</span></div>
@@ -290,6 +290,24 @@
             </div></div>
           </details>
           <small class="admin-note">Можно выбрать несколько групп.</small>
+        </fieldset>
+        <fieldset class="field-wide" style="border:0;padding:0;margin:0">
+          <legend style="font-weight:700;margin-bottom:.45rem">Профессиональные направления</legend>
+          <details class="group-picker">
+            <summary><span data-tracks-summary>Выберите направления</span></summary>
+            <div class="group-picker-menu"><div class="group-checks">
+              <label><input type="checkbox" name="tracks" value="it-support"> ИТ · Поддержка</label>
+              <label><input type="checkbox" name="tracks" value="it-ai"> ИТ · ИИ</label>
+              <label><input type="checkbox" name="tracks" value="it-development"> ИТ · Разработка</label>
+              <label><input type="checkbox" name="tracks" value="creative-design"> Креатив · Дизайн</label>
+              <label><input type="checkbox" name="tracks" value="creative-animation"> Креатив · Анимация</label>
+              <label><input type="checkbox" name="tracks" value="finance"> Финансы</label>
+              <label><input type="checkbox" name="tracks" value="cooks"> Повара</label>
+              <label><input type="checkbox" name="tracks" value="transport-service"> Сервис на транспорте</label>
+              <label><input type="checkbox" name="tracks" value="hospitality"> Гостиницы</label>
+            </div></div>
+          </details>
+          <small class="admin-note">Отметьте треки, которым соответствует активность.</small>
         </fieldset>
         <label class="field-wide">Название
           <input name="title" type="text" maxlength="120" placeholder="Например, встреча с работодателем" required>

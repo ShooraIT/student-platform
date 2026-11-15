@@ -11,7 +11,7 @@ from .models import Submission, Task
 
 
 def _visible(user):
-    qs = Task.objects.all()
+    qs = Task.objects.prefetch_related("tracks")
     if user.is_staff_role:
         return qs
     return Task.visible_to(user, qs.filter(status=Task.Status.PUBLISHED, starts_at__lte=timezone.now()))

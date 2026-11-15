@@ -218,8 +218,15 @@ th { font-size: .72rem; color: var(--muted); font-weight: 800; text-transform: u
 .agenda-row { display: flex; align-items: center; gap: .75rem; padding: .82rem 0; border-bottom: 1px solid var(--line); }
 .agenda-row:last-child { border-bottom: 0; }
 .agenda-mark { width: 34px; height: 34px; flex: none; display: grid; place-items: center; border-radius: 10px; font-weight: 900; }
-.task-mark { background: var(--yellow-soft); color: #946000; }
-.survey-mark { background: var(--green-soft); color: var(--green); }
+.task-mark { background: var(--yellow); color: var(--ink); box-shadow: inset 0 0 0 1px rgba(29,31,39,.08); }
+.survey-mark { background: var(--terra); color: #fff; }
+.track-tags { display: flex; flex-wrap: wrap; align-items: center; gap: .35rem; margin-top: .45rem; }
+.track-tags .chip { margin: 0; }
+.event-feature-tracks { position: relative; z-index: 1; margin-top: -.1rem; }
+.event-feature-tracks span { padding: .18rem .48rem; border-radius: 999px; background: rgba(29,31,39,.42); color: #fff; font-size: .65rem; font-weight: 700; }
+.agenda-tracks { gap: .25rem; }
+.agenda-tracks span { color: var(--muted); font-size: .68rem; }
+.activity-tracks { margin-top: .3rem; }
 .agenda-empty { min-height: 180px; display: grid; place-content: center; justify-items: center; text-align: center; color: var(--muted); }
 .agenda-empty > span, .empty-icon { font-size: 1.8rem; color: var(--terra); }
 .agenda-empty p { margin: .3rem 0; }

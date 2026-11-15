@@ -7,6 +7,7 @@
   <div class="row"><span class="badge gray">{{ task.get_kind_display }}</span><span class="reward">до +{{ task.reward|steps }}</span>{% if task.reward_limit %}<span class="badge warn">наград осталось: {{ task.rewards_left }}</span>{% endif %}</div>
   <h1 style="margin:.5rem 0">{{ task.title }}</h1>
   <p class="muted">Дедлайн: {{ task.deadline|date:"j E Y, H:i" }}</p>
+  {% if task.tracks.all %}<p><strong>Подходит для направлений</strong></p><div class="track-tags">{% for track in task.tracks.all %}<a class="chip" href="{% url 'career:track' track.slug %}">{{ track.title }}</a>{% endfor %}</div>{% endif %}
   <div style="white-space:pre-line">{{ task.description }}</div>
 </div>
 

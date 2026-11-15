@@ -29,7 +29,7 @@ MONTHS = ["", "Январь", "Февраль", "Март", "Апрель", "М�
 
 
 def _visible(user):
-    qs = Event.objects.select_related("category")
+    qs = Event.objects.select_related("category").prefetch_related("tracks")
     if user.is_staff_role:
         return qs
     return Event.visible_to(user, qs.exclude(status=Event.Status.DRAFT))
@@ -98,13 +98,14 @@ def calendar_view(request):
                 }.get(state, "Запись открыта" if event.registration_open else "Скоро"),
                 "status_class": "ok" if state in Registration.ACTIVE else "",
                 "reward": event.reward,
+                "tracks": list(event.tracks.all()),
             })
 
         if user.can_access("tasks"):
             submissions = dict(Submission.objects.filter(user=user).values_list("task_id", "status"))
             tasks = Task.visible_to(user, Task.objects.filter(
                 status=Task.Status.PUBLISHED, starts_at__lte=now, deadline__gte=now,
-            )).order_by("deadline")
+            ).prefetch_related("tracks")).order_by("deadline")
             if mine:
                 tasks = tasks.filter(pk__in=submissions)
             for task in tasks:
@@ -122,13 +123,14 @@ def calendar_view(request):
                     "href": reverse("assignments:detail", args=[task.pk]), "status": status,
                     "status_class": "ok" if state == Submission.Status.APPROVED else "",
                     "reward": task.reward,
+                    "tracks": list(task.tracks.all()),
                 })
 
         if user.can_access("surveys"):
             completed = set(Completion.objects.filter(user=user).values_list("survey_id", flat=True))
             surveys = Survey.visible_to(user, Survey.objects.filter(
                 status=Survey.Status.PUBLISHED, closes_at__gte=now,
-            )).order_by("closes_at")
+            ).prefetch_related("tracks")).order_by("closes_at")
             if mine:
                 surveys = surveys.filter(pk__in=completed)
             for survey in surveys:
@@ -142,6 +144,7 @@ def calendar_view(request):
                     "status": "Пройдено" if done else "Скоро откроется" if opens_later else "Доступно",
                     "status_class": "ok" if done else "",
                     "reward": survey.reward,
+                    "tracks": list(survey.tracks.all()),
                 })
         activities.sort(key=lambda item: item["when"])
         ctx["activities"] = activities

@@ -14,7 +14,7 @@ from .models import Answer, Completion, Question, Survey
 
 
 def _visible(user):
-    qs = Survey.objects.all()
+    qs = Survey.objects.prefetch_related("tracks")
     if user.is_staff_role:
         return qs
     return Survey.visible_to(user, qs.filter(status=Survey.Status.PUBLISHED, opens_at__lte=timezone.now()))

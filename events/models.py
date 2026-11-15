@@ -35,6 +35,9 @@ class Event(Audience):
     description = models.TextField("Описание")
     cover = models.ImageField("Обложка", upload_to="events/", blank=True)
     category = models.ForeignKey(Category, on_delete=models.PROTECT, verbose_name="Категория")
+    tracks = models.ManyToManyField(
+        "career.Track", blank=True, related_name="career_events", verbose_name="Профессиональные направления"
+    )
     start = models.DateTimeField("Начало")
     end = models.DateTimeField("Окончание")
     location = models.CharField("Место", max_length=200)

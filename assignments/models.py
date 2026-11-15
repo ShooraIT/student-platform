@@ -25,6 +25,9 @@ class Task(Audience):
 
     title = models.CharField("Название", max_length=200)
     description = models.TextField("Описание")
+    tracks = models.ManyToManyField(
+        "career.Track", blank=True, related_name="career_tasks", verbose_name="Профессиональные направления"
+    )
     cover = models.ImageField("Обложка", upload_to="tasks/", blank=True)
     kind = models.CharField("Тип", max_length=10, choices=Kind.choices, default=Kind.MANUAL)
     status = models.CharField("Статус", max_length=10, choices=Status.choices, default=Status.DRAFT)

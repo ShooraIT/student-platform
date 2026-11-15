@@ -6,6 +6,7 @@
   <div class="row"><span class="badge {% if survey.kind == 'vote' %}warn{% else %}gray{% endif %}">{{ survey.get_kind_display }}</span>{% if survey.secret %}<span class="badge">🔒 Тайное</span>{% endif %}{% if survey.reward %}<span class="reward">+{{ survey.reward|steps }}</span>{% endif %}</div>
   <h1 style="margin:.5rem 0">{{ survey.title }}</h1>
   <p class="muted">Принимается до {{ survey.closes_at|date:"j E Y, H:i" }}</p>
+  {% if survey.tracks.all %}<p><strong>Подходит для направлений</strong></p><div class="track-tags">{% for track in survey.tracks.all %}<a class="chip" href="{% url 'career:track' track.slug %}">{{ track.title }}</a>{% endfor %}</div>{% endif %}
   {% if survey.description %}<div style="white-space:pre-line">{{ survey.description }}</div>{% endif %}
   {% if user.is_staff_role %}<p><a class="btn secondary small" href="{% url 'surveys:results' survey.pk %}">Результаты и выгрузка</a></p>{% endif %}
 </div>

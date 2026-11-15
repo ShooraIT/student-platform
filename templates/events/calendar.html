@@ -44,6 +44,7 @@
     <div class="activity-copy">
       <div class="activity-meta"><span class="activity-kind">{{ a.kind }}</span><time datetime="{{ a.when|date:'c' }}">{{ a.detail }}</time></div>
       <a class="activity-title" href="{{ a.href }}">{{ a.title }}</a>
+      {% if a.tracks %}<div class="track-tags activity-tracks">{% for track in a.tracks|slice:":3" %}<span>{{ track.title }}</span>{% endfor %}{% if a.tracks|length > 3 %}<span>+{{ a.tracks|length|add:"-3" }}</span>{% endif %}</div>{% endif %}
     </div>
     <div class="activity-actions">
       {% if a.status %}<span class="badge {{ a.status_class }}">{{ a.status }}</span>{% endif %}

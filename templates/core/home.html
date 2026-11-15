@@ -30,6 +30,7 @@
       <span class="event-feature-date"><b>{{ e.start|date:"j" }}</b><small>{{ e.start|date:"M"|slice:":3" }}</small></span>
       <span class="event-feature-kind">{{ e.category.name }}</span>
       <strong>{{ e.title }}</strong>
+      {% with related_tracks=e.tracks.all %}{% if related_tracks %}<div class="track-tags event-feature-tracks">{% for track in related_tracks|slice:":3" %}<span>{{ track.title }}</span>{% endfor %}{% if related_tracks.count > 3 %}<span>+{{ related_tracks.count|add:"-3" }}</span>{% endif %}</div>{% endif %}{% endwith %}
       <span class="event-feature-foot">{{ e.start|date:"D, H:i" }} · {{ e.location }} <b>→</b></span>
     </a>
     {% empty %}<div class="card empty-state"><p>Скоро здесь появятся события</p></div>{% endfor %}
@@ -45,8 +46,8 @@
   </div>
   <div class="card dashboard-card">
     <div class="card-head"><div><span class="eyebrow">НЕ ПРОПУСТИ</span><h2>Твоя повестка</h2></div><a href="/events/">Открыть →</a></div>
-    {% for t in tasks %}<div class="agenda-row"><span class="agenda-mark task-mark">✓</span><div class="dashboard-list-copy"><a class="title" href="{% url 'assignments:detail' t.pk %}">{{ t.title }}</a><div class="muted small">Задание · до {{ t.deadline|date:"d.m" }}</div></div><span class="reward">+{{ t.reward }}</span></div>{% endfor %}
-    {% for s in surveys %}<div class="agenda-row"><span class="agenda-mark survey-mark">◷</span><div class="dashboard-list-copy"><a class="title" href="{% url 'surveys:detail' s.pk %}">{{ s.title }}</a><div class="muted small">{{ s.get_kind_display }} · до {{ s.closes_at|date:"d.m" }}</div></div>{% if s.reward %}<span class="reward">+{{ s.reward }}</span>{% endif %}</div>{% endfor %}
+    {% for t in tasks %}<div class="agenda-row"><span class="agenda-mark task-mark">✓</span><div class="dashboard-list-copy"><a class="title" href="{% url 'assignments:detail' t.pk %}">{{ t.title }}</a><div class="muted small">Задание · до {{ t.deadline|date:"d.m" }}</div>{% with related_tracks=t.tracks.all %}{% if related_tracks %}<div class="track-tags agenda-tracks">{% for track in related_tracks|slice:":3" %}<span>{{ track.title }}</span>{% endfor %}{% if related_tracks.count > 3 %}<span>+{{ related_tracks.count|add:"-3" }}</span>{% endif %}</div>{% endif %}{% endwith %}</div><span class="reward">+{{ t.reward }}</span></div>{% endfor %}
+    {% for s in surveys %}<div class="agenda-row"><span class="agenda-mark survey-mark">◷</span><div class="dashboard-list-copy"><a class="title" href="{% url 'surveys:detail' s.pk %}">{{ s.title }}</a><div class="muted small">{{ s.get_kind_display }} · до {{ s.closes_at|date:"d.m" }}</div>{% with related_tracks=s.tracks.all %}{% if related_tracks %}<div class="track-tags agenda-tracks">{% for track in related_tracks|slice:":3" %}<span>{{ track.title }}</span>{% endfor %}{% if related_tracks.count > 3 %}<span>+{{ related_tracks.count|add:"-3" }}</span>{% endif %}</div>{% endif %}{% endwith %}</div>{% if s.reward %}<span class="reward">+{{ s.reward }}</span>{% endif %}</div>{% endfor %}
     {% if not tasks and not surveys %}<div class="agenda-empty"><span>✦</span><p>Все текущие активности выполнены</p><a href="/events/">Посмотреть список →</a></div>{% endif %}
   </div>
 </section>

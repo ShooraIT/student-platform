@@ -23,11 +23,12 @@ class TaskAdmin(AnnounceOnPublishAdmin):
     list_display = ["title", "kind", "status", "deadline", "reward", "submitted", "review_link"]
     list_filter = ["kind", "status"]
     search_fields = ["title"]
-    filter_horizontal = ["groups"]
+    filter_horizontal = ["groups", "tracks"]
     inlines = [QuestionInline]
     fieldsets = (
         (None, {"fields": ("title", "description", "cover", "kind", "status")}),
         ("Сроки и награда", {"fields": ("starts_at", "deadline", "reward", "reward_limit")}),
+        ("Профессиональные направления", {"fields": ("tracks",)}),
         ("Аудитория", {"fields": ("for_all", "courses", "groups")}),
         ("Ручная проверка: формат ответа", {"fields": ("allow_text", "allow_link", "allow_files")}),
         ("Викторина / квест", {"fields": ("attempts", "pass_percent", "proportional", "show_answers")}),

@@ -29,11 +29,12 @@ class SurveyAdmin(AnnounceOnPublishAdmin):
     list_display = ["title", "kind", "status", "opens_at", "closes_at", "reward", "answers", "results_link"]
     list_filter = ["kind", "status"]
     search_fields = ["title"]
-    filter_horizontal = ["groups"]
+    filter_horizontal = ["groups", "tracks"]
     inlines = [QuestionInline, VoteOptionInline]
     fieldsets = (
         (None, {"fields": ("kind", "title", "description", "status")}),
         ("Сроки и награда", {"fields": ("opens_at", "closes_at", "reward")}),
+        ("Профессиональные направления", {"fields": ("tracks",)}),
         ("Аудитория", {"fields": ("for_all", "courses", "groups")}),
         ("Голосование", {"fields": ("max_choices", "secret", "results_visibility"),
                          "description": "Для опроса заполните «Вопросы», для голосования — «Варианты голосования»"}),

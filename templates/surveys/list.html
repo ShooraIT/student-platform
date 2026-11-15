@@ -12,6 +12,7 @@
     </div>
     <div class="spread" style="align-items:flex-start;margin-top:.6rem;flex-wrap:nowrap"><h3 style="font-size:1.1rem">{{ s.title }}</h3><span class="icon">{% if s.kind == 'vote' %}★{% else %}✦{% endif %}</span></div>
     <div class="muted small">До {{ s.closes_at|date:"j E, H:i" }}</div>
+    {% with related_tracks=s.tracks.all %}{% if related_tracks %}<div class="track-tags">{% for track in related_tracks|slice:":3" %}<span class="chip">{{ track.title }}</span>{% endfor %}{% if related_tracks.count > 3 %}<span class="chip">+{{ related_tracks.count|add:"-3" }}</span>{% endif %}</div>{% endif %}{% endwith %}
     {% if user.is_staff_role %}<div><span class="badge gray">{{ s.get_status_display }}</span></div>{% endif %}
     <div class="foot">
       {% if s.pk in done %}<span class="btn done block small">Вы уже ответили ✓</span>

@@ -52,6 +52,7 @@ class Command(BaseCommand):
 
         cats = {n: Category.objects.create(name=n, color=c) for n, c in
                 [("Спорт", "#2e7d4f"), ("Творчество", "#cb563d"), ("Учёба", "#f1a627"), ("Волонтёрство", "#cb563d"), ("Профориентация", "#1d1f27")]}
+        all_track_slugs = list(Track.objects.filter(is_active=True).values_list("slug", flat=True))
         employers = [
             Employer.objects.create(name="ТехноПульс", industry="ИТ", description="Поддержка цифровых сервисов и инженерные команды."),
             Employer.objects.create(name="Студия «Форма»", industry="Креатив", description="Дизайн, анимация и визуальные коммуникации."),
@@ -62,17 +63,17 @@ class Command(BaseCommand):
         employers[2].tracks.set(Track.objects.filter(slug__in=["cooks", "transport-service", "hospitality"]))
         today = timezone.localtime(now).replace(hour=0, minute=0, second=0, microsecond=0)
         ev_specs = [
-            ("Экскурсия в отель «Полюс»: как устроена работа изнутри", "Профориентация", -10, 15, "Отель «Полюс»", 10, 2),
-            ("Разговор со старшекурсниками: как выбрать профессиональный трек", "Профориентация", -5, 16, "Ауд. 204", 10, None),
-            ("Профпроба в студии «Форма»: один день дизайнера", "Профориентация", -2, 10, "Студия «Форма»", 10, 1),
-            ("Встреча с HR «ТехноПульс»: резюме и первое собеседование", "Профориентация", 0, timezone.localtime(now).hour, "Актовый зал", 10, 0),
-            ("Экскурсия в ИТ-компанию «ТехноПульс»", "Профориентация", 2, 14, "Офис «ТехноПульс»", 10, 0),
-            ("Встреча с действующими специалистами студии «Форма»", "Профориентация", 5, 17, "Студия «Форма»", 10, 1),
-            ("Экскурсия и проба профессий в отеле «Полюс»", "Профориентация", 9, 15, "Отель «Полюс»", 10, 2),
-            ("Встреча с выпускниками: первый год работы после колледжа", "Профориентация", 20, 18, "Актовый зал", 10, None),
+            ("Экскурсия в отель «Полюс»: как устроена работа изнутри", "Профориентация", -10, 15, "Отель «Полюс»", 10, 2, ["hospitality"]),
+            ("Разговор со старшекурсниками: как выбрать профессиональный трек", "Профориентация", -5, 16, "Ауд. 204", 10, None, all_track_slugs),
+            ("Профпроба в студии «Форма»: один день дизайнера", "Профориентация", -2, 10, "Студия «Форма»", 10, 1, ["creative-design", "creative-animation"]),
+            ("Встреча с HR «ТехноПульс»: резюме и первое собеседование", "Профориентация", 0, timezone.localtime(now).hour, "Актовый зал", 10, 0, ["it-support", "it-ai", "it-development", "finance"]),
+            ("Экскурсия в ИТ-компанию «ТехноПульс»", "Профориентация", 2, 14, "Офис «ТехноПульс»", 10, 0, ["it-support", "it-ai", "it-development", "finance"]),
+            ("Встреча с действующими специалистами студии «Форма»", "Профориентация", 5, 17, "Студия «Форма»", 10, 1, ["creative-design", "creative-animation"]),
+            ("Экскурсия и проба профессий в отеле «Полюс»", "Профориентация", 9, 15, "Отель «Полюс»", 10, 2, ["cooks", "transport-service", "hospitality"]),
+            ("Встреча с выпускниками: первый год работы после колледжа", "Профориентация", 20, 18, "Актовый зал", 10, None, all_track_slugs),
         ]
         events = []
-        for title, cat, day, hour, place, reward, employer_index in ev_specs:
+        for title, cat, day, hour, place, reward, employer_index, track_slugs in ev_specs:
             start = today + timedelta(days=day, hours=hour)
             e = Event.objects.create(
                 title=title, description=f"{title}. Познакомьтесь с профессиями, задайте вопросы и попробуйте себя в деле.\nНаграда за посещение — {reward} степов.",
@@ -83,13 +84,15 @@ class Command(BaseCommand):
                 e.employer = employers[employer_index]
                 e.registration_required = True
                 e.save(update_fields=["employer", "registration_required"])
+            e.tracks.set(Track.objects.filter(slug__in=track_slugs))
             events.append(e)
         for e in events[:3]:  # прошедшие — часть студентов посетила
             for u in rnd.sample(students, 12):
                 mark_attended(e, u, "list", admin)
 
-        for i, track in enumerate(Track.objects.filter(is_active=True)):
-            TrackItem.objects.get_or_create(track=track, title=f"Попробовать направление: {track.title}", defaults={"kind": TrackItem.Kind.EVENT, "event": events[i % len(events)], "required": True, "order": 1})
+        for track in Track.objects.filter(is_active=True):
+            related_event = next(e for e in events if e.tracks.filter(pk=track.pk).exists())
+            TrackItem.objects.get_or_create(track=track, title=f"Попробовать направление: {track.title}", defaults={"kind": TrackItem.Kind.EVENT, "event": related_event, "required": True, "order": 1})
 
         mentor_tracks = list(Track.objects.filter(is_active=True)[:3])
         for mentor, track in zip([u for u in students if u.is_mentor][:3], mentor_tracks):
@@ -97,32 +100,41 @@ class Command(BaseCommand):
             MentorSlot.objects.get_or_create(mentor=mentor, track=track, topic=f"Вопросы по направлению {track.title}", start=now + timedelta(days=3),
                                              defaults={"duration": 45, "place": "Ауд. 204", "capacity": 5})
 
-        t1 = Task.objects.create(title="Фото с субботника", description="Пришлите фото с субботника, где видно вас и результат работы.",
+        t1 = Task.objects.create(title="Профессия рядом: мини-интервью со специалистом", description="Поговорите с действующим специалистом в выбранной сфере. Расскажите о его задачах, нужных навыках и о том, что вас заинтересовало.",
                                  kind=Task.Kind.MANUAL, status=Task.Status.PUBLISHED, deadline=now + timedelta(days=7), reward=20,
                                  allow_text=True, allow_files=True)
-        t2 = Task.objects.create(title="Викторина: история колледжа", description="5 вопросов о колледже. Нужно 60% правильных.",
+        t1.tracks.set(Track.objects.filter(slug__in=all_track_slugs))
+        t2 = Task.objects.create(title="Первое собеседование: подготовка к стажировке", description="Проверьте, как подготовиться к первой встрече с работодателем. Нужно 60% правильных ответов.",
                                  kind=Task.Kind.AUTO, status=Task.Status.PUBLISHED, deadline=now + timedelta(days=14), reward=20, pass_percent=60, show_answers=True)
+        t2.tracks.set(Track.objects.filter(slug__in=all_track_slugs))
         for i, (q, kind, opts, correct) in enumerate([
-            ("В каком году основан колледж?", "single", "1945\n1961\n1980", "1961"),
-            ("Как называется студенческая валюта платформы?", "text", "", "степы\nстепы\nстеп"),
-            ("Какие направления есть в колледже?", "multi", "Программирование\nЭнергетика\nМедицина", "Программирование\nЭнергетика"),
-            ("Сколько этажей в главном корпусе?", "single", "3\n4\n5", "4"),
-            ("Столица России?", "text", "", "Москва"),
+            ("Что полезно указать в резюме для первой стажировки?", "single", "Навыки и учебные проекты\nТолько желаемую зарплату\nОбщие фразы без примеров", "Навыки и учебные проекты"),
+            ("О чём уместно спросить HR на первой встрече?", "single", "О задачах, требованиях и процессе отбора\nО личных данных коллег\nО том, как не проходить собеседование", "О задачах, требованиях и процессе отбора"),
+            ("Как лучше понять, подходит ли профессия?", "single", "Попробовать небольшую рабочую задачу\nВыбирать только по названию\nНе узнавать о повседневных задачах", "Попробовать небольшую рабочую задачу"),
+            ("Что взять с собой на экскурсию по предприятию?", "multi", "Подготовленные вопросы специалистам\nИнтерес к рабочим задачам\nОбязательный готовый трудовой договор", "Подготовленные вопросы специалистам\nИнтерес к рабочим задачам"),
+            ("К кому обратиться за обратной связью о выбранном треке?", "single", "К наставнику или специалисту из этой сферы\nТолько к случайным пользователям в сети\nНи к кому", "К наставнику или специалисту из этой сферы"),
         ]):
             TaskQuestion.objects.create(task=t2, order=i, kind=kind, text=q, options=opts, correct=correct)
-        t3 = Task.objects.create(title="Квест «Тайны корпуса»", description="Найдите коды, спрятанные в корпусе. Каждый следующий шаг откроется после правильного ответа.",
+        t3 = Task.objects.create(title="Квест «Маршрут профессии»", description="Пройдите три шага знакомства с профессией: выясните, чем занимается HR, узнайте, что такое профпроба, и выберите, у кого попросить совета.",
                                  kind=Task.Kind.QUEST, status=Task.Status.PUBLISHED, deadline=now + timedelta(days=10), reward=20)
-        for i, (q, a) in enumerate([("Код на доске объявлений у входа", "СТАРТ"), ("Код в библиотеке на 2 этаже", "КНИГА"), ("Код у кабинета директора", "ФИНИШ")]):
+        t3.tracks.set(Track.objects.filter(slug__in=all_track_slugs))
+        for i, (q, a) in enumerate([
+            ("Как называют специалиста, который помогает компании находить сотрудников?", "HR"),
+            ("Как называется короткая проба реальной рабочей задачи?", "Профпроба"),
+            ("К кому можно обратиться за советом о карьере в выбранной сфере?", "Наставник"),
+        ]):
             TaskQuestion.objects.create(task=t3, order=i, kind="text", text=q, correct=a)
 
-        s = Survey.objects.create(kind=Survey.Kind.SURVEY, title="Как вам мероприятия этого месяца?", status=Survey.Status.PUBLISHED,
+        s = Survey.objects.create(kind=Survey.Kind.SURVEY, title="Какие направления и профессии тебе интересны?", description="Помоги подобрать полезные встречи, экскурсии и профессиональные пробы.", status=Survey.Status.PUBLISHED,
                                   closes_at=now + timedelta(days=10), reward=10)
-        Question.objects.create(survey=s, order=1, kind="scale5", text="Оцените мероприятия в целом")
-        Question.objects.create(survey=s, order=2, kind="multi", text="Что хотите чаще?", options="Спорт\nТворчество\nХакатоны\nЭкскурсии")
-        Question.objects.create(survey=s, order=3, kind="long", text="Ваши предложения", required=False)
-        v = Survey.objects.create(kind=Survey.Kind.VOTE, title="Выбираем тему новогоднего вечера", status=Survey.Status.PUBLISHED,
+        s.tracks.set(Track.objects.filter(slug__in=all_track_slugs))
+        Question.objects.create(survey=s, order=1, kind="scale5", text="Насколько тебе интересны встречи с представителями профессий?")
+        Question.objects.create(survey=s, order=2, kind="multi", text="Какие форматы профориентации ты хотел(а) бы посетить?", options="Экскурсии на предприятия\nВстречи с HR\nВстречи с действующими специалистами\nРазговоры со старшекурсниками и выпускниками\nПрофессиональные пробы")
+        Question.objects.create(survey=s, order=3, kind="long", text="Какое направление или профессию ты хочешь изучить?", required=False)
+        v = Survey.objects.create(kind=Survey.Kind.VOTE, title="Какое направление изучим на следующей встрече?", description="Выбери сферу для экскурсии или разговора с действующим специалистом.", status=Survey.Status.PUBLISHED,
                                   closes_at=now + timedelta(days=5), reward=10, results_visibility=Survey.Results.AFTER_VOTE)
-        for i, t in enumerate(["Киберпанк", "Голливуд", "Зимняя сказка", "80-е"]):
+        v.tracks.set(Track.objects.filter(slug__in=all_track_slugs))
+        for i, t in enumerate(["ИТ и цифровые сервисы", "Дизайн и анимация", "Финансы", "Сервис, транспорт и гостиницы"]):
             VoteOption.objects.create(survey=v, order=i, title=t)
 
         # Каталог по смете проекта 01:17 (базовый сценарий): цены в баллах и квоты обмена.

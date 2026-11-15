@@ -36,12 +36,13 @@ class EventAdmin(AnnounceOnPublishAdmin):
     list_filter = ["status", "category", "start"]
     search_fields = ["title"]
     date_hierarchy = "start"
-    filter_horizontal = ["groups"]
+    filter_horizontal = ["groups", "tracks"]
     actions = ["copy_events"]
     inlines = [RegistrationInline]
     fieldsets = (
         (None, {"fields": ("title", "description", "cover", "category", "status")}),
         ("Когда и где", {"fields": ("start", "end", "location", "employer")}),
+        ("Профессиональные направления", {"fields": ("tracks",)}),
         ("Аудитория", {"fields": ("for_all", "courses", "groups")}),
         ("Запись", {"fields": ("registration_required", "capacity", "registration_deadline")}),
         ("Награда и отметка посещения", {"fields": ("reward", "checkin_qr", "checkin_code", "code_word", "checkin_list", "checkin_after_minutes")}),
@@ -80,6 +81,7 @@ class EventAdmin(AnnounceOnPublishAdmin):
 
         for e in queryset:
             groups = list(e.groups.all())
+            tracks = list(e.tracks.all())
             e.pk = None
             e.start += timedelta(days=7)
             e.end += timedelta(days=7)
@@ -87,4 +89,5 @@ class EventAdmin(AnnounceOnPublishAdmin):
             e.registration_deadline = None
             e.save()
             e.groups.set(groups)
+            e.tracks.set(tracks)
         self.message_user(request, f"Создано копий: {queryset.count()}")
