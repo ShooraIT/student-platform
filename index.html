@@ -63,6 +63,7 @@
     <div class="dashboard-hero-actions">
       <div class="dashboard-balance"><span>Твой баланс</span><strong>70 степов <i>✦</i></strong><small>+70 за этот месяц</small></div>
       <a class="btn light" href="/student-platform/events/">Смотреть активности <span aria-hidden="true">→</span></a>
+      <button class="btn light" type="button" data-qr-scan data-checkin-prefix="/events/">▦ Отсканировать QR</button>
     </div>
   </div>
 </section>
@@ -136,6 +137,14 @@
 
 
 <span class="slogan">★ Живи. Пробуй. Создавай.</span>
+<dialog class="qr-scan-dialog" id="qr-scan-dialog" aria-labelledby="qr-scan-title">
+  <div class="qr-scan-content">
+    <div class="card-head"><div><span class="eyebrow">ПОСЕЩЕНИЕ МЕРОПРИЯТИЯ</span><h2 id="qr-scan-title">Отсканировать QR</h2></div><button class="btn secondary small" type="button" data-qr-close>Закрыть</button></div>
+    <p id="qr-scan-status" class="muted" role="status" aria-live="polite">Разрешите доступ к камере и наведите её на QR-код мероприятия.</p>
+    <video id="qr-scan-video" playsinline muted aria-label="Изображение с камеры"></video>
+    <p class="small muted">Отметка посещения произойдёт только при сканировании действующего QR-кода мероприятия.</p>
+  </div>
+</dialog>
 
 </main>
 

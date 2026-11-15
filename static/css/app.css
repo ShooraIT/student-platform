@@ -87,7 +87,7 @@ main { max-width: 1240px; margin: 0 auto; padding: 1.25rem 1.9rem 6rem; }
 .card-head { display: flex; justify-content: space-between; align-items: center; gap: 1rem; margin-bottom: .4rem; }
 .card-head h2 { margin: 0; }
 .card-head a { font-size: .85rem; }
-.grid { display: grid; gap: 1.1rem; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); }
+.grid { display: grid; gap: 1.1rem; grid-template-columns: repeat(auto-fill, minmax(min(100%, 270px), 1fr)); }
 .grid-2 { display: grid; gap: 1.1rem; grid-template-columns: 1fr 1fr; align-items: start; }
 .grid-main { display: grid; gap: 1.1rem; grid-template-columns: 1.7fr 1fr; align-items: start; }
 .row { display: flex; gap: .75rem; align-items: center; flex-wrap: wrap; }
@@ -364,6 +364,12 @@ th { font-size: .72rem; color: var(--muted); font-weight: 800; text-transform: u
 .login-box { max-width: 420px; margin: 7vh auto; }
 .qr-screen { text-align: center; }
 .qr-screen svg { width: min(70vh, 90vw); height: auto; background: #fff; border-radius: 18px; }
+.qr-scan-dialog { width: min(560px, calc(100vw - 2rem)); max-width: none; max-height: calc(100dvh - 2rem); overflow: auto; padding: 0; border: 0; border-radius: var(--radius); color: var(--ink); background: var(--card); box-shadow: 0 24px 80px #0005; }
+.qr-scan-dialog::backdrop { background: #171923a8; backdrop-filter: blur(3px); }
+.qr-scan-content { padding: 1.25rem; }
+.qr-scan-content h2 { margin: 0; }
+.qr-scan-content video { display: block; width: 100%; max-height: min(55vh, 440px); object-fit: cover; border-radius: var(--radius-sm); background: var(--ink); }
+.qr-scan-content video { min-height: 140px; }
 
 /* ---------- мобильная версия ---------- */
 @media (max-width: 900px) {
@@ -422,4 +428,52 @@ th { font-size: .72rem; color: var(--muted); font-weight: 800; text-transform: u
   .tabbar a.active { color: var(--terra); }
   .hide-mobile { display: none; }
   .place-banner { flex-direction: column; align-items: flex-start; }
+  .dashboard-hero-actions > .btn { width: 100%; text-align: center; }
+  .qr-scan-content { padding: 1rem; }
+}
+@media (max-width: 420px) {
+  .shop-grid { grid-template-columns: 1fr; }
+  .profile-badges { grid-template-columns: 1fr 1fr; }
+}
+
+/* ---------- дополнительные правила адаптивности ---------- */
+html { width: 100%; }
+body { width: 100%; min-width: 320px; overflow-x: hidden; }
+img, video, canvas, svg { max-width: 100%; }
+main > *, .card, .grid > *, .grid-2 > *, .grid-main > *, .dashboard-columns > *, .profile-panels > * { min-width: 0; }
+.grid-2, .grid-main { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.grid-main { grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr); }
+.btn { max-width: 100%; }
+.activity-title { min-width: 0; }
+
+@media (max-width: 1020px) {
+  .topbar-inner { gap: .55rem; padding-left: 1rem; padding-right: 1rem; }
+  .nav a { padding-left: .65rem; padding-right: .65rem; }
+  .top-right { gap: .65rem; }
+}
+@media (max-width: 900px) {
+  main { padding-left: 1.25rem; padding-right: 1.25rem; }
+  .grid-main, .grid-2 { grid-template-columns: minmax(0, 1fr) !important; }
+  .dashboard-columns, .profile-panels { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .dashboard-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .bar-row { grid-template-columns: minmax(90px, 1fr) minmax(80px, 2fr) 65px; }
+}
+@media (max-width: 760px) {
+  .dashboard-stats, .profile-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .dashboard-columns, .profile-panels { grid-template-columns: minmax(0, 1fr); }
+  .profile-badges, .profile-settings-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .shop-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .card { padding: 1rem; }
+  .card-head { align-items: flex-start; flex-wrap: wrap; }
+  .bar-row { grid-template-columns: minmax(0, 1fr) minmax(60px, 1.4fr) 52px; gap: .4rem; font-size: .78rem; }
+  .pill-tabs a { padding-left: .8rem; padding-right: .8rem; }
+  table:not(.admin-table) { display: block; max-width: 100%; overflow-x: auto; }
+  input, select, textarea { min-width: 0; }
+  .row > input[type=text], .row > input[type=number], .row > select { flex: 1 1 12rem; }
+}
+@media (max-width: 420px) {
+  main { padding-left: .75rem; padding-right: .75rem; }
+  .dashboard-stats, .profile-stats, .profile-settings-grid { grid-template-columns: minmax(0, 1fr); }
+  .profile-identity { align-items: flex-start; }
+  .profile-identity .avatar { flex: none; }
 }
