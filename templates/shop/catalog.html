@@ -14,10 +14,15 @@
   </div>
 </section>
 <div class="spread"><h2 style="margin:.5rem 0">Каталог коллекции</h2><span class="eyebrow">Drop 01 / {% now "Y" %}</span></div>
-<div class="pill-tabs ink"><a class="active" href="/shop/">Мерч</a><a href="/rating/badges/">Значки</a></div>
+<div class="pill-tabs ink" aria-label="Категории магазина">
+  <a data-demo-shop-filter="" class="{% if not selected_category %}active{% endif %}" href="{% url 'shop:catalog' %}">Все товары</a>
+  <a data-demo-shop-filter="clothing" class="{% if selected_category == 'clothing' %}active{% endif %}" href="{% url 'shop:catalog' %}?category=clothing">Одежда</a>
+  <a data-demo-shop-filter="accessories" class="{% if selected_category == 'accessories' %}active{% endif %}" href="{% url 'shop:catalog' %}?category=accessories">Аксессуары</a>
+  <a data-demo-shop-filter="experience" class="{% if selected_category == 'experience' %}active{% endif %}" href="{% url 'shop:catalog' %}?category=experience">Впечатления</a>
+</div>
 <div class="grid shop-grid">
 {% for p in products %}{% with s=p.total_stock %}
-  <a class="card product-card" href="{% url 'shop:product' p.pk %}">
+  <a class="card product-card" data-demo-shop-category="{{ p.category }}" href="{% url 'shop:product' p.pk %}">
     <div class="product-photo">{% if p.photo %}<img src="{{ p.photo.url }}" alt="">{% else %}<span style="font-weight:900;font-size:1.6rem;color:var(--terra)">01:17</span>{% endif %}
       <span class="sticker {% if forloop.counter0|divisibleby:2 %}{% else %}terra{% endif %}">{% if s and s <= 3 %}LAST{% elif forloop.counter0|divisibleby:2 %}01:17{% else %}NEW{% endif %}</span>
     </div>

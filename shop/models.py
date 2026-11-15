@@ -17,7 +17,13 @@ class Product(models.Model):
         EXPERIENCE = "experience", "Опыт (место на мероприятии)"
         REWARD = "reward", "Только награда (не продаётся)"
 
+    class Category(models.TextChoices):
+        CLOTHING = "clothing", "Одежда"
+        ACCESSORIES = "accessories", "Аксессуары"
+        EXPERIENCE = "experience", "Впечатления"
+
     kind = models.CharField("Тип", max_length=12, choices=Kind.choices, default=Kind.MERCH)
+    category = models.CharField("Категория каталога", max_length=16, choices=Category.choices, default=Category.ACCESSORIES)
     event = models.ForeignKey("events.Event", null=True, blank=True, on_delete=models.SET_NULL, related_name="+", verbose_name="Мероприятие",
                               help_text="Для «опыта»: покупка записывает студента на это мероприятие")
     tracks = models.ManyToManyField("career.Track", blank=True, related_name="products", verbose_name="Профессиональные треки")

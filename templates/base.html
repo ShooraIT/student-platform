@@ -30,7 +30,6 @@
       {% if user.is_staff_role %}<a href="/staff/" class="{% if '/staff/' in p %}active{% endif %}">Управление</a>{% endif %}
     </nav>
     <div class="top-right">
-      {% if section_access.shop %}<a class="balance" href="/profile/" title="Баланс">{{ site.currency_icon }} {{ user.balance|steps }}</a>{% endif %}
       <a class="bell" href="/notifications/" title="Уведомления">🔔{% if unread_count %}<span class="dot">{{ unread_count }}</span>{% endif %}</a>
       <a class="avatar" href="{% if section_access.shop %}/profile/{% else %}/portfolio/{% endif %}" title="{{ user.full_name }}">{{ user.first_name|default:user.username|first|upper }}</a>
     </div>

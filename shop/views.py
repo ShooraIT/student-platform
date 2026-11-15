@@ -15,7 +15,10 @@ User = get_user_model()
 @login_required
 def catalog(request):
     products = Product.objects.filter(status=Product.Status.ON_SALE).exclude(kind=Product.Kind.REWARD).prefetch_related("variants")
-    return render(request, "shop/catalog.html", {"products": products})
+    category = request.GET.get("category", "")
+    if category in {choice[0] for choice in Product.Category.choices}:
+        products = products.filter(category=category)
+    return render(request, "shop/catalog.html", {"products": products, "selected_category": category})
 
 
 @login_required

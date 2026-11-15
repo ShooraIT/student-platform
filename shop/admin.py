@@ -13,9 +13,9 @@ class VariantInline(admin.TabularInline):
 
 @admin.register(Product)
 class ProductAdmin(AuditedAdmin):
-    list_display = ["title", "kind", "price", "status", "stock", "per_user_limit", "order"]
+    list_display = ["title", "kind", "category", "price", "status", "stock", "per_user_limit", "order"]
     list_editable = ["order"]
-    list_filter = ["status", "kind"]
+    list_filter = ["status", "kind", "category"]
     search_fields = ["title"]
     autocomplete_fields = ["event"]
     filter_horizontal = ["tracks"]

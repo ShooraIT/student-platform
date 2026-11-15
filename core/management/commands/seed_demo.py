@@ -157,6 +157,7 @@ class Command(BaseCommand):
             reward_only = title == "Патч на велкро"
             p = Product.objects.create(title=title, description=desc, price=price, per_user_limit=limit,
                                        kind=Product.Kind.REWARD if reward_only else Product.Kind.MERCH,
+                                       category=Product.Category.CLOTHING if "Свитшот" in title else Product.Category.ACCESSORIES,
                                        status=Product.Status.OFF if reward_only else Product.Status.ON_SALE)
             if "линейки" in title.lower():
                 p.tracks.set(tracks_by_title[n] for n in line_names if n in tracks_by_title)
@@ -169,7 +170,7 @@ class Command(BaseCommand):
         FundItem.objects.get_or_create(name="Велком-набор (стикерпак, пуллер, упаковка)", defaults={"kind": FundItem.Kind.WELCOME, "stock": 1500})
         FundItem.objects.get_or_create(name="Поло наставника / преподавателя", defaults={"kind": FundItem.Kind.LOAN, "stock": 30})
         experience = Product.objects.create(title="Встреча с ИТ-командой — ограниченные места", description="Место на встречу с работодателем. Покупка записывает на мероприятие.",
-                                            kind=Product.Kind.EXPERIENCE, event=events[4], price=40, per_user_limit=1, status=Product.Status.ON_SALE)
+                                            kind=Product.Kind.EXPERIENCE, category=Product.Category.EXPERIENCE, event=events[4], price=40, per_user_limit=1, status=Product.Status.ON_SALE)
         ProductVariant.objects.create(product=experience, name="Место", stock=8)
 
 

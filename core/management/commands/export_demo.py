@@ -148,6 +148,7 @@ class Command(BaseCommand):
             '<p class="muted">В статическом демо уведомления доступны только внутри сайта. '
             'Настройки устройства и подписки не изменяются.</p></div>', html, flags=re.S)
         html = re.sub(r'<script src="[^"]*/static/js/push\.js"></script>', "", html)
+        html = re.sub(r'<input type="hidden" name="csrfmiddlewaretoken" value="[^"]*">', "", html)
         html = html.replace('<link rel="manifest"', '<link rel="x-manifest"')
         html = re.sub(r'\s+onclick="return confirm\([^"]*\)"', "", html)
         html = html.replace("<body>", "<body>" + DEMO_SNIPPET.replace("__BASE__", base), 1)

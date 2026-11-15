@@ -51,6 +51,25 @@
     .activity-dialog-head { display:flex; justify-content:space-between; align-items:flex-start; gap:1rem; margin-bottom:1rem; }
     .activity-dialog-head h2 { margin:0; }
     .activity-form-actions { display:flex; justify-content:flex-end; gap:.65rem; margin-top:1.25rem; }
+    .admin-section-head { display:flex; justify-content:space-between; align-items:flex-end; gap:1rem; margin-bottom:1rem; }
+    .admin-section-head h2 { margin:0; }
+    .admin-analytics { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1rem; }
+    .admin-analytics .admin-card { min-width:0; }
+    .admin-table td:first-child { font-weight:700; }
+    .student-profile-link { padding:0; border:0; background:none; color:var(--terra); font:inherit; font-weight:700; cursor:pointer; text-align:left; }
+    .review-list { display:grid; gap:.8rem; }
+    .review-item { padding:1rem; border:1px solid var(--line); border-radius:var(--radius-sm); }
+    .review-item-head { display:flex; justify-content:space-between; align-items:flex-start; gap:1rem; }
+    .review-item-head p { margin:.2rem 0; }
+    .review-detail { margin-top:.9rem; padding-top:.9rem; border-top:1px solid var(--line); }
+    .review-detail label { display:grid; gap:.35rem; margin:.75rem 0; font-weight:700; }
+    .review-actions { display:flex; flex-wrap:wrap; gap:.5rem; }
+    .shop-tools { display:flex; flex-wrap:wrap; gap:.6rem; }
+    .admin-dialog { width:min(760px,calc(100vw - 2rem)); max-width:none; max-height:calc(100dvh - 2rem); overflow:auto; padding:0; border:0; border-radius:var(--radius); color:var(--ink); background:var(--card); box-shadow:0 24px 80px #0005; }
+    .admin-dialog::backdrop { background:#171923a8; backdrop-filter:blur(3px); }
+    .admin-dialog-content { padding:1.5rem; }
+    .group-checks { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:.5rem; }
+    .group-checks label { display:flex; align-items:center; gap:.5rem; padding:.55rem .65rem; border:1px solid var(--line); border-radius:10px; font-weight:600; }
     @media(max-width:800px) {
       .admin-stats { grid-template-columns:repeat(2,minmax(0,1fr)); }
       .admin-grid { grid-template-columns:1fr; }
@@ -66,6 +85,9 @@
       .activity-form-grid { grid-template-columns:1fr; }
       .activity-form .field-wide { grid-column:auto; }
       .activity-form { padding:1rem; }
+      .admin-analytics { grid-template-columns:1fr; }
+      .group-checks { grid-template-columns:1fr; }
+      .admin-dialog-content { padding:1rem; }
     }
   </style>
   <script src="__BASE__/static/js/demo-interactions.js" data-base="__BASE__" defer></script>
@@ -97,10 +119,7 @@
         <article class="admin-stat"><span>Маршрут 1 курса</span><strong>76%</strong><small>средний прогресс</small></article>
       </section>
 
-      <div class="admin-actions" style="margin-bottom:1rem">
-        <a class="btn" href="#events">События</a>
-        <a class="btn" href="#activities">Задания и опросы</a>
-        <a class="btn" href="#students">Студенты</a>
+      <div class="admin-actions" style="justify-content:flex-end;margin:1rem 0">
         <button class="btn" type="button" data-demo-action="activity">＋ Создать активность</button>
       </div>
 
@@ -120,6 +139,29 @@
           <div class="admin-row"><div><strong>Профориентационная диагностика</strong><small>Этап 2 · срок до 15 декабря</small></div><strong>71%</strong></div>
           <div class="admin-row"><div><strong>Выбор профессиональных треков</strong><small>Этап 3 · срок до 20 января</small></div><strong>64%</strong></div>
         </article>
+      </section>
+
+      <section class="admin-card" aria-labelledby="analytics-title">
+        <div class="admin-section-head"><div><span class="eyebrow">АНАЛИТИКА</span><h2 id="analytics-title">Группы и направления</h2></div><span class="admin-note">Сводка по студентам в демо-списке</span></div>
+        <div class="admin-analytics">
+          <article class="admin-card" style="box-shadow:none;border:1px solid var(--line)">
+            <h3>По группам</h3>
+            <div class="admin-table-wrap"><table class="admin-table"><thead><tr><th>Группа</th><th>Студенты</th><th>Активность</th><th>Маршрут</th></tr></thead><tbody>
+              <tr><td>СИП-11</td><td>1</td><td>82%</td><td>84%</td></tr>
+              <tr><td>СИП-21</td><td>1</td><td>68%</td><td>68%</td></tr>
+              <tr><td>СЭС-31</td><td>1</td><td>74%</td><td>91%</td></tr>
+            </tbody></table></div>
+          </article>
+          <article class="admin-card" style="box-shadow:none;border:1px solid var(--line)">
+            <h3>По направлениям</h3>
+            <div class="admin-table-wrap"><table class="admin-table"><thead><tr><th>Направление</th><th>Участники</th><th>Средний прогресс</th></tr></thead><tbody>
+              <tr><td>ИТ · Разработка</td><td>1</td><td>84%</td></tr>
+              <tr><td>ИТ · ИИ</td><td>1</td><td>68%</td></tr>
+              <tr><td>Креатив · Дизайн</td><td>1</td><td>91%</td></tr>
+              <tr><td>Другие направления</td><td>0</td><td>—</td></tr>
+            </tbody></table></div>
+          </article>
+        </div>
       </section>
 
       <section class="admin-grid" id="activities">
@@ -156,12 +198,38 @@
           <table class="admin-table">
             <thead><tr><th>Студент</th><th>Курс / группа</th><th>Профессиональный трек</th><th>Маршрут</th></tr></thead>
             <tbody>
-              <tr><td>Анна Иванова</td><td>1 курс · СИП-11</td><td>ИТ · Разработка</td><td><div class="admin-progress"><i style="width:84%"></i></div><small>84%</small></td></tr>
-              <tr><td>Дмитрий Смирнов</td><td>1 курс · СИП-11</td><td>ИТ · ИИ</td><td><div class="admin-progress"><i style="width:68%"></i></div><small>68%</small></td></tr>
-              <tr><td>Екатерина Петрова</td><td>2 курс · ДИЗ-21</td><td>Креатив · Дизайн</td><td><div class="admin-progress"><i style="width:91%"></i></div><small>91%</small></td></tr>
+              <tr><td><button class="student-profile-link" type="button" data-student-profile="anna">Анна Иванова</button></td><td>1 курс · СИП-11</td><td>ИТ · Разработка</td><td><div class="admin-progress"><i style="width:84%"></i></div><small>84%</small></td></tr>
+              <tr><td><button class="student-profile-link" type="button" data-student-profile="dmitry">Дмитрий Смирнов</button></td><td>2 курс · СИП-21</td><td>ИТ · ИИ</td><td><div class="admin-progress"><i style="width:68%"></i></div><small>68%</small></td></tr>
+              <tr><td><button class="student-profile-link" type="button" data-student-profile="ekaterina">Екатерина Петрова</button></td><td>3 курс · СЭС-31</td><td>Креатив · Дизайн</td><td><div class="admin-progress"><i style="width:91%"></i></div><small>91%</small></td></tr>
             </tbody>
           </table>
         </div>
+      </section>
+
+      <section class="admin-card" id="manual-review">
+        <div class="admin-section-head"><div><span class="eyebrow">РУЧНАЯ ПРОВЕРКА</span><h2>Работы и достижения на проверке</h2></div><span class="admin-status pending">2 ожидают решения</span></div>
+        <div class="review-list">
+          <article class="review-item">
+            <div class="review-item-head"><div><strong>Задание «Фото с субботника»</strong><p class="admin-note">Анна Иванова · СИП-11 · отправлено сегодня в 10:42</p></div><span class="admin-status pending">Задание</span></div>
+            <button class="btn secondary small" type="button" data-review-toggle="review-task-anna" data-review-open="Открыть ответ" data-review-close="Свернуть ответ" aria-expanded="false">Открыть ответ</button>
+            <div class="review-detail" id="review-task-anna" hidden><strong>Ответ студента</strong><p>Фотоотчёт о благоустройстве территории колледжа. В комментарии студент описал свою роль в команде и приложил подтверждение участия.</p><label>Комментарий проверяющего<input type="text" placeholder="Напишите комментарий студенту"></label><div class="review-actions"><button class="btn primary small" type="button" data-demo-write>Принять работу</button><button class="btn secondary small" type="button" data-demo-write>Вернуть на доработку</button></div></div>
+          </article>
+          <article class="review-item">
+            <div class="review-item-head"><div><strong>Внешнее достижение «Хакатон»</strong><p class="admin-note">Дмитрий Смирнов · СИП-21 · отправлено вчера</p></div><span class="admin-status pending">Портфолио</span></div>
+            <button class="btn secondary small" type="button" data-review-toggle="review-portfolio-dmitry" data-review-open="Открыть материалы" data-review-close="Свернуть материалы" aria-expanded="false">Открыть материалы</button>
+            <div class="review-detail" id="review-portfolio-dmitry" hidden><strong>Данные достижения</strong><p>Хакатон «Цифровой колледж» · командный проект · подтверждение участия приложено к заявке.</p><label>Комментарий к решению<input type="text" placeholder="Напишите комментарий студенту"></label><div class="review-actions"><button class="btn primary small" type="button" data-demo-write>Подтвердить достижение</button><button class="btn secondary small" type="button" data-demo-write>Отклонить</button></div></div>
+          </article>
+        </div>
+      </section>
+
+      <section class="admin-card" id="shop-management">
+        <div class="admin-section-head"><div><span class="eyebrow">МАГАЗИН 01:17</span><h2>Каталог и остатки</h2><p class="admin-note">Управление товарами, ценами и доступностью</p></div><button class="btn" type="button" data-shop-add>＋ Добавить товар</button></div>
+        <div class="admin-table-wrap"><table class="admin-table"><thead><tr><th>Товар</th><th>Категория</th><th>Цена</th><th>Остаток</th><th>Доступность</th><th></th></tr></thead><tbody>
+          <tr><td>Шопер профессиональной линейки</td><td>Аксессуары</td><td>440 ✦</td><td>14</td><td>В продаже</td><td><button class="btn secondary small" type="button" data-shop-edit data-product-name="Шопер профессиональной линейки" data-product-kind="merch" data-product-category="accessories" data-product-price="440" data-product-stock="14">Изменить</button></td></tr>
+          <tr><td>Свитшот 01:17</td><td>Одежда</td><td>690 ✦</td><td>6</td><td>В продаже</td><td><button class="btn secondary small" type="button" data-shop-edit data-product-name="Свитшот 01:17" data-product-kind="merch" data-product-category="clothing" data-product-price="690" data-product-stock="6">Изменить</button></td></tr>
+          <tr><td>Встреча с ИТ-командой</td><td>Впечатления</td><td>40 ✦</td><td>8 мест</td><td>До 22 ноября</td><td><button class="btn secondary small" type="button" data-shop-edit data-product-name="Встреча с ИТ-командой" data-product-kind="experience" data-product-category="experience" data-product-price="40" data-product-stock="8">Изменить</button></td></tr>
+          <tr><td>Рюкзак 01:17</td><td>Награда колледжа</td><td>—</td><td>6</td><td>Только награда</td><td><button class="btn secondary small" type="button" data-shop-edit data-product-name="Рюкзак 01:17" data-product-kind="reward" data-product-category="accessories" data-product-price="0" data-product-stock="6">Изменить</button></td></tr>
+        </tbody></table></div>
       </section>
       <p class="admin-note" style="margin-top:1.25rem">Это визуальный сценарий для знакомства с интерфейсом. Реальные права, данные и действия доступны только в рабочей платформе.</p>
     </main>
@@ -190,6 +258,15 @@
             <option value="course-4">4 курс</option>
           </select>
         </label>
+        <fieldset class="field-wide" style="border:0;padding:0;margin:0">
+          <legend style="font-weight:700;margin-bottom:.45rem">Группы получателей</legend>
+          <div class="group-checks">
+            <label><input type="checkbox" name="groups" value="sip-11"> СИП-11</label>
+            <label><input type="checkbox" name="groups" value="sip-21"> СИП-21</label>
+            <label><input type="checkbox" name="groups" value="ses-31"> СЭС-31</label>
+          </div>
+          <small class="admin-note">Можно выбрать несколько групп.</small>
+        </fieldset>
         <label class="field-wide">Название
           <input name="title" type="text" maxlength="120" placeholder="Например, встреча с работодателем" required>
         </label>
@@ -207,6 +284,31 @@
         <button class="btn secondary" type="button" data-demo-close>Отмена</button>
         <button class="btn primary" type="submit">Создать в демо</button>
       </div>
+    </form>
+  </dialog>
+  <dialog class="admin-dialog" id="student-profile-dialog" aria-labelledby="student-profile-dialog-title">
+    <div class="admin-dialog-content">
+      <div class="activity-dialog-head"><div><span class="eyebrow">КАРТОЧКА СТУДЕНТА</span><h2 id="student-profile-dialog-title">Личный кабинет</h2></div><button class="btn secondary small" type="button" data-demo-close>Закрыть</button></div>
+      <article data-student-card="anna" hidden><h3>Анна Иванова · СИП-11 · 1 курс</h3><p>Профессиональный трек: ИТ · Разработка</p><p>Карьерный маршрут: 84% · 4 из 5 этапов</p><p>Портфолио: 3 подтверждённых записи · 1 достижение на проверке</p><p>Активность за месяц: 5 событий, 2 задания</p></article>
+      <article data-student-card="dmitry" hidden><h3>Дмитрий Смирнов · СИП-21 · 2 курс</h3><p>Профессиональный трек: ИТ · ИИ</p><p>Карьерный маршрут: 68% · 3 из 5 этапов</p><p>Портфолио: 2 подтверждённые записи · 1 достижение на проверке</p><p>Активность за месяц: 4 события, 3 задания</p></article>
+      <article data-student-card="ekaterina" hidden><h3>Екатерина Петрова · СЭС-31 · 3 курс</h3><p>Профессиональный трек: Креатив · Дизайн</p><p>Карьерный маршрут: 91% · 5 из 5 этапов</p><p>Портфолио: 5 подтверждённых записей</p><p>Активность за месяц: 7 событий, 2 задания</p></article>
+      <p class="admin-note">Профиль демонстрационный. Персональные данные и действия в демо не сохраняются.</p>
+    </div>
+  </dialog>
+  <dialog class="admin-dialog" id="shop-dialog" aria-labelledby="shop-dialog-title">
+    <form class="activity-form" id="shop-demo-form" method="post">
+      <div class="activity-dialog-head"><div><span class="eyebrow">МАГАЗИН 01:17</span><h2 id="shop-dialog-title">Добавить товар</h2></div><button class="btn secondary small" type="button" data-demo-close>Закрыть</button></div>
+      <p class="admin-note">Форма показывает основные параметры каталога. В демо изменения не сохраняются.</p>
+      <div class="activity-form-grid">
+        <label class="field-wide">Название товара<input name="product_title" type="text" maxlength="200" placeholder="Название" required></label>
+        <label>Тип<select name="product_kind"><option value="merch">Товар за степы</option><option value="experience">Место на мероприятии</option><option value="reward">Только награда</option></select></label>
+        <label>Категория<select name="product_category"><option value="clothing">Одежда</option><option value="accessories">Аксессуары</option><option value="experience">Впечатления</option></select></label>
+        <label>Цена, степов<input name="product_price" type="number" min="0" step="1" value="0" required></label>
+        <label>Остаток / места<input name="product_stock" type="number" min="0" step="1" value="0" required></label>
+        <label>Доступно до<input name="available_until" type="date"></label>
+        <label class="field-wide">Описание<textarea name="product_description" maxlength="1000" placeholder="Описание товара или впечатления"></textarea></label>
+      </div>
+      <div class="activity-form-actions"><button class="btn secondary" type="button" data-demo-close>Отмена</button><button class="btn primary" type="submit">Сохранить в демо</button></div>
     </form>
   </dialog>
 </body>

@@ -19,7 +19,6 @@
 </section>
 
 <section class="profile-stats" aria-label="Мои показатели">
-  {% if user.is_student %}<a class="profile-stat" href="{% url 'shop:catalog' %}"><span>Степы</span><strong>{{ user.balance }} <i>✦</i></strong><small>доступно для магазина</small></a>{% endif %}
   <a class="profile-stat" href="{% url 'achievements:list' %}"><span>Достижения</span><strong>{{ achievement_count }}</strong><small>в моей коллекции</small></a>
   {% if section_access.career %}<a class="profile-stat" href="{% url 'career:path' %}"><span>Карьерный маршрут</span><strong>{% if route %}{{ route.percent }}%{% else %}—{% endif %}</strong><small>первый курс · мой прогресс</small></a>{% endif %}
   {% if section_access.rating %}<a class="profile-stat" href="{% url 'achievements:rating' %}"><span>Рейтинг</span><strong>Открыть →</strong><small>студенты и группы</small></a>{% endif %}
