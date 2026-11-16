@@ -73,63 +73,20 @@
   <a data-demo-shop-filter="accessories" class="" href="/student-platform/shop/">Аксессуары</a>
   <a data-demo-shop-filter="experience" class="" href="/student-platform/shop/">Впечатления</a>
 </div>
-<div class="grid shop-grid">
-
-  <a class="card product-card" data-demo-shop-category="experience" href="/student-platform/shop/8/">
-    <div class="product-photo"><span style="font-weight:900;font-size:1.6rem;color:var(--terra)">01:17</span>
-      <span class="sticker ">01:17</span>
-    </div>
-    <h3>Встреча с ИТ-командой — ограниченные места</h3>
-    <div class="muted small">29.11.2026 08:04 · Коворкинг колледжа<br>Осталось 8</div>
-    <div class="spread" style="margin-top:auto;padding-top:.8rem"><span class="reward">40 степов</span><span class="btn round small" aria-hidden="true">↗</span></div>
-  </a>
-
-  <a class="card product-card" data-demo-shop-category="accessories" href="/student-platform/shop/1/">
-    <div class="product-photo"><span style="font-weight:900;font-size:1.6rem;color:var(--terra)">01:17</span>
-      <span class="sticker terra">NEW</span>
-    </div>
-    <h3>Круглый значок 01:17</h3>
-    <div class="muted small">Осталось 72</div>
-    <div class="spread" style="margin-top:auto;padding-top:.8rem"><span class="reward">20 степов</span><span class="btn round small" aria-hidden="true">↗</span></div>
-  </a>
-
-  <a class="card product-card" data-demo-shop-category="accessories" href="/student-platform/shop/3/">
-    <div class="product-photo"><span style="font-weight:900;font-size:1.6rem;color:var(--terra)">01:17</span>
-      <span class="sticker ">01:17</span>
-    </div>
-    <h3>Прямоугольный значок линейки</h3>
-    <div class="muted small"><span class="chip">ИТ · Поддержка</span><span class="chip">ИТ · ИИ</span><span class="chip">ИТ · Разработка</span><span class="chip">Креатив · Дизайн</span><span class="chip">Креатив · Анимация</span><span class="chip">Финансы</span><span class="chip">Повара</span><span class="chip">Сервис на транспорте</span><span class="chip">Гостиницы</span>Осталось 36</div>
-    <div class="spread" style="margin-top:auto;padding-top:.8rem"><span class="reward">70 степов</span><span class="btn round small" aria-hidden="true">↗</span></div>
-  </a>
-
-  <a class="card product-card" data-demo-shop-category="accessories" href="/student-platform/shop/2/">
-    <div class="product-photo"><span style="font-weight:900;font-size:1.6rem;color:var(--terra)">01:17</span>
-      <span class="sticker terra">NEW</span>
-    </div>
-    <h3>Ремувка профессиональной линейки</h3>
-    <div class="muted small"><span class="chip">ИТ · Поддержка</span><span class="chip">ИТ · ИИ</span><span class="chip">ИТ · Разработка</span><span class="chip">Креатив · Дизайн</span><span class="chip">Креатив · Анимация</span><span class="chip">Финансы</span><span class="chip">Повара</span><span class="chip">Сервис на транспорте</span><span class="chip">Гостиницы</span>Осталось 45</div>
-    <div class="spread" style="margin-top:auto;padding-top:.8rem"><span class="reward">60 степов</span><span class="btn round small" aria-hidden="true">↗</span></div>
-  </a>
-
-  <a class="card product-card" data-demo-shop-category="accessories" href="/student-platform/shop/6/">
-    <div class="product-photo"><span style="font-weight:900;font-size:1.6rem;color:var(--terra)">01:17</span>
-      <span class="sticker ">01:17</span>
-    </div>
-    <h3>Свитшот 01:17</h3>
-    <div class="muted small">Осталось 6</div>
-    <div class="spread" style="margin-top:auto;padding-top:.8rem"><span class="reward">690 степов</span><span class="btn round small" aria-hidden="true">↗</span></div>
-  </a>
-
-  <a class="card product-card" data-demo-shop-category="accessories" href="/student-platform/shop/5/">
-    <div class="product-photo"><span style="font-weight:900;font-size:1.6rem;color:var(--terra)">01:17</span>
-      <span class="sticker terra">NEW</span>
-    </div>
-    <h3>Шопер профессиональной линейки</h3>
-    <div class="muted small"><span class="chip">ИТ · Поддержка</span><span class="chip">ИТ · ИИ</span><span class="chip">ИТ · Разработка</span><span class="chip">Креатив · Дизайн</span><span class="chip">Креатив · Анимация</span><span class="chip">Финансы</span><span class="chip">Повара</span><span class="chip">Сервис на транспорте</span><span class="chip">Гостиницы</span>Осталось 15</div>
-    <div class="spread" style="margin-top:auto;padding-top:.8rem"><span class="reward">440 степов</span><span class="btn round small" aria-hidden="true">↗</span></div>
-  </a>
-
+<p class="muted small">Концептуальные макеты 01:17. Цены, квоты и остатки в магазине настраиваются администратором перед публикацией.</p>
+<div class="grid shop-grid" id="merch-catalog" data-catalog-url="/student-platform/static/shop/merch/catalog.json" aria-live="polite">
+  <p class="muted">Загружаем каталог коллекции…</p>
 </div>
+<dialog class="admin-dialog" id="merch-preview-dialog" aria-labelledby="merch-preview-title">
+  <div class="activity-form">
+    <div class="activity-dialog-head"><div><span class="eyebrow">КОЛЛЕКЦИЯ 01:17</span><h2 id="merch-preview-title"></h2></div><button class="btn secondary small" type="button" data-merch-close>Закрыть</button></div>
+    <div class="merch-preview-media" id="merch-preview-media"></div>
+    <p id="merch-preview-track" class="muted"></p>
+    <p id="merch-preview-label"></p>
+    <div class="notice">В демо можно просматривать ассортимент. Оформление заказа и изменение каталога сохраняют данные только в Django.</div>
+  </div>
+</dialog>
+<script src="/student-platform/static/js/merch-catalog.js" data-base="/student-platform" defer></script>
 
 </main>
 
