@@ -39,7 +39,10 @@
       var cards = Array.prototype.slice.call(list.querySelectorAll(".activity-card"));
       var shown = 0;
       cards.forEach(function (card) {
-        var visible = !onlyMine || statusMeansMine(card);
+        var selectedTrack = list.dataset.studentTrack || "";
+        var linkedTracks = (card.dataset.activityTracks || "").split(",").filter(Boolean);
+        var trackMatch = !selectedTrack || linkedTracks.indexOf(selectedTrack) !== -1;
+        var visible = trackMatch && (!onlyMine || statusMeansMine(card));
         card.hidden = !visible;
         if (visible) shown += 1;
       });
@@ -61,15 +64,25 @@
     toast("В календаре показано событий: " + shownEvents);
   }
 
+  function applyInitialActivityTrack() {
+    var list = document.querySelector(".activity-list[data-student-track]");
+    if (!list) return;
+    var selectedTrack = list.dataset.studentTrack;
+    list.querySelectorAll(".activity-card").forEach(function (card) {
+      var linkedTracks = (card.dataset.activityTracks || "").split(",").filter(Boolean);
+      card.hidden = linkedTracks.indexOf(selectedTrack) === -1;
+    });
+  }
+  applyInitialActivityTrack();
+
   function applyEmployerFilter(form) {
     var select = form.querySelector('[name="track"]');
     var track = select ? select.value : "";
-    var trackLabel = select && select.selectedOptions.length ? select.selectedOptions[0].textContent.trim().toLocaleLowerCase("ru") : "";
     var cards = document.querySelectorAll(".grid > article.card");
     var shown = 0;
     cards.forEach(function (card) {
-      var chips = Array.prototype.slice.call(card.querySelectorAll(".chip")).map(function (chip) { return chip.textContent.trim().toLocaleLowerCase("ru"); });
-      var visible = !track || chips.indexOf(trackLabel) !== -1;
+        var linkedTracks = (card.dataset.employerTracks || "").split(",").map(function (slug) { return slug.trim(); }).filter(Boolean);
+        var visible = !track || linkedTracks.indexOf(track) !== -1;
       card.hidden = !visible;
       if (visible) shown += 1;
     });

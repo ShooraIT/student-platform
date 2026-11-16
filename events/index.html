@@ -68,17 +68,17 @@
 
 
 <div class="spread activity-filters" style="margin-bottom:1rem">
-  <div class="muted">Все доступные события, задания и опросы</div>
+  <div class="muted">Активности по твоему направлению · ИТ · Разработка</div>
   <form method="get" data-demo-filter="activities"><input type="hidden" name="view" value="activities"><label class="choice" style="margin:0;background:#fff;border-radius:999px;padding:.45rem 1rem"><input type="checkbox" name="mine" value="1"  onchange="this.form.submit()"> Только мои записи</label></form>
 </div>
-<div class="activity-list">
+<div class="activity-list" data-student-track="it-development">
 
-  <article class="activity-card" data-demo-mine="false">
+  <article class="activity-card activity-card--event" data-activity-tracks="it-support,it-ai,it-development" data-demo-mine="false">
     <div class="activity-date"><b>15</b><span>Ноя</span></div>
     <div class="activity-copy">
-      <div class="activity-meta"><span class="activity-kind">Событие</span><time datetime="2026-11-15T14:00:00+03:00">14:00 · Офис «ТехноПульс»</time></div>
+      <div class="activity-meta"><span class="activity-kind-icon" aria-hidden="true">▦</span><span class="activity-kind">Событие</span><time datetime="2026-11-15T14:00:00+03:00">14:00 · Офис «ТехноПульс»</time></div>
       <a class="activity-title" href="/student-platform/events/5/">Экскурсия в ИТ-компанию «ТехноПульс»</a>
-      <div class="track-tags activity-tracks"><span>ИТ · Поддержка</span><span>ИТ · ИИ</span><span>ИТ · Разработка</span><span>+1</span></div>
+      <div class="track-tags activity-tracks"><span>ИТ · Разработка</span></div>
     </div>
     <div class="activity-actions">
       <span class="badge ">Запись открыта</span>
@@ -87,12 +87,12 @@
     </div>
   </article>
 
-  <article class="activity-card" data-demo-mine="false">
+  <article class="activity-card activity-card--event" data-activity-tracks="creative-design,creative-animation" hidden data-demo-mine="false">
     <div class="activity-date"><b>18</b><span>Ноя</span></div>
     <div class="activity-copy">
-      <div class="activity-meta"><span class="activity-kind">Событие</span><time datetime="2026-11-18T17:00:00+03:00">17:00 · Студия «Форма»</time></div>
+      <div class="activity-meta"><span class="activity-kind-icon" aria-hidden="true">▦</span><span class="activity-kind">Событие</span><time datetime="2026-11-18T17:00:00+03:00">17:00 · Студия «Форма»</time></div>
       <a class="activity-title" href="/student-platform/events/6/">Встреча с действующими специалистами студии «Форма»</a>
-      <div class="track-tags activity-tracks"><span>Креатив · Дизайн</span><span>Креатив · Анимация</span></div>
+      
     </div>
     <div class="activity-actions">
       <span class="badge ">Запись открыта</span>
@@ -101,12 +101,12 @@
     </div>
   </article>
 
-  <article class="activity-card" data-demo-mine="false">
+  <article class="activity-card activity-card--vote" data-activity-tracks="it-support,it-ai,it-development" data-demo-mine="false">
     <div class="activity-date"><b>18</b><span>Ноя</span></div>
     <div class="activity-copy">
-      <div class="activity-meta"><span class="activity-kind">Голосование</span><time datetime="2026-11-18T20:58:39.873873+03:00">До 18.11 · 20:58</time></div>
+      <div class="activity-meta"><span class="activity-kind-icon" aria-hidden="true">◉</span><span class="activity-kind">Голосование</span><time datetime="2026-11-18T20:58:39.873873+03:00">До 18.11 · 20:58</time></div>
       <a class="activity-title" href="/student-platform/surveys/2/">Какое направление изучим на следующей встрече?</a>
-      <div class="track-tags activity-tracks"><span>ИТ · Поддержка</span><span>ИТ · ИИ</span><span>ИТ · Разработка</span><span>+6</span></div>
+      <div class="track-tags activity-tracks"><span>ИТ · Разработка</span></div>
     </div>
     <div class="activity-actions">
       <span class="badge ">Доступно</span>
@@ -115,12 +115,12 @@
     </div>
   </article>
 
-  <article class="activity-card" data-demo-mine="false">
+  <article class="activity-card activity-card--task" data-activity-tracks="it-support,it-ai,it-development" data-demo-mine="false">
     <div class="activity-date"><b>20</b><span>Ноя</span></div>
     <div class="activity-copy">
-      <div class="activity-meta"><span class="activity-kind">Задание</span><time datetime="2026-11-20T20:58:39.873873+03:00">До 20.11 · 20:58 · Ручная проверка</time></div>
+      <div class="activity-meta"><span class="activity-kind-icon" aria-hidden="true">✓</span><span class="activity-kind">Задание</span><time datetime="2026-11-20T20:58:39.873873+03:00">До 20.11 · 20:58 · Ручная проверка</time></div>
       <a class="activity-title" href="/student-platform/tasks/1/">Профессия рядом: мини-интервью со специалистом</a>
-      <div class="track-tags activity-tracks"><span>ИТ · Поддержка</span><span>ИТ · ИИ</span><span>ИТ · Разработка</span><span>+6</span></div>
+      <div class="track-tags activity-tracks"><span>ИТ · Разработка</span></div>
     </div>
     <div class="activity-actions">
       <span class="badge ">Доступно</span>
@@ -129,12 +129,12 @@
     </div>
   </article>
 
-  <article class="activity-card" data-demo-mine="false">
+  <article class="activity-card activity-card--event" data-activity-tracks="cooks,transport-service,hospitality" hidden data-demo-mine="false">
     <div class="activity-date"><b>22</b><span>Ноя</span></div>
     <div class="activity-copy">
-      <div class="activity-meta"><span class="activity-kind">Событие</span><time datetime="2026-11-22T15:00:00+03:00">15:00 · Отель «Полюс»</time></div>
+      <div class="activity-meta"><span class="activity-kind-icon" aria-hidden="true">▦</span><span class="activity-kind">Событие</span><time datetime="2026-11-22T15:00:00+03:00">15:00 · Отель «Полюс»</time></div>
       <a class="activity-title" href="/student-platform/events/7/">Экскурсия и проба профессий в отеле «Полюс»</a>
-      <div class="track-tags activity-tracks"><span>Повара</span><span>Сервис на транспорте</span><span>Гостиницы</span></div>
+      
     </div>
     <div class="activity-actions">
       <span class="badge ">Запись открыта</span>
@@ -143,12 +143,12 @@
     </div>
   </article>
 
-  <article class="activity-card" data-demo-mine="false">
+  <article class="activity-card activity-card--task" data-activity-tracks="it-support,it-ai,it-development" data-demo-mine="false">
     <div class="activity-date"><b>23</b><span>Ноя</span></div>
     <div class="activity-copy">
-      <div class="activity-meta"><span class="activity-kind">Задание</span><time datetime="2026-11-23T20:58:39.873873+03:00">До 23.11 · 20:58 · Квест (вопросы по цепочке)</time></div>
+      <div class="activity-meta"><span class="activity-kind-icon" aria-hidden="true">✓</span><span class="activity-kind">Задание</span><time datetime="2026-11-23T20:58:39.873873+03:00">До 23.11 · 20:58 · Квест (вопросы по цепочке)</time></div>
       <a class="activity-title" href="/student-platform/tasks/3/">Квест «Маршрут профессии»</a>
-      <div class="track-tags activity-tracks"><span>ИТ · Поддержка</span><span>ИТ · ИИ</span><span>ИТ · Разработка</span><span>+6</span></div>
+      <div class="track-tags activity-tracks"><span>ИТ · Разработка</span></div>
     </div>
     <div class="activity-actions">
       <span class="badge ">Доступно</span>
@@ -157,12 +157,12 @@
     </div>
   </article>
 
-  <article class="activity-card" data-demo-mine="false">
+  <article class="activity-card activity-card--survey" data-activity-tracks="it-support,it-ai,it-development" data-demo-mine="false">
     <div class="activity-date"><b>23</b><span>Ноя</span></div>
     <div class="activity-copy">
-      <div class="activity-meta"><span class="activity-kind">Опрос</span><time datetime="2026-11-23T20:58:39.873873+03:00">До 23.11 · 20:58</time></div>
+      <div class="activity-meta"><span class="activity-kind-icon" aria-hidden="true">▤</span><span class="activity-kind">Опрос</span><time datetime="2026-11-23T20:58:39.873873+03:00">До 23.11 · 20:58</time></div>
       <a class="activity-title" href="/student-platform/surveys/1/">Какие направления и профессии тебе интересны?</a>
-      <div class="track-tags activity-tracks"><span>ИТ · Поддержка</span><span>ИТ · ИИ</span><span>ИТ · Разработка</span><span>+6</span></div>
+      <div class="track-tags activity-tracks"><span>ИТ · Разработка</span></div>
     </div>
     <div class="activity-actions">
       <span class="badge ">Доступно</span>
@@ -171,12 +171,12 @@
     </div>
   </article>
 
-  <article class="activity-card" data-demo-mine="false">
+  <article class="activity-card activity-card--task" data-activity-tracks="it-support,it-ai,it-development" data-demo-mine="false">
     <div class="activity-date"><b>27</b><span>Ноя</span></div>
     <div class="activity-copy">
-      <div class="activity-meta"><span class="activity-kind">Задание</span><time datetime="2026-11-27T20:58:39.873873+03:00">До 27.11 · 20:58 · Автопроверка (викторина)</time></div>
+      <div class="activity-meta"><span class="activity-kind-icon" aria-hidden="true">✓</span><span class="activity-kind">Задание</span><time datetime="2026-11-27T20:58:39.873873+03:00">До 27.11 · 20:58 · Автопроверка (викторина)</time></div>
       <a class="activity-title" href="/student-platform/tasks/2/">Первое собеседование: подготовка к стажировке</a>
-      <div class="track-tags activity-tracks"><span>ИТ · Поддержка</span><span>ИТ · ИИ</span><span>ИТ · Разработка</span><span>+6</span></div>
+      <div class="track-tags activity-tracks"><span>ИТ · Разработка</span></div>
     </div>
     <div class="activity-actions">
       <span class="badge ">Доступно</span>
@@ -185,12 +185,12 @@
     </div>
   </article>
 
-  <article class="activity-card" data-demo-mine="false">
+  <article class="activity-card activity-card--event" data-activity-tracks="it-support,it-ai,it-development" data-demo-mine="false">
     <div class="activity-date"><b>29</b><span>Ноя</span></div>
     <div class="activity-copy">
-      <div class="activity-meta"><span class="activity-kind">Событие</span><time datetime="2026-11-29T08:04:22.989113+03:00">08:04 · Коворкинг колледжа</time></div>
+      <div class="activity-meta"><span class="activity-kind-icon" aria-hidden="true">▦</span><span class="activity-kind">Событие</span><time datetime="2026-11-29T08:04:22.989113+03:00">08:04 · Коворкинг колледжа</time></div>
       <a class="activity-title" href="/student-platform/events/9/">Встреча с ИТ-командой ТехноПульс</a>
-      <div class="track-tags activity-tracks"><span>ИТ · Поддержка</span><span>ИТ · ИИ</span><span>ИТ · Разработка</span><span>+1</span></div>
+      <div class="track-tags activity-tracks"><span>ИТ · Разработка</span></div>
     </div>
     <div class="activity-actions">
       <span class="badge ">Запись открыта</span>
@@ -199,12 +199,12 @@
     </div>
   </article>
 
-  <article class="activity-card" data-demo-mine="false">
+  <article class="activity-card activity-card--event" data-activity-tracks="it-support,it-ai,it-development" data-demo-mine="false">
     <div class="activity-date"><b>3</b><span>Дек</span></div>
     <div class="activity-copy">
-      <div class="activity-meta"><span class="activity-kind">Событие</span><time datetime="2026-12-03T18:00:00+03:00">18:00 · Актовый зал</time></div>
+      <div class="activity-meta"><span class="activity-kind-icon" aria-hidden="true">▦</span><span class="activity-kind">Событие</span><time datetime="2026-12-03T18:00:00+03:00">18:00 · Актовый зал</time></div>
       <a class="activity-title" href="/student-platform/events/8/">Встреча с выпускниками: первый год работы после колледжа</a>
-      <div class="track-tags activity-tracks"><span>ИТ · Поддержка</span><span>ИТ · ИИ</span><span>ИТ · Разработка</span><span>+6</span></div>
+      <div class="track-tags activity-tracks"><span>ИТ · Разработка</span></div>
     </div>
     <div class="activity-actions">
       <span class="badge ">Запись открыта</span>
