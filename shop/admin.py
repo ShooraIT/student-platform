@@ -13,7 +13,7 @@ class VariantInline(admin.TabularInline):
 
 @admin.register(Product)
 class ProductAdmin(AuditedAdmin):
-    list_display = ["title", "kind", "category", "price", "status", "stock", "per_user_limit", "order"]
+    list_display = ["title", "kind", "category", "price", "status", "stock", "per_user_limit", "order", "asset_path"]
     list_editable = ["order"]
     list_filter = ["status", "kind", "category"]
     search_fields = ["title"]

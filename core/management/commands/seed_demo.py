@@ -1,13 +1,13 @@
 """Демо-данные для показа и проверки. НЕ запускать на боевой базе.
 
-python manage.py seed_demo
-Создаёт: суперадмина admin / admin12345, 3 группы, 30 студентов (пароль student123, без смены пароля),
-мероприятия, задания, опрос, голосование, товары, карьерные треки и достижения.
+Перед запуском задайте переменные DEMO_ADMIN_PASSWORD, DEMO_ORG_PASSWORD,
+DEMO_STUDENT_PASSWORD. Команда не задаёт встроенные пароли.
 """
+import os
 import random
 from datetime import timedelta
 
-from django.core.management.base import BaseCommand
+from django.core.management.base import BaseCommand, CommandError
 from django.db import transaction
 from django.utils import timezone
 
@@ -33,10 +33,21 @@ class Command(BaseCommand):
         if User.objects.filter(username="admin").exists():
             self.stdout.write("Демо-данные уже есть")
             return
+        password_env = {
+            "admin": "DEMO_ADMIN_PASSWORD",
+            "org": "DEMO_ORG_PASSWORD",
+            "students": "DEMO_STUDENT_PASSWORD",
+        }
+        passwords = {name: os.environ.get(env_name) for name, env_name in password_env.items()}
+        missing = [env_name for name, env_name in password_env.items() if not passwords[name]]
+        if missing:
+            raise CommandError(
+                "Перед запуском задайте переменные окружения: " + ", ".join(missing)
+            )
         rnd = random.Random(1)
         now = timezone.now()
-        admin = User.objects.create_user("admin", password="admin12345", first_name="Анна", last_name="Админова", role=User.Role.SUPERADMIN)
-        User.objects.create_user("org", password="org12345", first_name="Олег", last_name="Организаторов", role=User.Role.ADMIN)
+        User.objects.create_user("admin", password=passwords["admin"], first_name="Анна", last_name="Админова", role=User.Role.SUPERADMIN)
+        User.objects.create_user("org", password=passwords["org"], first_name="Олег", last_name="Организаторов", role=User.Role.ADMIN)
 
         groups = [StudyGroup.objects.create(name=n, course=c, specialty=s) for n, c, s in
                   [("СИП-11", 1, "09.02.07"), ("СИП-21", 2, "09.02.07"), ("СЭС-31", 3, "13.02.11")]]
@@ -45,7 +56,7 @@ class Command(BaseCommand):
             female = i % 2 == 0
             last = LAST[i % 10] + ("а" if female else "")
             first = (FIRST_F if female else FIRST_M)[i % 5]
-            u = User.objects.create_user(f"student{i + 1}", password="student123", first_name=first, last_name=last,
+            u = User.objects.create_user(f"student{i + 1}", password=passwords["students"], first_name=first, last_name=last,
                                          group=groups[i % 3], role=User.Role.STUDENT,
                                          is_mentor=(i % 3 in (1, 2) and i < 12))
             students.append(u)
@@ -137,51 +148,9 @@ class Command(BaseCommand):
         for i, t in enumerate(["ИТ и цифровые сервисы", "Дизайн и анимация", "Финансы", "Сервис, транспорт и гостиницы"]):
             VoteOption.objects.create(survey=v, order=i, title=t)
 
-        # Каталог по смете проекта 01:17 (базовый сценарий): цены в баллах и квоты обмена.
-        # Девять профессиональных линеек: у шопера, прямоугольного значка и ремувки своя фраза.
-        lines = [
-            ("ИТ · Поддержка", "Спокойно, я уже подключился.", "Перезагрузка — тоже план", "СИГНАЛ ЕСТЬ"),
-            ("ИТ · ИИ", "Думаю слоями.", "Обучаюсь на ходу", "ЕЩЁ ЭПОХУ"),
-            ("ИТ · Разработка", "Ещё один коммит — и спать.", "Работает. Не трогай.", "В ПРОЦЕССЕ"),
-            ("Креатив · Дизайн", "Ещё на пиксель левее.", "Есть ещё вариант", "ВНЕ СЕТКИ"),
-            ("Креатив · Анимация", "Сейчас всё оживёт.", "Характер в движении", "МЕЖДУ КАДРАМИ"),
-            ("Финансы", "Люблю, когда всё сходится.", "Считаю на перспективу", "БАЛАНС НАЙДЕН"),
-            ("Повара", "Мой почерк пробуют на вкус.", "Довожу до вкуса", "ЩЕПОТКА ХАРАКТЕРА"),
-            ("Сервис на транспорте", "Поехали. Об остальном позабочусь.", "Сервис без остановок", "ХОРОШЕГО ПУТИ"),
-            ("Гостиницы", "Уют начинается с меня.", "Здесь вам рады", "ВСЁ ДЛЯ ГОСТЯ"),
-        ]
-
-        def phrases(i):
-            return "\n".join(f"{ln[0]} — «{ln[i]}»" for ln in lines)
-
-        line_names = [ln[0] for ln in lines]
-        tracks_by_title = {t.title: t for t in Track.objects.filter(is_active=True)}
-        for title, price, desc, variants, limit in [
-            ("Круглый значок 01:17", 20, "Значок с логотипом проекта.", [("—", 72)], None),
-            ("Ремувка профессиональной линейки", 60, "Ремувка с фразой своего направления. Выберите линейку:\n" + phrases(3),
-             [(n, 5) for n in line_names], 2),
-            ("Прямоугольный значок линейки", 70, "Печатный значок с фразой направления:\n" + phrases(2),
-             [(n, 4) for n in line_names], 2),
-            ("Патч на велкро", 0, "Патч 01:17 — только как награда колледжа.", [("—", 30)], 1),
-            ("Шопер профессиональной линейки", 440, "Хлопковый шопер с фразой направления:\n" + phrases(1),
-             [(n, 2) for n in line_names[:6]] + [(n, 1) for n in line_names[6:]], 1),
-            ("Свитшот 01:17", 690, "Свитшот с нанесением. Количество ограничено.", [("S", 1), ("M", 2), ("L", 2), ("XL", 1)], 1),
-        ]:
-            reward_only = title == "Патч на велкро"
-            p = Product.objects.create(title=title, description=desc, price=price, per_user_limit=limit,
-                                       kind=Product.Kind.REWARD if reward_only else Product.Kind.MERCH,
-                                       category=Product.Category.CLOTHING if "Свитшот" in title else Product.Category.ACCESSORIES,
-                                       status=Product.Status.OFF if reward_only else Product.Status.ON_SALE)
-            if "линейки" in title.lower():
-                p.tracks.set(tracks_by_title[n] for n in line_names if n in tracks_by_title)
-            for n, st in variants:
-                ProductVariant.objects.create(product=p, name=n, stock=st)
-
-        backpack = Product.objects.create(title="Рюкзак 01:17", description="Только награда колледжа.", price=0,
-                                          kind=Product.Kind.REWARD, status=Product.Status.OFF)
-        ProductVariant.objects.create(product=backpack, name="—", stock=6)
-        FundItem.objects.get_or_create(name="Велком-набор (стикерпак, пуллер, упаковка)", defaults={"kind": FundItem.Kind.WELCOME, "stock": 1500})
-        FundItem.objects.get_or_create(name="Поло наставника / преподавателя", defaults={"kind": FundItem.Kind.LOAN, "stock": 30})
+        # Каталог макетов и черновики товаров импортированы миграцией shop.0006_seed_merch_catalog.
+        FundItem.objects.get_or_create(name="Велком-набор (стикерпак, пуллер, упаковка)", defaults={"kind": FundItem.Kind.WELCOME, "stock": 0})
+        FundItem.objects.get_or_create(name="Поло наставника / преподавателя", defaults={"kind": FundItem.Kind.LOAN, "stock": 0})
         experience = Product.objects.create(title="Экскурсия в ИТ-компанию «ТехноПульс» — ограниченные места", description="Место на экскурсию и встречу с командой работодателя. Покупка записывает на мероприятие.",
                                             kind=Product.Kind.EXPERIENCE, category=Product.Category.EXPERIENCE, event=events[4], price=40, per_user_limit=1, status=Product.Status.ON_SALE)
         ProductVariant.objects.create(product=experience, name="Место", stock=8)
@@ -200,4 +169,4 @@ class Command(BaseCommand):
         for u in students:
             check_achievements(u)
 
-        self.stdout.write(self.style.SUCCESS("Готово. Вход: admin / admin12345 (суперадмин), student1 / student123 (студент)"))
+        self.stdout.write(self.style.SUCCESS("Готово. Демо-пользователи: admin, org, student1–student30; пароли заданы через окружение."))

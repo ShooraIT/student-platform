@@ -1,4 +1,4 @@
-{% extends "base.html" %}{% load platform %}
+{% extends "base.html" %}{% load platform static %}
 {% block title %}{{ product.title }}{% endblock %}
 {% block content %}
 <a class="back" href="{% url 'shop:catalog' %}">← В магазин</a>
@@ -6,7 +6,7 @@
   <div class="card" style="background:#e9ebf0;padding:1rem">
     <span class="sticker terra" style="position:absolute;top:1rem;left:1rem;z-index:2;padding:.35rem 1rem">DROP / 01</span>
     <div class="product-photo big" style="background:transparent;margin:0">
-      {% if product.photo %}<img src="{{ product.photo.url }}" alt="">{% else %}<span style="font-weight:900;font-size:3rem;color:var(--ink)">01:17 <span class="star">✦</span></span>{% endif %}
+      {% if product.asset_path %}<img src="{% static product.asset_path %}" alt="{{ product.title }}">{% elif product.photo %}<img src="{{ product.photo.url }}" alt="{{ product.title }}">{% else %}<span style="font-weight:900;font-size:3rem;color:var(--ink)">01:17 <span class="star">✦</span></span>{% endif %}
     </div>
     <div class="muted small" style="padding:.3rem .6rem">Новая коллекция</div>
   </div>

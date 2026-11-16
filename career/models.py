@@ -362,6 +362,7 @@ class FundItem(models.Model):
     name = models.CharField("Предмет", max_length=120)
     kind = models.CharField("Тип", max_length=10, choices=Kind.choices)
     stock = models.PositiveIntegerField("На складе", default=0)
+    asset_path = models.CharField("Изображение", max_length=255, blank=True, help_text="Путь относительно static/")
 
     class Meta:
         verbose_name = "Предмет фонда"

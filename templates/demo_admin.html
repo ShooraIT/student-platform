@@ -245,12 +245,8 @@
 
       <section class="admin-card" id="shop-management">
         <div class="admin-section-head"><div><span class="eyebrow">МАГАЗИН 01:17</span><h2>Каталог и остатки</h2><p class="admin-note">Управление товарами, ценами и доступностью</p></div><button class="btn" type="button" data-shop-add>＋ Добавить товар</button></div>
-        <div class="admin-table-wrap"><table class="admin-table"><thead><tr><th>Товар</th><th>Категория</th><th>Цена</th><th>Остаток</th><th>Доступность</th><th></th></tr></thead><tbody>
-          <tr><td>Шопер профессиональной линейки</td><td>Аксессуары</td><td>440 ✦</td><td>14</td><td>В продаже</td><td><button class="btn secondary small" type="button" data-shop-edit data-product-name="Шопер профессиональной линейки" data-product-kind="merch" data-product-category="accessories" data-product-price="440" data-product-stock="14">Изменить</button></td></tr>
-          <tr><td>Свитшот 01:17</td><td>Одежда</td><td>690 ✦</td><td>6</td><td>В продаже</td><td><button class="btn secondary small" type="button" data-shop-edit data-product-name="Свитшот 01:17" data-product-kind="merch" data-product-category="clothing" data-product-price="690" data-product-stock="6">Изменить</button></td></tr>
-          <tr><td>Встреча с ИТ-командой</td><td>Впечатления</td><td>40 ✦</td><td>8 мест</td><td>До 22 ноября</td><td><button class="btn secondary small" type="button" data-shop-edit data-product-name="Встреча с ИТ-командой" data-product-kind="experience" data-product-category="experience" data-product-price="40" data-product-stock="8">Изменить</button></td></tr>
-          <tr><td>Рюкзак 01:17</td><td>Награда колледжа</td><td>—</td><td>6</td><td>Только награда</td><td><button class="btn secondary small" type="button" data-shop-edit data-product-name="Рюкзак 01:17" data-product-kind="reward" data-product-category="accessories" data-product-price="0" data-product-stock="6">Изменить</button></td></tr>
-        </tbody></table></div>
+        <p class="admin-note">В каталоге 27 позиций профессиональных линеек и базовые изделия. Макеты концептуальные; перед публикацией задайте цену, квоту и остаток.</p>
+        <div class="admin-table-wrap"><table class="admin-table"><thead><tr><th>Товар</th><th>Категория</th><th>Цена</th><th>Остаток</th><th>Доступность</th><th></th></tr></thead><tbody id="merch-admin-catalog"><tr><td colspan="6">Загружаем каталог…</td></tr></tbody></table></div>
       </section>
       <p class="admin-note" style="margin-top:1.25rem">Это визуальный сценарий для знакомства с интерфейсом. Реальные права, данные и действия доступны только в рабочей платформе.</p>
     </main>
@@ -354,6 +350,7 @@
       <p class="admin-note">Демонстрационные данные. В этом окне нельзя изменять профиль студента.</p>
     </div>
   </dialog>
+  <script src="__BASE__/static/js/admin-merch-catalog.js" data-base="__BASE__" defer></script>
   <dialog class="admin-dialog" id="shop-dialog" aria-labelledby="shop-dialog-title">
     <form class="activity-form" id="shop-demo-form" method="post">
       <div class="activity-dialog-head"><div><span class="eyebrow">МАГАЗИН 01:17</span><h2 id="shop-dialog-title">Добавить товар</h2></div><button class="btn secondary small" type="button" data-demo-close>Закрыть</button></div>

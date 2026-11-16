@@ -150,7 +150,7 @@ class ResumeAdmin(admin.ModelAdmin):
 
 @admin.register(FundItem)
 class FundItemAdmin(admin.ModelAdmin):
-    list_display = ["name", "kind", "stock", "issued", "on_hands_now"]
+    list_display = ["name", "kind", "stock", "issued", "on_hands_now", "asset_path"]
     list_filter = ["kind"]
 
     @admin.display(description="Выдано всего")

@@ -30,6 +30,7 @@ class Product(models.Model):
     title = models.CharField("Название", max_length=200)
     description = models.TextField("Описание", blank=True)
     photo = models.ImageField("Фото", upload_to="products/", blank=True)
+    asset_path = models.CharField("Макет из ассортимента", max_length=255, blank=True, help_text="Путь относительно static/, например shop/merch/01-it-support.webp")
     price = models.PositiveIntegerField("Цена, степов")
     per_user_limit = models.PositiveIntegerField("Лимит на студента", null=True, blank=True, help_text="Пусто — без лимита")
     low_stock_alert = models.PositiveIntegerField("Предупреждать, когда остаток меньше", default=3)

@@ -34,7 +34,7 @@ py -m venv .venv
 .venv/Scripts/python manage.py seed_demo      # демо-данные
 .venv/Scripts/python manage.py runserver
 ```
-Откройте http://127.0.0.1:8000. Демо-доступы: `admin` / `admin12345` (суперадминистратор), `student1` / `student123` (студент).
+Откройте http://127.0.0.1:8000. Для создания демо-пользователей задайте переменные окружения `DEMO_ADMIN_PASSWORD`, `DEMO_ORG_PASSWORD` и `DEMO_STUDENT_PASSWORD`, затем запустите `python manage.py seed_demo`. Пользователи: `admin`, `org` и `student1`–`student30`.
 
 Тесты: `.venv/Scripts/python manage.py test accounts.tests career.tests core.tests`
 
