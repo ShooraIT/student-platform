@@ -166,23 +166,34 @@
       </section>
 
       <section class="admin-card" aria-labelledby="analytics-title">
-        <div class="admin-section-head"><div><span class="eyebrow">АНАЛИТИКА</span><h2 id="analytics-title">Группы и направления</h2></div><span class="admin-note">Сводка по студентам в демо-списке</span></div>
+        <div class="admin-section-head"><div><span class="eyebrow">АНАЛИТИКА</span><h2 id="analytics-title">Группы и направления</h2></div><span class="admin-note">Демонстрационная выборка: 30 студентов в каждой группе</span></div>
         <div class="admin-analytics">
           <article class="admin-card" style="box-shadow:none;border:1px solid var(--line)">
             <h3>По группам</h3>
             <div class="admin-table-wrap"><table class="admin-table"><thead><tr><th>Группа</th><th>Студенты</th><th>Активность</th><th>Маршрут</th></tr></thead><tbody>
-              <tr><td>СИП-11</td><td>1</td><td>82%</td><td>84%</td></tr>
-              <tr><td>СИП-21</td><td>1</td><td>68%</td><td>68%</td></tr>
-              <tr><td>СЭС-31</td><td>1</td><td>74%</td><td>91%</td></tr>
+              <tr><td>ИС-116 · ИТ-поддержка</td><td>30</td><td>82%</td><td>84%</td></tr>
+              <tr><td>ИИ-116 · ИТ и ИИ</td><td>30</td><td>68%</td><td>68%</td></tr>
+              <tr><td>ПО-116 · Разработка ПО</td><td>30</td><td>74%</td><td>84%</td></tr>
+              <tr><td>Дизайн-ДЕМО</td><td>30</td><td>79%</td><td>91%</td></tr>
+              <tr><td>Анимация-ДЕМО</td><td>30</td><td>76%</td><td>73%</td></tr>
+              <tr><td>26ФН-01 · Финансы</td><td>30</td><td>81%</td><td>77%</td></tr>
+              <tr><td>26ПКД-02 · Поварское дело</td><td>30</td><td>84%</td><td>80%</td></tr>
+              <tr><td>26СТ-07 · Транспорт</td><td>30</td><td>72%</td><td>69%</td></tr>
+              <tr><td>26ТГ-06 · Гостеприимство</td><td>30</td><td>86%</td><td>82%</td></tr>
             </tbody></table></div>
           </article>
           <article class="admin-card" style="box-shadow:none;border:1px solid var(--line)">
             <h3>По направлениям</h3>
             <div class="admin-table-wrap"><table class="admin-table"><thead><tr><th>Направление</th><th>Участники</th><th>Средний прогресс</th></tr></thead><tbody>
-              <tr><td>ИТ · Разработка</td><td>1</td><td>84%</td></tr>
-              <tr><td>ИТ · ИИ</td><td>1</td><td>68%</td></tr>
-              <tr><td>Креатив · Дизайн</td><td>1</td><td>91%</td></tr>
-              <tr><td>Другие направления</td><td>0</td><td>—</td></tr>
+              <tr><td>ИТ · Поддержка</td><td>30</td><td>84%</td></tr>
+              <tr><td>ИТ · ИИ</td><td>30</td><td>68%</td></tr>
+              <tr><td>ИТ · Разработка</td><td>30</td><td>84%</td></tr>
+              <tr><td>Креатив · Дизайн</td><td>30</td><td>91%</td></tr>
+              <tr><td>Креатив · Анимация</td><td>30</td><td>73%</td></tr>
+              <tr><td>Финансы</td><td>30</td><td>77%</td></tr>
+              <tr><td>Повара</td><td>30</td><td>80%</td></tr>
+              <tr><td>Сервис на транспорте</td><td>30</td><td>69%</td></tr>
+              <tr><td>Гостиницы</td><td>30</td><td>82%</td></tr>
             </tbody></table></div>
           </article>
         </div>
@@ -214,15 +225,15 @@
       <section class="admin-card" id="students">
         <span class="eyebrow">УЧАСТНИКИ</span>
         <h2>Активность студентов</h2>
-        <p class="admin-note">Данные демонстрационные. Изменения и действия не сохраняются.</p>
+        <p class="admin-note">270 синтетических профилей: по 30 студентов в каждой демонстрационной группе первого курса.</p>
+        <div class="admin-roster-filters" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:.75rem;margin:.8rem 0">
+          <label>Найти студента<input type="search" data-roster-search placeholder="Имя или фамилия"></label>
+          <label>Демонстрационная группа<select data-roster-group><option value="">Все 9 групп</option><option value="it-support">ИС-116 · ИТ-поддержка</option><option value="it-ai">ИИ-116 · ИТ и ИИ</option><option value="it-development">ПО-116 · Разработка ПО</option><option value="creative-design">Дизайн-ДЕМО</option><option value="creative-animation">Анимация-ДЕМО</option><option value="finance">26ФН-01 · Финансы</option><option value="cooks">26ПКД-02 · Поварское дело</option><option value="transport-service">26СТ-07 · Транспорт</option><option value="hospitality">26ТГ-06 · Гостеприимство</option></select></label>
+        </div>
         <div class="admin-table-wrap">
           <table class="admin-table">
             <thead><tr><th>Студент</th><th>Курс / группа</th><th>Профессиональный трек</th><th>Маршрут</th></tr></thead>
-            <tbody>
-              <tr><td><button class="student-profile-link" type="button" data-student-profile="anna">Анна Иванова</button></td><td>1 курс · СИП-11</td><td>ИТ · Разработка</td><td><div class="admin-progress"><i style="width:84%"></i></div><small>84%</small></td></tr>
-              <tr><td><button class="student-profile-link" type="button" data-student-profile="dmitry">Дмитрий Смирнов</button></td><td>2 курс · СИП-21</td><td>ИТ · ИИ</td><td><div class="admin-progress"><i style="width:68%"></i></div><small>68%</small></td></tr>
-              <tr><td><button class="student-profile-link" type="button" data-student-profile="ekaterina">Екатерина Петрова</button></td><td>3 курс · СЭС-31</td><td>Креатив · Дизайн</td><td><div class="admin-progress"><i style="width:91%"></i></div><small>91%</small></td></tr>
-            </tbody>
+            <tbody data-demo-student-roster><tr><td colspan="4">Загружаем список студентов…</td></tr></tbody>
           </table>
         </div>
       </section>
@@ -231,12 +242,12 @@
         <div class="admin-section-head"><div><span class="eyebrow">РУЧНАЯ ПРОВЕРКА</span><h2>Работы и достижения на проверке</h2></div><span class="admin-status pending">2 ожидают решения</span></div>
         <div class="review-list">
           <article class="review-item">
-            <div class="review-item-head"><div><strong>Задание «Профессия рядом: мини-интервью со специалистом»</strong><p class="admin-note">Анна Иванова · СИП-11 · ИТ · Разработка · отправлено сегодня</p></div><span class="admin-status pending">Задание</span></div>
+            <div class="review-item-head"><div><strong>Задание «Профессия рядом: мини-интервью со специалистом»</strong><p class="admin-note">Анна Иванова · ПО-116 · ИТ · Разработка · отправлено сегодня</p></div><span class="admin-status pending">Задание</span></div>
             <button class="btn secondary small" type="button" data-review-toggle="review-task-anna" data-review-open="Открыть ответ" data-review-close="Свернуть ответ" aria-expanded="false">Открыть ответ</button>
             <div class="review-detail" id="review-task-anna" hidden><strong>Ответ студента</strong><p>Студент поговорил со специалистом по разработке, описал его задачи и отметил навыки, которые хочет развивать в выбранном треке.</p><label>Комментарий проверяющего<input type="text" placeholder="Напишите комментарий студенту"></label><div class="review-actions"><button class="btn primary small" type="button" data-demo-write>Принять работу</button><button class="btn secondary small" type="button" data-demo-write>Вернуть на доработку</button></div></div>
           </article>
           <article class="review-item">
-            <div class="review-item-head"><div><strong>Внешнее достижение «Хакатон»</strong><p class="admin-note">Дмитрий Смирнов · СИП-21 · отправлено вчера</p></div><span class="admin-status pending">Портфолио</span></div>
+            <div class="review-item-head"><div><strong>Внешнее достижение «Хакатон»</strong><p class="admin-note">Дмитрий Смирнов · ИИ-116 · отправлено вчера</p></div><span class="admin-status pending">Портфолио</span></div>
             <button class="btn secondary small" type="button" data-review-toggle="review-portfolio-dmitry" data-review-open="Открыть материалы" data-review-close="Свернуть материалы" aria-expanded="false">Открыть материалы</button>
             <div class="review-detail" id="review-portfolio-dmitry" hidden><strong>Данные достижения</strong><p>Хакатон «Цифровой колледж» · командный проект · подтверждение участия приложено к заявке.</p><label>Комментарий к решению<input type="text" placeholder="Напишите комментарий студенту"></label><div class="review-actions"><button class="btn primary small" type="button" data-demo-write>Подтвердить достижение</button><button class="btn secondary small" type="button" data-demo-write>Отклонить</button></div></div>
           </article>
@@ -251,8 +262,8 @@
       <section class="admin-card" id="shop-orders">
         <div class="admin-section-head"><div><span class="eyebrow">ВЫДАЧА</span><h2>Заказы студентов</h2><p class="admin-note">Проверяйте заказ и отмечайте фактическую выдачу товара.</p></div><span class="admin-status pending">2 ожидают</span></div>
         <div class="admin-table-wrap"><table class="admin-table"><thead><tr><th>Студент</th><th>Товар</th><th>Код</th><th>Заказ</th><th>Действие</th></tr></thead><tbody>
-          <tr><td>Анна Иванова · СИП-11</td><td>Футболка 01:17 · M</td><td>Q7M2RX</td><td><span class="admin-status pending">Ожидает выдачи</span></td><td><button class="btn primary small" type="button" data-demo-write>Отметить выдачу</button></td></tr>
-          <tr><td>Дмитрий Смирнов · СИП-21</td><td>Рюкзак 01:17</td><td>H4K8LP</td><td><span class="admin-status pending">Ожидает выдачи</span></td><td><button class="btn primary small" type="button" data-demo-write>Отметить выдачу</button></td></tr>
+          <tr><td>Анна Иванова · ПО-116</td><td>Футболка 01:17 · M</td><td>Q7M2RX</td><td><span class="admin-status pending">Ожидает выдачи</span></td><td><button class="btn primary small" type="button" data-demo-write>Отметить выдачу</button></td></tr>
+          <tr><td>Дмитрий Смирнов · ИИ-116</td><td>Рюкзак 01:17</td><td>H4K8LP</td><td><span class="admin-status pending">Ожидает выдачи</span></td><td><button class="btn primary small" type="button" data-demo-write>Отметить выдачу</button></td></tr>
         </tbody></table></div>
       </section>
       <p class="admin-note" style="margin-top:1.25rem">Это визуальный сценарий для знакомства с интерфейсом. Реальные права, данные и действия доступны только в рабочей платформе.</p>
@@ -277,20 +288,55 @@
           <select name="audience" required>
             <option value="all">Все студенты</option>
             <option value="course-1">1 курс</option>
-            <option value="course-2">2 курс</option>
-            <option value="course-3">3 курс</option>
-            <option value="course-4">4 курс</option>
           </select>
         </label>
         <fieldset class="field-wide" style="border:0;padding:0;margin:0">
-          <legend style="font-weight:700;margin-bottom:.45rem">Группы получателей</legend>
+          <legend style="font-weight:700;margin-bottom:.45rem">Группы получателей · 1 курс</legend>
           <details class="group-picker">
             <summary><span data-groups-summary>Выберите группы</span></summary>
             <div class="group-picker-menu"><div class="group-checks">
-              <label><input type="checkbox" name="groups" value="sip-11"> СИП-11</label>
-              <label><input type="checkbox" name="groups" value="sip-21"> СИП-21</label>
-              <label><input type="checkbox" name="groups" value="ses-31"> СЭС-31</label>
-            </div></div>
+              <label><input type="checkbox" name="groups" value="registry-001"> 26ПКД-02 · Поварское и кондитерское дело</label>
+              <label><input type="checkbox" name="groups" value="registry-002"> 26ПКД-03 · Поварское и кондитерское дело</label>
+              <label><input type="checkbox" name="groups" value="registry-003"> 26ПКД-04 · Поварское и кондитерское дело</label>
+              <label><input type="checkbox" name="groups" value="registry-004"> 26ПКД-05 · Поварское и кондитерское дело</label>
+              <label><input type="checkbox" name="groups" value="registry-005"> 26СТ-07 · Сервис на транспорте (по видам транспорта)</label>
+              <label><input type="checkbox" name="groups" value="registry-006"> 26СТ-08 · Сервис на транспорте (по видам транспорта)</label>
+              <label><input type="checkbox" name="groups" value="registry-007"> 26СТ-09 · Сервис на транспорте (по видам транспорта)</label>
+              <label><input type="checkbox" name="groups" value="registry-008"> 26ТГ-06 · Туризм и гостеприимство</label>
+              <label><input type="checkbox" name="groups" value="registry-009"> 26ТГ-07 · Туризм и гостеприимство</label>
+              <label><input type="checkbox" name="groups" value="registry-010"> 26ТГ-08 · Туризм и гостеприимство</label>
+              <label><input type="checkbox" name="groups" value="registry-011"> 26ТГ-09 · Туризм и гостеприимство</label>
+              <label><input type="checkbox" name="groups" value="registry-012"> 26ФН-01 · Финансы</label>
+              <label><input type="checkbox" name="groups" value="registry-013"> 26ФН-02 · Финансы</label>
+              <label><input type="checkbox" name="groups" value="registry-014"> 26ФН-03 · Финансы</label>
+              <label><input type="checkbox" name="groups" value="registry-015"> Веб-116 · Веб-разработка</label>
+              <label><input type="checkbox" name="groups" value="registry-016"> Веб-126 · Веб-разработка</label>
+              <label><input type="checkbox" name="groups" value="registry-017"> Веб-136 · Веб-разработка</label>
+              <label><input type="checkbox" name="groups" value="registry-018"> Веб-146 · Веб-разработка</label>
+              <label><input type="checkbox" name="groups" value="registry-019"> Веб-156 · Веб-разработка</label>
+              <label><input type="checkbox" name="groups" value="registry-020"> Веб-166 · Веб-разработка</label>
+              <label><input type="checkbox" name="groups" value="registry-021"> ИИ-116 · Интеграция решений с применением технологий искусственного интеллекта</label>
+              <label><input type="checkbox" name="groups" value="registry-022"> ИИ-126 · Интеграция решений с применением технологий искусственного интеллекта</label>
+              <label><input type="checkbox" name="groups" value="registry-023"> ИИ-136 · Интеграция решений с применением технологий искусственного интеллекта</label>
+              <label><input type="checkbox" name="groups" value="registry-024"> ИИ-146 · Интеграция решений с применением технологий искусственного интеллекта</label>
+              <label><input type="checkbox" name="groups" value="registry-025"> ИИ-156 · Интеграция решений с применением технологий искусственного интеллекта</label>
+              <label><input type="checkbox" name="groups" value="registry-026"> ИИ-166 · Интеграция решений с применением технологий искусственного интеллекта</label>
+              <label><input type="checkbox" name="groups" value="registry-027"> ИС-116 · Техническая эксплуатация и сопровождение информационных систем</label>
+              <label><input type="checkbox" name="groups" value="registry-028"> ИС-126 · Техническая эксплуатация и сопровождение информационных систем</label>
+              <label><input type="checkbox" name="groups" value="registry-029"> ИС-136 · Техническая эксплуатация и сопровождение информационных систем</label>
+              <label><input type="checkbox" name="groups" value="registry-030"> ИС-146 · Техническая эксплуатация и сопровождение информационных систем</label>
+              <label><input type="checkbox" name="groups" value="registry-031"> ИС-156 · Техническая эксплуатация и сопровождение информационных систем</label>
+              <label><input type="checkbox" name="groups" value="registry-032"> ПО-116 · Разработка и управление программным обеспечением</label>
+              <label><input type="checkbox" name="groups" value="registry-033"> ПО-126 · Разработка и управление программным обеспечением</label>
+              <label><input type="checkbox" name="groups" value="registry-034"> ПО-136 · Разработка и управление программным обеспечением</label>
+              <label><input type="checkbox" name="groups" value="registry-035"> ПО-146 · Разработка и управление программным обеспечением</label>
+              <label><input type="checkbox" name="groups" value="registry-036"> ПО-156 · Разработка и управление программным обеспечением</label>
+              <label><input type="checkbox" name="groups" value="registry-037"> ПО-166 · Разработка и управление программным обеспечением</label>
+              <label><input type="checkbox" name="groups" value="registry-038"> ПО-176 · Разработка и управление программным обеспечением</label>
+              <label><input type="checkbox" name="groups" value="registry-039"> ПО-186 · Разработка и управление программным обеспечением</label>
+              <label><input type="checkbox" name="groups" value="creative-design-demo"> Дизайн-ДЕМО · демо · Графический дизайн</label>
+              <label><input type="checkbox" name="groups" value="creative-animation-demo"> Анимация-ДЕМО · демо · Анимация и анимационное кино</label>
+            </div>
           </details>
           <small class="admin-note">Можно выбрать несколько групп.</small>
         </fieldset>

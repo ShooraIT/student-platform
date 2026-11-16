@@ -245,10 +245,83 @@
   }
 
   var demoStudents = {
-    anna: { initial: "А", name: "Анна Иванова", group: "СИП-11", direction: "09.02.07 · Информационные системы и программирование", course: 1, balance: 70, earned: 70, achievementCount: 1, rankGroup: 2, rankDirection: 5, rankTrack: 2, rankAll: 18, progress: 84, stages: "4 из 5 этапов", track: "ИТ · Разработка", achievements: [{ icon: "★", name: "Первый шаг", date: "13.11.2026" }], history: [{ title: "Достижение «Первый шаг»", detail: "13.11.2026 · Значок", amount: "+5" }, { title: "Посещение: Хакатон «Цифровой колледж»", detail: "13.11.2026 · Посещение мероприятия", amount: "+50" }, { title: "Посещение: Мастер-класс по скетчингу", detail: "13.11.2026 · Посещение мероприятия", amount: "+15" }], registrations: ["Экскурсия в ИТ-компанию · зарегистрирована", "Встреча с разработчиком · в списке ожидания"], orders: ["Футболка 01:17 · готов к выдаче"] },
-    dmitry: { initial: "Д", name: "Дмитрий Смирнов", group: "СИП-21", direction: "09.02.13 · ИИ", course: 2, balance: 120, earned: 160, achievementCount: 3, rankGroup: 1, rankDirection: 3, rankTrack: 1, rankAll: 7, progress: 68, stages: "Текущий трек", track: "ИТ · ИИ", achievements: [{ icon: "◎", name: "Профиль интересов", date: "12.11.2026" }, { icon: "↗", name: "Путь выбран", date: "10.11.2026" }, { icon: "★", name: "Первый шаг", date: "08.11.2026" }], history: [{ title: "Посещение: Встреча с ИТ-командой", detail: "14.11.2026 · Посещение мероприятия", amount: "+40" }, { title: "Профдиагностика завершена", detail: "12.11.2026 · Карьерный трек", amount: "+20" }, { title: "Задание «Мой первый проект»", detail: "10.11.2026 · Задание", amount: "+10" }], registrations: ["Встреча с ИТ-командой · посетил"], orders: ["Рюкзак 01:17 · заказан"] },
-    ekaterina: { initial: "Е", name: "Екатерина Петрова", group: "СЭС-31", direction: "54.01.20 · Графический дизайн", course: 3, balance: 95, earned: 135, achievementCount: 4, rankGroup: 3, rankDirection: 2, rankTrack: 1, rankAll: 12, progress: 91, stages: "Текущий трек", track: "Креатив · Дизайн", achievements: [{ icon: "✦", name: "Автор идеи", date: "14.11.2026" }, { icon: "◎", name: "Профиль интересов", date: "12.11.2026" }, { icon: "↗", name: "Путь выбран", date: "09.11.2026" }], history: [{ title: "Внешнее достижение подтверждено", detail: "14.11.2026 · Портфолио", amount: "+25" }, { title: "Посещение: Дизайн-сессия", detail: "12.11.2026 · Посещение мероприятия", amount: "+15" }, { title: "Задание «Визуальная концепция»", detail: "09.11.2026 · Задание", amount: "+20" }], registrations: ["Дизайн-сессия с представителем компании · посетила"], orders: [] }
+    anna: { initial: "А", name: "Анна Иванова", group: "ПО-116", direction: "09.02.11 · Разработка и управление программным обеспечением", course: 1, balance: 70, earned: 70, achievementCount: 1, rankGroup: 2, rankDirection: 5, rankTrack: 2, rankAll: 18, progress: 84, stages: "4 из 5 этапов", track: "ИТ · Разработка", achievements: [{ icon: "★", name: "Первый шаг", date: "13.11.2026" }], history: [{ title: "Достижение «Первый шаг»", detail: "13.11.2026 · Значок", amount: "+5" }, { title: "Посещение: Хакатон «Цифровой колледж»", detail: "13.11.2026 · Посещение мероприятия", amount: "+50" }, { title: "Посещение: Мастер-класс по скетчингу", detail: "13.11.2026 · Посещение мероприятия", amount: "+15" }], registrations: ["Экскурсия в ИТ-компанию · зарегистрирована", "Встреча с разработчиком · в списке ожидания"], orders: ["Футболка 01:17 · готов к выдаче"] },
+    dmitry: { initial: "Д", name: "Дмитрий Смирнов", group: "ИИ-116", direction: "09.02.13 · Интеграция решений с применением технологий искусственного интеллекта", course: 1, balance: 120, earned: 160, achievementCount: 3, rankGroup: 1, rankDirection: 3, rankTrack: 1, rankAll: 7, progress: 68, stages: "Текущий трек", track: "ИТ · ИИ", achievements: [{ icon: "◎", name: "Профиль интересов", date: "12.11.2026" }, { icon: "↗", name: "Путь выбран", date: "10.11.2026" }, { icon: "★", name: "Первый шаг", date: "08.11.2026" }], history: [{ title: "Посещение: Встреча с ИТ-командой", detail: "14.11.2026 · Посещение мероприятия", amount: "+40" }, { title: "Профдиагностика завершена", detail: "12.11.2026 · Карьерный трек", amount: "+20" }, { title: "Задание «Мой первый проект»", detail: "10.11.2026 · Задание", amount: "+10" }], registrations: ["Встреча с ИТ-командой · посетил"], orders: ["Рюкзак 01:17 · заказан"] },
+    ekaterina: { initial: "Е", name: "Екатерина Петрова", group: "Дизайн-ДЕМО", direction: "54.01.20 · Графический дизайн", course: 1, balance: 95, earned: 135, achievementCount: 4, rankGroup: 3, rankDirection: 2, rankTrack: 1, rankAll: 12, progress: 91, stages: "Текущий трек", track: "Креатив · Дизайн", achievements: [{ icon: "✦", name: "Автор идеи", date: "14.11.2026" }, { icon: "◎", name: "Профиль интересов", date: "12.11.2026" }, { icon: "↗", name: "Путь выбран", date: "09.11.2026" }], history: [{ title: "Внешнее достижение подтверждено", detail: "14.11.2026 · Портфолио", amount: "+25" }, { title: "Посещение: Дизайн-сессия", detail: "12.11.2026 · Посещение мероприятия", amount: "+15" }, { title: "Задание «Визуальная концепция»", detail: "09.11.2026 · Задание", amount: "+20" }], registrations: ["Дизайн-сессия с представителем компании · посетила"], orders: [] }
   };
+
+  var demoRosterGroups = [
+    { slug: "it-support", group: "ИС-116", direction: "09.02.12 · Техническая эксплуатация и сопровождение информационных систем", track: "ИТ · Поддержка", sample: null },
+    { slug: "it-ai", group: "ИИ-116", direction: "09.02.13 · Интеграция решений с применением технологий искусственного интеллекта", track: "ИТ · ИИ", sample: "dmitry" },
+    { slug: "it-development", group: "ПО-116", direction: "09.02.11 · Разработка и управление программным обеспечением", track: "ИТ · Разработка", sample: "anna" },
+    { slug: "creative-design", group: "Дизайн-ДЕМО", direction: "54.01.20 · Графический дизайн (демо)", track: "Креатив · Дизайн", sample: "ekaterina" },
+    { slug: "creative-animation", group: "Анимация-ДЕМО", direction: "55.02.02 · Анимация и анимационное кино (демо)", track: "Креатив · Анимация", sample: null },
+    { slug: "finance", group: "26ФН-01", direction: "38.02.06 · Финансы", track: "Финансы", sample: null },
+    { slug: "cooks", group: "26ПКД-02", direction: "43.02.15 · Поварское и кондитерское дело", track: "Повара", sample: null },
+    { slug: "transport-service", group: "26СТ-07", direction: "43.02.06 · Сервис на транспорте", track: "Сервис на транспорте", sample: null },
+    { slug: "hospitality", group: "26ТГ-06", direction: "43.02.16 · Туризм и гостеприимство", track: "Гостиницы", sample: null }
+  ];
+  var demoFirstNames = ["Анна", "Даниил", "Софья", "Максим", "Алиса", "Иван", "Мария", "Кирилл", "Виктория", "Артём", "Полина", "Михаил", "Елизавета", "Дмитрий", "Варвара", "Матвей", "Анастасия", "Роман", "Дарья", "Никита", "Ксения", "Егор", "Арина", "Лев", "Милана", "Тимофей", "Ева", "Илья", "Василиса", "Александр"];
+  var demoLastNames = ["Иванова", "Попов", "Кузнецова", "Смирнов", "Петрова", "Васильев", "Соколова", "Михайлов", "Новикова", "Фёдоров", "Морозова", "Волков", "Алексеева", "Лебедев", "Семёнова", "Егоров", "Павлова", "Козлов", "Степанова", "Николаев", "Орлова", "Андреев", "Макарова", "Захаров", "Зайцева", "Соловьёв", "Борисова", "Яковлев", "Григорьева", "Романов"];
+
+  function renderDemoRoster() {
+    var tbody = document.querySelector("[data-demo-student-roster]");
+    if (!tbody) return;
+    var fragment = document.createDocumentFragment();
+    demoRosterGroups.forEach(function (group, groupIndex) {
+      for (var index = 1; index <= 30; index += 1) {
+        var id = group.sample && index === 1 ? group.sample : "demo-" + group.slug + "-" + String(index).padStart(2, "0");
+        var student = demoStudents[id];
+        if (!student) {
+          var name = demoFirstNames[(index - 1 + groupIndex * 3) % demoFirstNames.length] + " " + demoLastNames[(index - 1 + groupIndex * 7) % demoLastNames.length];
+          var progress = 45 + ((index * 7 + groupIndex * 11) % 55);
+          var balance = 30 + ((index * 13 + groupIndex * 9) % 140);
+          student = demoStudents[id] = {
+            initial: name.charAt(0), name: name, group: group.group, direction: group.direction, course: 1,
+            balance: balance, earned: balance + 20 + (index % 5) * 10, achievementCount: 1 + (index % 4),
+            rankGroup: index, rankDirection: index, rankTrack: index, rankAll: groupIndex * 30 + index,
+            progress: progress, stages: Math.min(5, Math.floor(progress / 20)) + " из 5 этапов", track: group.track,
+            achievements: [{ icon: "★", name: index % 2 ? "Первый шаг" : "Знакомство с профессией", date: "17.11.2026" }],
+            history: [{ title: "Участие в карьерной активности", detail: "17.11.2026 · Демо-запись", amount: "+10" }],
+            registrations: ["Встреча с представителем направления · зарегистрирован"], orders: []
+          };
+        }
+        var row = document.createElement("tr");
+        row.dataset.rosterGroup = group.slug;
+        row.dataset.rosterSearch = (student.name + " " + group.group + " " + group.track).toLocaleLowerCase("ru");
+        var studentCell = document.createElement("td");
+        var profileButton = document.createElement("button");
+        profileButton.className = "student-profile-link";
+        profileButton.type = "button";
+        profileButton.dataset.studentProfile = id;
+        profileButton.textContent = student.name;
+        studentCell.appendChild(profileButton);
+        var groupCell = document.createElement("td"); groupCell.textContent = "1 курс · " + group.group;
+        var trackCell = document.createElement("td"); trackCell.textContent = group.track;
+        var progressCell = document.createElement("td");
+        var progressBar = document.createElement("div"); progressBar.className = "admin-progress";
+        var progressFill = document.createElement("i"); progressFill.style.width = student.progress + "%"; progressBar.appendChild(progressFill);
+        var progressText = document.createElement("small"); progressText.textContent = student.progress + "%";
+        progressCell.append(progressBar, progressText);
+        row.append(studentCell, groupCell, trackCell, progressCell);
+        fragment.appendChild(row);
+      }
+    });
+    tbody.replaceChildren(fragment);
+    var search = document.querySelector("[data-roster-search]");
+    var groupFilter = document.querySelector("[data-roster-group]");
+    function filterRows() {
+      var query = search.value.trim().toLocaleLowerCase("ru");
+      var selectedGroup = groupFilter.value;
+      Array.from(tbody.rows).forEach(function (row) {
+        row.hidden = (selectedGroup && row.dataset.rosterGroup !== selectedGroup) || (query && !row.dataset.rosterSearch.includes(query));
+      });
+    }
+    if (search) search.addEventListener("input", filterRows);
+    if (groupFilter) groupFilter.addEventListener("change", filterRows);
+  }
+
+  renderDemoRoster();
 
   function fillStudentProfile(id, dialog) {
     var student = demoStudents[id];
