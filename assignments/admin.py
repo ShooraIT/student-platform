@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.urls import reverse
 from django.utils.html import format_html
 
-from core.admin_mixins import AnnounceOnPublishAdmin
+from core.admin_mixins import AnnounceOnPublishAdmin, FirstYearAudienceGroupsMixin
 
 from .models import Submission, Task, TaskQuestion
 
@@ -14,7 +14,7 @@ class QuestionInline(admin.StackedInline):
 
 
 @admin.register(Task)
-class TaskAdmin(AnnounceOnPublishAdmin):
+class TaskAdmin(FirstYearAudienceGroupsMixin, AnnounceOnPublishAdmin):
     announce_url = "/tasks/{pk}/"
 
     def announce_text(self, obj):

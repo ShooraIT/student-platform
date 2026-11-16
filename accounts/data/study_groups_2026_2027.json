@@ -1,0 +1,319 @@
+{
+  "academic_year": "2026/2027",
+  "source": "Реестр учебных групп БУП на 16.11.2026",
+  "groups": [
+    {
+      "name": "26ПКД-02",
+      "course": 1,
+      "specialty": "43.02.15",
+      "specialty_name": "Поварское и кондитерское дело",
+      "study_form": "Очная",
+      "students": 34
+    },
+    {
+      "name": "26ПКД-03",
+      "course": 1,
+      "specialty": "43.02.15",
+      "specialty_name": "Поварское и кондитерское дело",
+      "study_form": "Очная",
+      "students": 35
+    },
+    {
+      "name": "26ПКД-04",
+      "course": 1,
+      "specialty": "43.02.15",
+      "specialty_name": "Поварское и кондитерское дело",
+      "study_form": "Очная",
+      "students": 34
+    },
+    {
+      "name": "26ПКД-05",
+      "course": 1,
+      "specialty": "43.02.15",
+      "specialty_name": "Поварское и кондитерское дело",
+      "study_form": "Очная",
+      "students": 32
+    },
+    {
+      "name": "26СТ-07",
+      "course": 1,
+      "specialty": "43.02.06",
+      "specialty_name": "Сервис на транспорте (по видам транспорта)",
+      "study_form": "Очная",
+      "students": 33
+    },
+    {
+      "name": "26СТ-08",
+      "course": 1,
+      "specialty": "43.02.06",
+      "specialty_name": "Сервис на транспорте (по видам транспорта)",
+      "study_form": "Очная",
+      "students": 34
+    },
+    {
+      "name": "26СТ-09",
+      "course": 1,
+      "specialty": "43.02.06",
+      "specialty_name": "Сервис на транспорте (по видам транспорта)",
+      "study_form": "Очная",
+      "students": 34
+    },
+    {
+      "name": "26ТГ-06",
+      "course": 1,
+      "specialty": "43.02.16",
+      "specialty_name": "Туризм и гостеприимство",
+      "study_form": "Очная",
+      "students": 34
+    },
+    {
+      "name": "26ТГ-07",
+      "course": 1,
+      "specialty": "43.02.16",
+      "specialty_name": "Туризм и гостеприимство",
+      "study_form": "Очная",
+      "students": 34
+    },
+    {
+      "name": "26ТГ-08",
+      "course": 1,
+      "specialty": "43.02.16",
+      "specialty_name": "Туризм и гостеприимство",
+      "study_form": "Очная",
+      "students": 33
+    },
+    {
+      "name": "26ТГ-09",
+      "course": 1,
+      "specialty": "43.02.16",
+      "specialty_name": "Туризм и гостеприимство",
+      "study_form": "Очная",
+      "students": 34
+    },
+    {
+      "name": "26ФН-01",
+      "course": 1,
+      "specialty": "38.02.06",
+      "specialty_name": "Финансы",
+      "study_form": "Очная",
+      "students": 30
+    },
+    {
+      "name": "26ФН-02",
+      "course": 1,
+      "specialty": "38.02.06",
+      "specialty_name": "Финансы",
+      "study_form": "Очная",
+      "students": 31
+    },
+    {
+      "name": "26ФН-03",
+      "course": 1,
+      "specialty": "38.02.06",
+      "specialty_name": "Финансы",
+      "study_form": "Очная",
+      "students": 29
+    },
+    {
+      "name": "Веб-116",
+      "course": 1,
+      "specialty": "09.02.09",
+      "specialty_name": "Веб-разработка",
+      "study_form": "Очная",
+      "students": 27
+    },
+    {
+      "name": "Веб-126",
+      "course": 1,
+      "specialty": "09.02.09",
+      "specialty_name": "Веб-разработка",
+      "study_form": "Очная",
+      "students": 27
+    },
+    {
+      "name": "Веб-136",
+      "course": 1,
+      "specialty": "09.02.09",
+      "specialty_name": "Веб-разработка",
+      "study_form": "Очная",
+      "students": 30
+    },
+    {
+      "name": "Веб-146",
+      "course": 1,
+      "specialty": "09.02.09",
+      "specialty_name": "Веб-разработка",
+      "study_form": "Очная",
+      "students": 27
+    },
+    {
+      "name": "Веб-156",
+      "course": 1,
+      "specialty": "09.02.09",
+      "specialty_name": "Веб-разработка",
+      "study_form": "Очная",
+      "students": 26
+    },
+    {
+      "name": "Веб-166",
+      "course": 1,
+      "specialty": "09.02.09",
+      "specialty_name": "Веб-разработка",
+      "study_form": "Очная",
+      "students": 27
+    },
+    {
+      "name": "ИИ-116",
+      "course": 1,
+      "specialty": "09.02.13",
+      "specialty_name": "Интеграция решений с применением технологий искусственного интеллекта",
+      "study_form": "Очная",
+      "students": 31
+    },
+    {
+      "name": "ИИ-126",
+      "course": 1,
+      "specialty": "09.02.13",
+      "specialty_name": "Интеграция решений с применением технологий искусственного интеллекта",
+      "study_form": "Очная",
+      "students": 30
+    },
+    {
+      "name": "ИИ-136",
+      "course": 1,
+      "specialty": "09.02.13",
+      "specialty_name": "Интеграция решений с применением технологий искусственного интеллекта",
+      "study_form": "Очная",
+      "students": 30
+    },
+    {
+      "name": "ИИ-146",
+      "course": 1,
+      "specialty": "09.02.13",
+      "specialty_name": "Интеграция решений с применением технологий искусственного интеллекта",
+      "study_form": "Очная",
+      "students": 29
+    },
+    {
+      "name": "ИИ-156",
+      "course": 1,
+      "specialty": "09.02.13",
+      "specialty_name": "Интеграция решений с применением технологий искусственного интеллекта",
+      "study_form": "Очная",
+      "students": 30
+    },
+    {
+      "name": "ИИ-166",
+      "course": 1,
+      "specialty": "09.02.13",
+      "specialty_name": "Интеграция решений с применением технологий искусственного интеллекта",
+      "study_form": "Очная",
+      "students": 30
+    },
+    {
+      "name": "ИС-116",
+      "course": 1,
+      "specialty": "09.02.12",
+      "specialty_name": "Техническая эксплуатация и сопровождение информационных систем",
+      "study_form": "Очная",
+      "students": 31
+    },
+    {
+      "name": "ИС-126",
+      "course": 1,
+      "specialty": "09.02.12",
+      "specialty_name": "Техническая эксплуатация и сопровождение информационных систем",
+      "study_form": "Очная",
+      "students": 32
+    },
+    {
+      "name": "ИС-136",
+      "course": 1,
+      "specialty": "09.02.12",
+      "specialty_name": "Техническая эксплуатация и сопровождение информационных систем",
+      "study_form": "Очная",
+      "students": 32
+    },
+    {
+      "name": "ИС-146",
+      "course": 1,
+      "specialty": "09.02.12",
+      "specialty_name": "Техническая эксплуатация и сопровождение информационных систем",
+      "study_form": "Очная",
+      "students": 32
+    },
+    {
+      "name": "ИС-156",
+      "course": 1,
+      "specialty": "09.02.12",
+      "specialty_name": "Техническая эксплуатация и сопровождение информационных систем",
+      "study_form": "Очная",
+      "students": 31
+    },
+    {
+      "name": "ПО-116",
+      "course": 1,
+      "specialty": "09.02.11",
+      "specialty_name": "Разработка и управление программным обеспечением",
+      "study_form": "Очная",
+      "students": 30
+    },
+    {
+      "name": "ПО-126",
+      "course": 1,
+      "specialty": "09.02.11",
+      "specialty_name": "Разработка и управление программным обеспечением",
+      "study_form": "Очная",
+      "students": 28
+    },
+    {
+      "name": "ПО-136",
+      "course": 1,
+      "specialty": "09.02.11",
+      "specialty_name": "Разработка и управление программным обеспечением",
+      "study_form": "Очная",
+      "students": 26
+    },
+    {
+      "name": "ПО-146",
+      "course": 1,
+      "specialty": "09.02.11",
+      "specialty_name": "Разработка и управление программным обеспечением",
+      "study_form": "Очная",
+      "students": 29
+    },
+    {
+      "name": "ПО-156",
+      "course": 1,
+      "specialty": "09.02.11",
+      "specialty_name": "Разработка и управление программным обеспечением",
+      "study_form": "Очная",
+      "students": 26
+    },
+    {
+      "name": "ПО-166",
+      "course": 1,
+      "specialty": "09.02.11",
+      "specialty_name": "Разработка и управление программным обеспечением",
+      "study_form": "Очная",
+      "students": 26
+    },
+    {
+      "name": "ПО-176",
+      "course": 1,
+      "specialty": "09.02.11",
+      "specialty_name": "Разработка и управление программным обеспечением",
+      "study_form": "Очная",
+      "students": 28
+    },
+    {
+      "name": "ПО-186",
+      "course": 1,
+      "specialty": "09.02.11",
+      "specialty_name": "Разработка и управление программным обеспечением",
+      "study_form": "Очная",
+      "students": 23
+    }
+  ],
+  "scope": "Только группы 1 курса (2026/2027)"
+}

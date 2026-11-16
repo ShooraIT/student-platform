@@ -2,13 +2,13 @@
 {% block title %}Профиль студента · {{ student.full_name }}{% endblock %}
 {% block content %}
 <section class="profile-hero">
-  <div class="profile-identity"><span class="avatar lg">{{ student.first_name|default:student.username|first|upper }}</span><div><span class="eyebrow">ЛИЧНЫЙ КАБИНЕТ · ПРОСМОТР АДМИНИСТРАТОРА</span><h1>{{ student.full_name|default:student.username }}</h1><p>{{ student.group|default:"Группа не указана" }} · {{ student.course }} курс{% if student.group.specialty %} · {{ student.group.specialty }}{% endif %}</p></div></div>
+  <div class="profile-identity"><span class="avatar lg">{{ student.first_name|default:student.username|first|upper }}</span><div><span class="eyebrow">ЛИЧНЫЙ КАБИНЕТ · ПРОСМОТР АДМИНИСТРАТОРА</span><h1>{{ student.full_name|default:student.username }}</h1><p>{{ student.group|default:"Группа не указана" }} · {{ student.course }} курс{% if student.group.specialty %} · {{ student.group.specialty_name|default:student.group.specialty }}{% endif %}</p></div></div>
   <div class="profile-balance"><span>Баланс</span><strong>{{ student.balance }} <i>✦</i></strong><small>Всего заработано {{ earned }}</small></div>
 </section>
 <section class="profile-stats" aria-label="Показатели студента">
   <div class="profile-stat"><span>Достижения</span><strong>{{ achievement_count }}</strong><small>в коллекции</small></div>
   <div class="profile-stat"><span>Рейтинг группы</span><strong>{% if group_place %}{{ group_place }} место{% else %}—{% endif %}</strong><small>{{ student.group|default:"Группа не указана" }}</small></div>
-  <div class="profile-stat"><span>Рейтинг направления</span><strong>{% if direction_place %}{{ direction_place }} место{% else %}—{% endif %}</strong><small>{{ student.group.specialty|default:"Направление не указано" }}</small></div>
+  <div class="profile-stat"><span>Рейтинг направления</span><strong>{% if direction_place %}{{ direction_place }} место{% else %}—{% endif %}</strong><small>{{ student.group.specialty_name|default:student.group.specialty|default:"Направление не указано" }}</small></div>
   <div class="profile-stat"><span>Общий рейтинг</span><strong>{% if overall_place %}{{ overall_place }} место{% else %}—{% endif %}</strong><small>по колледжу</small></div>
 </section>
 <section class="card">

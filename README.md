@@ -31,10 +31,11 @@
 py -m venv .venv
 .venv/Scripts/pip install -r requirements.txt
 .venv/Scripts/python manage.py migrate
+.venv/Scripts/python manage.py sync_study_groups   # группы только 1 курса из реестра БУП
 .venv/Scripts/python manage.py seed_demo      # демо-данные
 .venv/Scripts/python manage.py runserver
 ```
-Откройте http://127.0.0.1:8000. Для создания демо-пользователей задайте переменные окружения `DEMO_ADMIN_PASSWORD`, `DEMO_ORG_PASSWORD` и `DEMO_STUDENT_PASSWORD`, затем запустите `python manage.py seed_demo`. Пользователи: `admin`, `org` и `student1`–`student30`.
+Откройте http://127.0.0.1:8000. Для демо задайте переменные окружения `DEMO_ADMIN_PASSWORD`, `DEMO_ORG_PASSWORD` и `DEMO_STUDENT_PASSWORD`, затем запустите `python manage.py seed_demo`. Импортируется список из 39 групп первого курса; старые группы архивируются без удаления. Создаются 9 демо-групп по карьерным направлениям, в каждой по 30 тестовых студентов (`demo-<направление>-01`–`30`). Для отдельного обновления списка используйте `sync_study_groups`; для повторной установки пароля демо-студентов — `seed_demo_students --reset-passwords`.
 
 Тесты: `.venv/Scripts/python manage.py test accounts.tests career.tests core.tests`
 

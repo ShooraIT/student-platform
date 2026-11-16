@@ -156,9 +156,13 @@ def apply(plan, mark_missing_expelled=False):
     for r in plan.rows:
         g = groups.get(r.group)
         if g is None:
-            g, _ = StudyGroup.objects.get_or_create(name=r.group, defaults={"course": r.course, "specialty": r.specialty})
-            if g.course != r.course or (r.specialty and g.specialty != r.specialty):
+            g, _ = StudyGroup.objects.get_or_create(
+                name=r.group,
+                defaults={"course": r.course, "specialty": r.specialty, "is_active": r.course == 1},
+            )
+            if g.course != r.course or (r.specialty and g.specialty != r.specialty) or g.is_active != (r.course == 1):
                 g.course, g.specialty = r.course, r.specialty or g.specialty
+                g.is_active = r.course == 1
                 g.save()
             groups[r.group] = g
         u = r.user

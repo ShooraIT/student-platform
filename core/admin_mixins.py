@@ -4,6 +4,17 @@ from django.utils import timezone
 from .models import AuditLog
 
 
+class FirstYearAudienceGroupsMixin:
+    """В формах активностей доступны только актуальные группы первого курса."""
+
+    def formfield_for_manytomany(self, db_field, request, **kwargs):
+        if db_field.name == "groups":
+            from accounts.models import StudyGroup
+
+            kwargs["queryset"] = StudyGroup.objects.filter(is_active=True, course=1).order_by("name")
+        return super().formfield_for_manytomany(db_field, request, **kwargs)
+
+
 class AuditedAdmin(admin.ModelAdmin):
     """Пишет создание, изменение и удаление объектов в журнал действий (п. 13.3 ТЗ)."""
 

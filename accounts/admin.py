@@ -10,9 +10,19 @@ from .models import StudyGroup, UnmatchedMeshLogin, User
 
 @admin.register(StudyGroup)
 class StudyGroupAdmin(admin.ModelAdmin):
-    list_display = ["name", "course", "specialty", "students_count"]
-    list_filter = ["course"]
-    search_fields = ["name", "specialty"]
+    list_display = ["name", "course", "specialty_name", "is_active", "students_count"]
+    list_filter = ["is_active", "course"]
+    search_fields = ["name", "specialty", "specialty_name"]
+
+    def get_queryset(self, request):
+        queryset = super().get_queryset(request)
+        if "is_active__exact" not in request.GET:
+            queryset = queryset.filter(is_active=True)
+        return queryset
+
+    def save_model(self, request, obj, form, change):
+        obj.is_active = obj.course == 1
+        super().save_model(request, obj, form, change)
 
     @admin.display(description="Студентов")
     def students_count(self, obj):

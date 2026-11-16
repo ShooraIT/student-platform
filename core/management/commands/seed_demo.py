@@ -8,10 +8,11 @@ import random
 from datetime import timedelta
 
 from django.core.management.base import BaseCommand, CommandError
+from django.core.management import call_command
 from django.db import transaction
 from django.utils import timezone
 
-from accounts.models import StudyGroup, User
+from accounts.models import User
 from achievements.models import Achievement
 from assignments.models import Task, TaskQuestion
 from career.models import Employer, FundItem, MentorSlot, Track, TrackItem
@@ -19,11 +20,6 @@ from events.models import Category, Event
 from events.services import mark_attended
 from shop.models import Product, ProductVariant
 from surveys.models import Question, Survey, VoteOption
-
-LAST = ["Иванов", "Смирнов", "Кузнецов", "Попов", "Васильев", "Петров", "Соколов", "Михайлов", "Новиков", "Фёдоров"]
-FIRST_M = ["Артём", "Максим", "Иван", "Даниил", "Кирилл"]
-FIRST_F = ["Анна", "Мария", "Софья", "Алиса", "Виктория"]
-
 
 class Command(BaseCommand):
     help = "Заполнить базу демо-данными"
@@ -49,17 +45,9 @@ class Command(BaseCommand):
         User.objects.create_user("admin", password=passwords["admin"], first_name="Анна", last_name="Админова", role=User.Role.SUPERADMIN)
         User.objects.create_user("org", password=passwords["org"], first_name="Олег", last_name="Организаторов", role=User.Role.ADMIN)
 
-        groups = [StudyGroup.objects.create(name=n, course=c, specialty=s) for n, c, s in
-                  [("СИП-11", 1, "09.02.07"), ("СИП-21", 2, "09.02.07"), ("СЭС-31", 3, "13.02.11")]]
-        students = []
-        for i in range(30):
-            female = i % 2 == 0
-            last = LAST[i % 10] + ("а" if female else "")
-            first = (FIRST_F if female else FIRST_M)[i % 5]
-            u = User.objects.create_user(f"student{i + 1}", password=passwords["students"], first_name=first, last_name=last,
-                                         group=groups[i % 3], role=User.Role.STUDENT,
-                                         is_mentor=(i % 3 in (1, 2) and i < 12))
-            students.append(u)
+        call_command("sync_study_groups", stdout=self.stdout)
+        call_command("seed_demo_students", stdout=self.stdout)
+        students = list(User.objects.filter(username__startswith="demo-").select_related("group"))
 
         cats = {n: Category.objects.create(name=n, color=c) for n, c in
                 [("Спорт", "#2e7d4f"), ("Творчество", "#cb563d"), ("Учёба", "#f1a627"), ("Волонтёрство", "#cb563d"), ("Профориентация", "#1d1f27")]}

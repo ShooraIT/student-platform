@@ -3,7 +3,7 @@ from django.contrib import admin
 from django.urls import reverse
 from django.utils.html import format_html
 
-from core.admin_mixins import AnnounceOnPublishAdmin
+from core.admin_mixins import AnnounceOnPublishAdmin, FirstYearAudienceGroupsMixin
 from notifications.services import notify_many
 
 from .models import Category, Event, Registration
@@ -26,7 +26,7 @@ class RegistrationInline(admin.TabularInline):
 
 
 @admin.register(Event)
-class EventAdmin(AnnounceOnPublishAdmin):
+class EventAdmin(FirstYearAudienceGroupsMixin, AnnounceOnPublishAdmin):
     announce_url = "/events/{pk}/"
 
     def announce_text(self, obj):

@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.urls import reverse
 from django.utils.html import format_html
 
-from core.admin_mixins import AnnounceOnPublishAdmin
+from core.admin_mixins import AnnounceOnPublishAdmin, FirstYearAudienceGroupsMixin
 
 from .models import Question, Survey, VoteOption
 
@@ -20,7 +20,7 @@ class VoteOptionInline(admin.TabularInline):
 
 
 @admin.register(Survey)
-class SurveyAdmin(AnnounceOnPublishAdmin):
+class SurveyAdmin(FirstYearAudienceGroupsMixin, AnnounceOnPublishAdmin):
     announce_url = "/surveys/{pk}/"
 
     def announce_text(self, obj):

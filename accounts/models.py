@@ -6,6 +6,8 @@ class StudyGroup(models.Model):
     name = models.CharField("Название", max_length=50, unique=True)
     course = models.PositiveSmallIntegerField("Курс", default=1)
     specialty = models.CharField("Специальность", max_length=100, blank=True)
+    specialty_name = models.CharField("Название специальности", max_length=150, blank=True)
+    is_active = models.BooleanField("В актуальном реестре", default=True)
 
     class Meta:
         verbose_name = "Группа"
