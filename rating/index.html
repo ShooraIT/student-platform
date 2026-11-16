@@ -62,8 +62,8 @@
 
 <div class="pill-tabs"><a class="active" href="/student-platform/rating/">Студенты</a><a href="/student-platform/rating/groups/">Группы</a><a href="/student-platform/rating/badges/">Достижения</a></div>
 <div class="spread">
-  <div class="pill-tabs ink"><a href="?period=month&scope=all" class="active">Месяц</a><a href="?period=semester&scope=all" class="">Семестр</a><a href="?period=year&scope=all" class="">Учебный год</a><a href="?period=all&scope=all" class="">Всё время</a></div>
-  <div class="pill-tabs ink"><a href="?period=month&scope=all" class="active">Колледж</a><a href="?period=month&scope=course" class="">Мой курс</a><a href="?period=month&scope=group" class="">Моя группа</a></div>
+  <div class="pill-tabs ink"><a href="?period=month&scope=group" class="active">Месяц</a><a href="?period=semester&scope=group" class="">Семестр</a><a href="?period=year&scope=group" class="">Учебный год</a><a href="?period=all&scope=group" class="">Всё время</a></div>
+  <div class="pill-tabs ink"><span class="active">Только моя группа · СИП-11</span></div>
 </div>
 
 <div class="place-banner">
@@ -207,6 +207,12 @@
   </div>
 
 </div>
+<script>
+  document.querySelectorAll('.card.accent > .list-item').forEach((row) => {
+    if (row.querySelector('.muted.small')?.textContent.trim() !== 'СИП-11') row.remove();
+  });
+  document.querySelectorAll('.card.accent > .list-item .rank').forEach((rank, index) => { rank.textContent = index + 1; });
+</script>
 <span class="slogan">Level up ↗</span>
 
 </main>

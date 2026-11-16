@@ -140,10 +140,114 @@
     if (trackSummary) trackSummary.textContent = selectedTracks ? ("Выбрано направлений: " + selectedTracks) : "Выберите направления";
   }
 
+  function updateActivityFields(form) {
+    if (!form) return;
+    var type = form.elements.activity_type.value;
+    form.querySelectorAll(".event-only").forEach(function (node) { node.hidden = type !== "event"; });
+    form.querySelectorAll(".task-only").forEach(function (node) { node.hidden = type !== "task"; });
+    form.querySelectorAll(".survey-only").forEach(function (node) { node.hidden = type !== "survey"; });
+  }
+
+  function trackSpecialtyMap() {
+    return {
+      "it-support": ["09.02.07", "09.02.12"],
+      "it-ai": ["09.02.13"],
+      "it-development": ["09.02.07", "09.02.09", "09.02.11"],
+      "creative-design": ["54.01.20", "54.02.01"],
+      "creative-animation": ["55.02.02"],
+      "finance": ["38.02.06"],
+      "cooks": ["43.02.15"],
+      "transport-service": ["43.02.06"],
+      "hospitality": ["43.02.16"]
+    };
+  }
+
+  function initTrackDetails() {
+    var match = location.pathname.match(/\/career\/tracks\/([^/]+)\/?$/);
+    if (!match) return;
+    var roles = {
+      "it-support": ["Специалист технической поддержки информационных систем", "Диагностирует обращения, настраивает рабочие места и доступы, документирует решения.", "Операционные системы, компьютерные сети, основы информационной безопасности, сервис-деск.", "Поиск причин неисправностей, настройка ПО, коммуникация, техническая документация."],
+      "it-ai": ["Специалист по интеграции решений с ИИ", "Подбирает ИИ-инструменты под задачу, подключает сервисы и API, проверяет качество и безопасность результата.", "Основы ИИ, работа с данными, API и приватность.", "Постановка задач, тестирование ответов, базовое программирование, оценка рисков."],
+      "it-development": ["Веб-разработчик / разработчик программного обеспечения", "Создаёт и поддерживает сайты и приложения, исправляет ошибки, работает с командой и документацией.", "Языки программирования, алгоритмы, базы данных, API, системы контроля версий.", "Разработка и отладка кода, чтение технических заданий, командная работа."],
+      "creative-design": ["Графический / отраслевой дизайнер", "Исследует задачу, разрабатывает визуальную концепцию, готовит макеты к публикации или производству.", "Композиция, типографика, цвет, визуальные коммуникации, авторское право.", "Графические редакторы, прототипирование, презентация решений, работа с обратной связью."],
+      "creative-animation": ["Художник-аниматор", "Создаёт раскадровки и анимацию, готовит материалы и сцены, участвует в производственном цикле.", "Основы драматургии, композиция, движение, принципы 2D/3D-анимации.", "Раскадровка, работа с кадром и таймингом, цифровые инструменты, командная работа."],
+      "finance": ["Специалист финансового направления", "Обрабатывает финансовые документы, готовит расчёты и сводки, помогает контролировать бюджет.", "Основы экономики, финансового учёта, документооборота и деловой этики.", "Точность расчётов, таблицы, анализ данных, внимательность."],
+      "cooks": ["Повар-кондитер", "Подготавливает продукты, готовит блюда и изделия по технологическим картам, соблюдает санитарные требования.", "Технология приготовления, сырьё, рецептуры, хранение и безопасность продуктов.", "Работа с оборудованием, точность рецептуры, организация рабочего места, соблюдение времени."],
+      "transport-service": ["Специалист сервиса на транспорте", "Помогает пассажирам, координирует сервисные операции, решает типовые запросы во время поездки.", "Клиентский сервис, правила безопасности, основы транспортной логистики.", "Коммуникация, решение нестандартных ситуаций, внимательность, командная работа."],
+      "hospitality": ["Специалист гостиничного сервиса", "Работает с бронированиями и размещением, отвечает на запросы гостей, координирует обслуживание.", "Гостиничные процессы, стандарты обслуживания, основы туризма и деловой коммуникации.", "Системы бронирования, иностранный язык, решение запросов гостей, командная работа."]
+    };
+    var role = roles[match[1]];
+    var head = document.querySelector("main .page-head");
+    var firstCard = head && head.nextElementSibling;
+    if (!role || !firstCard || !firstCard.classList.contains("card")) return;
+    var specialty = new URLSearchParams(location.search).get("specialty") || "09.02.07";
+    if (!(trackSpecialtyMap()[match[1]] || []).includes(specialty)) {
+      var notice = document.createElement("p");
+      notice.className = "badge warn";
+      notice.textContent = "Этот трек не связан со специальностью демо-студента. Вернитесь к списку и выберите другую специальность.";
+      firstCard.prepend(notice);
+      firstCard.querySelectorAll("form button").forEach(function (button) { button.disabled = true; });
+    }
+    var info = document.createElement("div");
+    info.className = "track-role-info";
+    info.innerHTML = "<h2>Пример должности: " + role[0] + "</h2><h3>Типовые задачи</h3><p>" + role[1] + "</p><h3>Что нужно знать</h3><p>" + role[2] + "</p><h3>Какие навыки развивать</h3><p>" + role[3] + "</p>";
+    var enrollForm = firstCard.querySelector("form");
+    if (enrollForm) firstCard.insertBefore(info, enrollForm);
+    else firstCard.appendChild(info);
+    var opportunities = document.createElement("section");
+    opportunities.className = "card";
+    opportunities.innerHTML = "<h2>Работодатели и вакансии</h2><p>В реальной платформе колледж публикует здесь предложения компаний, практики и профессиональные пробы по этому треку.</p><p class=\"admin-note\">Демо-версия показывает раздел; актуальные предложения появятся после настройки колледжем.</p><a class=\"btn secondary\" href=\"/student-platform/career/employers/\">Работодатели →</a>";
+    firstCard.insertAdjacentElement("afterend", opportunities);
+  }
+
+  function initTrackList() {
+    if (!/\/career\/tracks\/?$/.test(location.pathname)) return;
+    var titles = {
+      "it-support": "Специалист технической поддержки информационных систем",
+      "it-ai": "Специалист по интеграции решений с ИИ",
+      "it-development": "Веб-разработчик / разработчик программного обеспечения",
+      "creative-design": "Графический / отраслевой дизайнер",
+      "creative-animation": "Художник-аниматор",
+      "finance": "Специалист финансового направления",
+      "cooks": "Повар-кондитер",
+      "transport-service": "Специалист сервиса на транспорте",
+      "hospitality": "Специалист гостиничного сервиса"
+    };
+    var picker = document.querySelector("[data-demo-specialty]");
+    var params = new URLSearchParams(location.search);
+    var currentSpecialty = params.get("specialty") || "09.02.07";
+    if (picker) picker.value = currentSpecialty;
+    document.querySelectorAll("main .grid > article.card").forEach(function (card) {
+      var link = card.querySelector("h2 a[href*='/career/tracks/']");
+      var slug = link && link.getAttribute("href").match(/\/career\/tracks\/([^/]+)\//);
+      var title = slug && titles[slug[1]];
+      if (!title) return;
+      var allowed = (trackSpecialtyMap()[slug[1]] || []).includes(currentSpecialty);
+      card.hidden = !allowed;
+      card.querySelectorAll("a[href]").forEach(function (itemLink) {
+        var linkUrl = new URL(itemLink.href, location.origin);
+        linkUrl.searchParams.set("specialty", currentSpecialty);
+        itemLink.href = linkUrl.pathname + linkUrl.search;
+      });
+      var position = document.createElement("p");
+      position.innerHTML = "<b>Пример должности:</b> " + title;
+      link.closest("h2").insertAdjacentElement("afterend", position);
+    });
+    if (picker) picker.addEventListener("change", function () {
+      var next = new URL(location.href);
+      next.searchParams.set("specialty", picker.value);
+      location.href = next.pathname + next.search;
+    });
+    if (!params.has("specialty")) {
+      params.set("specialty", currentSpecialty);
+      history.replaceState(null, "", location.pathname + "?" + params.toString());
+    }
+  }
+
   var demoStudents = {
-    anna: { initial: "А", name: "Анна Иванова", group: "СИП-11", course: 1, balance: 70, earned: 70, achievementCount: 1, progress: 84, stages: "4 из 5 этапов", track: "ИТ · Разработка", achievements: [{ icon: "★", name: "Первый шаг", date: "13.11.2026" }], history: [{ title: "Достижение «Первый шаг»", detail: "13.11.2026 · Значок", amount: "+5" }, { title: "Посещение: Хакатон «Цифровой колледж»", detail: "13.11.2026 · Посещение мероприятия", amount: "+50" }, { title: "Посещение: Мастер-класс по скетчингу", detail: "13.11.2026 · Посещение мероприятия", amount: "+15" }] },
-    dmitry: { initial: "Д", name: "Дмитрий Смирнов", group: "СИП-21", course: 2, balance: 120, earned: 160, achievementCount: 3, progress: 68, stages: "Текущий трек", track: "ИТ · ИИ", achievements: [{ icon: "◎", name: "Профиль интересов", date: "12.11.2026" }, { icon: "↗", name: "Путь выбран", date: "10.11.2026" }, { icon: "★", name: "Первый шаг", date: "08.11.2026" }], history: [{ title: "Посещение: Встреча с ИТ-командой", detail: "14.11.2026 · Посещение мероприятия", amount: "+40" }, { title: "Профдиагностика завершена", detail: "12.11.2026 · Карьерный трек", amount: "+20" }, { title: "Задание «Мой первый проект»", detail: "10.11.2026 · Задание", amount: "+10" }] },
-    ekaterina: { initial: "Е", name: "Екатерина Петрова", group: "СЭС-31", course: 3, balance: 95, earned: 135, achievementCount: 4, progress: 91, stages: "Текущий трек", track: "Креатив · Дизайн", achievements: [{ icon: "✦", name: "Автор идеи", date: "14.11.2026" }, { icon: "◎", name: "Профиль интересов", date: "12.11.2026" }, { icon: "↗", name: "Путь выбран", date: "09.11.2026" }], history: [{ title: "Внешнее достижение подтверждено", detail: "14.11.2026 · Портфолио", amount: "+25" }, { title: "Посещение: Дизайн-сессия", detail: "12.11.2026 · Посещение мероприятия", amount: "+15" }, { title: "Задание «Визуальная концепция»", detail: "09.11.2026 · Задание", amount: "+20" }] }
+    anna: { initial: "А", name: "Анна Иванова", group: "СИП-11", direction: "09.02.07 · Информационные системы и программирование", course: 1, balance: 70, earned: 70, achievementCount: 1, rankGroup: 2, rankDirection: 5, rankTrack: 2, rankAll: 18, progress: 84, stages: "4 из 5 этапов", track: "ИТ · Разработка", achievements: [{ icon: "★", name: "Первый шаг", date: "13.11.2026" }], history: [{ title: "Достижение «Первый шаг»", detail: "13.11.2026 · Значок", amount: "+5" }, { title: "Посещение: Хакатон «Цифровой колледж»", detail: "13.11.2026 · Посещение мероприятия", amount: "+50" }, { title: "Посещение: Мастер-класс по скетчингу", detail: "13.11.2026 · Посещение мероприятия", amount: "+15" }], registrations: ["Экскурсия в ИТ-компанию · зарегистрирована", "Встреча с разработчиком · в списке ожидания"], orders: ["Футболка 01:17 · готов к выдаче"] },
+    dmitry: { initial: "Д", name: "Дмитрий Смирнов", group: "СИП-21", direction: "09.02.13 · ИИ", course: 2, balance: 120, earned: 160, achievementCount: 3, rankGroup: 1, rankDirection: 3, rankTrack: 1, rankAll: 7, progress: 68, stages: "Текущий трек", track: "ИТ · ИИ", achievements: [{ icon: "◎", name: "Профиль интересов", date: "12.11.2026" }, { icon: "↗", name: "Путь выбран", date: "10.11.2026" }, { icon: "★", name: "Первый шаг", date: "08.11.2026" }], history: [{ title: "Посещение: Встреча с ИТ-командой", detail: "14.11.2026 · Посещение мероприятия", amount: "+40" }, { title: "Профдиагностика завершена", detail: "12.11.2026 · Карьерный трек", amount: "+20" }, { title: "Задание «Мой первый проект»", detail: "10.11.2026 · Задание", amount: "+10" }], registrations: ["Встреча с ИТ-командой · посетил"], orders: ["Рюкзак 01:17 · заказан"] },
+    ekaterina: { initial: "Е", name: "Екатерина Петрова", group: "СЭС-31", direction: "54.01.20 · Графический дизайн", course: 3, balance: 95, earned: 135, achievementCount: 4, rankGroup: 3, rankDirection: 2, rankTrack: 1, rankAll: 12, progress: 91, stages: "Текущий трек", track: "Креатив · Дизайн", achievements: [{ icon: "✦", name: "Автор идеи", date: "14.11.2026" }, { icon: "◎", name: "Профиль интересов", date: "12.11.2026" }, { icon: "↗", name: "Путь выбран", date: "09.11.2026" }], history: [{ title: "Внешнее достижение подтверждено", detail: "14.11.2026 · Портфолио", amount: "+25" }, { title: "Посещение: Дизайн-сессия", detail: "12.11.2026 · Посещение мероприятия", amount: "+15" }, { title: "Задание «Визуальная концепция»", detail: "09.11.2026 · Задание", amount: "+20" }], registrations: ["Дизайн-сессия с представителем компании · посетила"], orders: [] }
   };
 
   function fillStudentProfile(id, dialog) {
@@ -155,11 +259,15 @@
     root.querySelector("[data-profile-name]").textContent = student.name;
     root.querySelector("[data-profile-group]").textContent = student.group;
     root.querySelector("[data-profile-course]").textContent = student.course;
+    root.querySelector("[data-profile-direction]").textContent = student.direction;
     root.querySelector("[data-profile-balance]").textContent = student.balance;
     root.querySelector("[data-profile-earned]").textContent = student.earned;
     root.querySelector("[data-profile-achievement-count]").textContent = student.achievementCount;
     root.querySelectorAll("[data-profile-progress]").forEach(function (node) { node.textContent = student.progress + "%"; });
-    root.querySelector("[data-profile-progress-caption]").textContent = student.course === 1 ? "первый курс · мой прогресс" : "прогресс профессионального трека";
+    ["group", "direction", "track", "all"].forEach(function (key) {
+      var rank = root.querySelector("[data-profile-rank-" + key + "]");
+      if (rank) rank.textContent = student["rank" + key.charAt(0).toUpperCase() + key.slice(1)] + " место";
+    });
     root.querySelector("[data-profile-stage-count]").textContent = student.stages;
     root.querySelector("[data-profile-progress-bar]").style.width = student.progress + "%";
     root.querySelector("[data-profile-track]").textContent = student.course === 1
@@ -187,6 +295,17 @@
       var amount = document.createElement("b"); amount.className = "profile-positive"; amount.textContent = item.amount;
       copy.append(title, detail); row.append(copy, amount); history.appendChild(row);
     });
+    ["registrations", "orders"].forEach(function (key) {
+      var target = root.querySelector("[data-profile-" + key + "]");
+      if (!target) return;
+      target.replaceChildren();
+      (student[key] || []).forEach(function (text) {
+        var row = document.createElement("div"); row.className = "list-item"; row.textContent = text; target.appendChild(row);
+      });
+      if (!student[key] || !student[key].length) target.textContent = key === "orders" ? "Заказов нет." : "Регистраций нет.";
+    });
+    var adjustment = root.querySelector("[data-profile-adjust]");
+    if (adjustment) adjustment.reset();
   }
 
   document.addEventListener("submit", function (event) {
@@ -194,6 +313,25 @@
     if (!(form instanceof HTMLFormElement)) return;
     var method = (form.getAttribute("method") || "get").toLowerCase();
     event.preventDefault();
+    if (form.id === "team-role-demo") {
+      var roleNames = { organizer: "Организатор", researcher: "Исследователь", creator: "Создатель", communicator: "Коммуникатор" };
+      var counts = { organizer: 0, researcher: 0, creator: 0, communicator: 0 };
+      new FormData(form).forEach(function (value) { if (Object.prototype.hasOwnProperty.call(counts, value)) counts[value] += 1; });
+      var rankedRoles = Object.keys(counts).sort(function (a, b) { return counts[b] - counts[a]; });
+      var result = form.querySelector("[data-team-role-result]");
+      result.hidden = false;
+      result.innerHTML = "<h3>Твои выраженные роли</h3><p><strong>" + roleNames[rankedRoles[0]] + "</strong> · " + Math.round(counts[rankedRoles[0]] * 100 / 4) + "%" +
+        (counts[rankedRoles[1]] ? "<br>Также проявляется: " + roleNames[rankedRoles[1]] + " · " + Math.round(counts[rankedRoles[1]] * 100 / 4) + "%" : "") +
+        "</p><small class=\"admin-note\">Это ориентир для обсуждения в команде, не психологическая оценка.</small>";
+      return;
+    }
+    if (form.matches("[data-profile-adjust]")) {
+      var delta = Number(form.elements.amount.value || 0);
+      var reason = form.elements.reason.value.trim();
+      toast(delta && reason ? "Демо: операция показана, баланс и журнал не изменены." : "Укажите ненулевую сумму и причину операции.");
+      if (delta && reason) form.reset();
+      return;
+    }
     if (form.id === "activity-demo-form" || form.id === "shop-demo-form") {
       var submittedDialog = form.closest("dialog");
       if (submittedDialog) submittedDialog.close();
@@ -222,10 +360,11 @@
 
   document.addEventListener("change", function (event) {
     if (event.target.matches('#activity-demo-form [name="groups"], #activity-demo-form [name="tracks"]')) updateGroupSummary(event.target.form);
+    if (event.target.matches('#activity-demo-form [name="activity_type"]')) updateActivityFields(event.target.form);
   });
 
   document.addEventListener("reset", function (event) {
-    if (event.target.id === "activity-demo-form") setTimeout(function () { updateGroupSummary(event.target); }, 0);
+    if (event.target.id === "activity-demo-form") setTimeout(function () { updateGroupSummary(event.target); updateActivityFields(event.target); }, 0);
   });
 
   function download(name, content, type) {
@@ -241,6 +380,13 @@
   }
 
   document.addEventListener("click", function (event) {
+    var openTeamRole = event.target.closest("[data-open-team-role]");
+    if (openTeamRole) {
+      var teamDialog = document.getElementById("team-role-dialog");
+      if (teamDialog && typeof teamDialog.showModal === "function") teamDialog.showModal();
+      return;
+    }
+
     var demoQrButton = event.target.closest("[data-qr-scan]");
     if (demoQrButton) {
       event.preventDefault();
@@ -265,6 +411,33 @@
       event.preventDefault();
       var dialogToClose = closeButton.closest("dialog");
       if (dialogToClose) dialogToClose.close();
+      return;
+    }
+
+    var adjustToggle = event.target.closest("[data-profile-adjust-toggle]");
+    if (adjustToggle) {
+      var adjustmentForm = adjustToggle.closest(".student-profile-view").querySelector("[data-profile-adjust]");
+      if (adjustmentForm) {
+        adjustmentForm.hidden = !adjustmentForm.hidden;
+        adjustToggle.setAttribute("aria-expanded", String(!adjustmentForm.hidden));
+      }
+      return;
+    }
+
+    var exportButton = event.target.closest("[data-profile-export]");
+    if (exportButton) {
+      var profile = exportButton.closest(".student-profile-view");
+      var exportName = profile.querySelector("[data-profile-name]").textContent.trim();
+      var exportData = ["Профиль студента: " + exportName,
+        "Группа: " + profile.querySelector("[data-profile-group]").textContent,
+        "Направление: " + profile.querySelector("[data-profile-direction]").textContent,
+        "Курс: " + profile.querySelector("[data-profile-course]").textContent,
+        "Баланс степов: " + profile.querySelector("[data-profile-balance]").textContent,
+        "Всего заработано: " + profile.querySelector("[data-profile-earned]").textContent,
+        "Достижений: " + profile.querySelector("[data-profile-achievement-count]").textContent,
+        "Портфолио и резюме: демонстрационный экспорт"].join("\n");
+      download("portfolio-demo.txt", exportData, "text/plain;charset=utf-8");
+      toast("Скачан пример выгрузки. Это демонстрационные данные.");
       return;
     }
 
@@ -364,6 +537,7 @@
         var typeSelect = dialog && dialog.querySelector('[name="activity_type"]');
         if (dialog && typeof dialog.showModal === "function") {
           if (typeSelect && action.dataset.activityType) typeSelect.value = action.dataset.activityType;
+          if (dialog) updateActivityFields(dialog.querySelector("#activity-demo-form"));
           dialog.showModal();
           var titleInput = dialog.querySelector('[name="title"]');
           if (titleInput) titleInput.focus();
@@ -440,10 +614,13 @@
   }
 
   if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", function () { addRoleChooser(); initShopCategory(); updateGroupSummary(document.getElementById("activity-demo-form")); });
+    document.addEventListener("DOMContentLoaded", function () { addRoleChooser(); initShopCategory(); updateGroupSummary(document.getElementById("activity-demo-form")); updateActivityFields(document.getElementById("activity-demo-form")); initTrackDetails(); initTrackList(); });
   } else {
     addRoleChooser();
     initShopCategory();
     updateGroupSummary(document.getElementById("activity-demo-form"));
+    updateActivityFields(document.getElementById("activity-demo-form"));
+    initTrackDetails();
+    initTrackList();
   }
 })();

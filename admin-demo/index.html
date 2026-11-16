@@ -252,6 +252,13 @@
           <tr><td>Рюкзак 01:17</td><td>Награда колледжа</td><td>—</td><td>6</td><td>Только награда</td><td><button class="btn secondary small" type="button" data-shop-edit data-product-name="Рюкзак 01:17" data-product-kind="reward" data-product-category="accessories" data-product-price="0" data-product-stock="6">Изменить</button></td></tr>
         </tbody></table></div>
       </section>
+      <section class="admin-card" id="shop-orders">
+        <div class="admin-section-head"><div><span class="eyebrow">ВЫДАЧА</span><h2>Заказы студентов</h2><p class="admin-note">Проверяйте заказ и отмечайте фактическую выдачу товара.</p></div><span class="admin-status pending">2 ожидают</span></div>
+        <div class="admin-table-wrap"><table class="admin-table"><thead><tr><th>Студент</th><th>Товар</th><th>Код</th><th>Заказ</th><th>Действие</th></tr></thead><tbody>
+          <tr><td>Анна Иванова · СИП-11</td><td>Футболка 01:17 · M</td><td>Q7M2RX</td><td><span class="admin-status pending">Ожидает выдачи</span></td><td><button class="btn primary small" type="button" data-demo-write>Отметить выдачу</button></td></tr>
+          <tr><td>Дмитрий Смирнов · СИП-21</td><td>Рюкзак 01:17</td><td>H4K8LP</td><td><span class="admin-status pending">Ожидает выдачи</span></td><td><button class="btn primary small" type="button" data-demo-write>Отметить выдачу</button></td></tr>
+        </tbody></table></div>
+      </section>
       <p class="admin-note" style="margin-top:1.25rem">Это визуальный сценарий для знакомства с интерфейсом. Реальные права, данные и действия доступны только в рабочей платформе.</p>
     </main>
   </div>
@@ -321,6 +328,14 @@
         <label>Время / срок
           <input name="time" type="time">
         </label>
+        <label>Награда, степов<input name="reward" type="number" min="0" max="10000" value="0"></label>
+        <label class="task-only" hidden><span><input name="requires_manual_check" type="checkbox" checked> Требуется ручная проверка</span></label>
+        <label class="event-only" hidden>Место проведения<input name="location" type="text" maxlength="200" placeholder="Колледж или адрес предприятия"></label>
+        <label class="event-only" hidden>Работодатель<input name="employer" type="text" maxlength="120" placeholder="Компания / представитель"></label>
+        <label class="event-only" hidden>Лимит участников<input name="capacity" type="number" min="1"></label>
+        <label class="task-only" hidden>Срок сдачи<input name="deadline" type="date"></label>
+        <label class="task-only" hidden>Формат ответа<select name="submission_format"><option value="text">Текст</option><option value="link">Ссылка</option><option value="file">Файл или фото</option></select></label>
+        <label class="survey-only" hidden>Дата закрытия опроса<input name="closes_at" type="date"></label>
       </div>
       <div class="activity-form-actions">
         <button class="btn secondary" type="button" data-demo-close>Отмена</button>
@@ -333,25 +348,26 @@
       <div class="activity-dialog-head"><div><span class="eyebrow">ПРОСМОТР ПРОФИЛЯ · ДЕМО</span><h2 id="student-profile-dialog-title">Личный кабинет студента</h2></div><button class="btn secondary small" type="button" data-demo-close>Закрыть</button></div>
       <article class="student-profile-view" data-student-card hidden>
         <section class="profile-hero">
-          <div class="profile-identity"><span class="avatar lg" data-profile-initial></span><div><span class="eyebrow">ЛИЧНЫЙ КАБИНЕТ</span><h1 data-profile-name></h1><p><span data-profile-group></span> · <span data-profile-course></span> курс</p><div class="profile-links"><span>Портфолио →</span><span>Карьерный путь →</span><span>Настройки уведомлений →</span></div></div></div>
+          <div class="profile-identity"><span class="avatar lg" data-profile-initial></span><div><span class="eyebrow">ЛИЧНЫЙ КАБИНЕТ · ПРОСМОТР АДМИНИСТРАТОРА</span><h1 data-profile-name></h1><p><span data-profile-group></span> · <span data-profile-course></span> курс · <span data-profile-direction></span></p></div></div>
           <div class="profile-balance"><span>Баланс</span><strong><span data-profile-balance></span> <i>✦</i></strong><small>Всего заработано <span data-profile-earned></span></small></div>
         </section>
         <section class="profile-stats" aria-label="Показатели студента">
           <div class="profile-stat"><span>Достижения</span><strong data-profile-achievement-count></strong><small>в коллекции</small></div>
-          <div class="profile-stat"><span>Карьерный маршрут / трек</span><strong data-profile-progress></strong><small data-profile-progress-caption></small></div>
-          <div class="profile-stat"><span>Рейтинг</span><strong>Открыть →</strong><small>студенты и группы</small></div>
+          <div class="profile-stat"><span>Рейтинг группы</span><strong data-profile-rank-group></strong><small>место</small></div>
+          <div class="profile-stat"><span>Рейтинг направления</span><strong data-profile-rank-direction></strong><small>место</small></div>
+          <div class="profile-stat"><span>Общий рейтинг</span><strong data-profile-rank-all></strong><small>место по колледжу</small></div>
         </section>
+        <section class="card"><div class="card-head"><div><span class="eyebrow">УПРАВЛЕНИЕ ПРОФИЛЕМ</span><h2>Действия</h2></div></div><div class="row"><button class="btn primary" type="button" data-profile-adjust-toggle>Начислить/списать степы</button><button class="btn secondary" type="button" data-profile-export>Выгрузить портфолио/резюме</button></div><form class="activity-form" data-profile-adjust hidden><label>Сумма степов (минус — списание)<input type="number" name="amount" required></label><label>Причина<input name="reason" required></label><button class="btn primary" type="submit">Применить в демо</button><p class="admin-note">Демо: баланс не изменяется и данные не сохраняются.</p></form></section>
         <section class="profile-panels">
-          <div class="card profile-panel"><div class="card-head"><div><span class="eyebrow">МОЙ ПУТЬ</span><h2 data-profile-path-title></h2></div><span>Подробнее →</span></div><div class="profile-progress-label"><span data-profile-stage-count></span><b data-profile-progress></b></div><div class="progress"><div data-profile-progress-bar></div></div><p class="muted" data-profile-track></p><p class="admin-note">Показатели в этом профиле приведены для демонстрации.</p></div>
-          <div class="card profile-panel profile-shortcuts"><span class="eyebrow">МОИ РАЗДЕЛЫ</span><h2>Продолжить</h2><div class="list-item"><span>Профессиональные треки</span><b>→</b></div><div class="list-item"><span>Работодатели и пробы</span><b>→</b></div><div class="list-item"><span>Портфолио и резюме</span><b>→</b></div><div class="list-item"><span>Рейтинг студентов</span><b>→</b></div><div class="list-item"><span>Рейтинг групп</span><b>→</b></div></div>
+          <div class="card profile-panel"><div class="card-head"><div><span class="eyebrow">МОЙ ПУТЬ</span><h2 data-profile-path-title></h2></div></div><div class="profile-progress-label"><span data-profile-stage-count></span><b data-profile-progress></b></div><div class="progress"><div data-profile-progress-bar></div></div><p class="muted" data-profile-track></p><p>Место в треке: <strong data-profile-rank-track></strong></p></div>
         </section>
         <section class="profile-panels">
           <div class="card"><div class="card-head"><div><span class="eyebrow">МОЯ КОЛЛЕКЦИЯ</span><h2>Достижения</h2></div><span>Все →</span></div><div class="profile-badges" data-profile-achievements></div></div>
           <div class="card"><div class="card-head"><div><span class="eyebrow">МОЯ ИСТОРИЯ</span><h2>Последние операции</h2></div></div><div data-profile-history></div></div>
         </section>
-        <section class="card profile-settings"><div class="card-head"><div><span class="eyebrow">УПРАВЛЕНИЕ ПРОФИЛЕМ</span><h2>Настройки</h2></div></div><div class="profile-settings-grid"><div class="profile-setting"><div><strong>В рейтинге</strong><div class="muted">Настройка видимости имени</div></div><span>Включено</span></div><div class="profile-setting"><div><strong>Уведомления</strong><div class="muted">Параметры подписок</div></div><span>Настроены</span></div></div></section>
+        <section class="profile-panels"><div class="card"><div class="card-head"><div><span class="eyebrow">РЕГИСТРАЦИИ</span><h2>События и магазин</h2></div></div><div data-profile-registrations></div><div data-profile-orders></div></div></section>
       </article>
-      <p class="admin-note">Демонстрационные данные. В этом окне нельзя изменять профиль студента.</p>
+      <p class="admin-note">Демо-данные приведены для примера. Изменения не сохраняются и не отправляются.</p>
     </div>
   </dialog>
   <dialog class="admin-dialog" id="shop-dialog" aria-labelledby="shop-dialog-title">
