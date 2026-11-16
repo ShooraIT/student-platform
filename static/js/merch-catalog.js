@@ -21,7 +21,7 @@
       var title = document.createElement("strong"); title.textContent = item.title;
       var description = document.createElement("span"); description.className = "muted small"; description.textContent = item.track_title || (item.type === "reward" ? "Выдаётся как награда колледжа" : "Каталог 01:17");
       var bottom = document.createElement("span"); bottom.className = "spread merch-card-bottom";
-      var price = document.createElement("span"); price.className = "reward"; price.textContent = item.sale_status === "award_only" ? "Только награда" : "Цена настраивается";
+      var price = document.createElement("span"); price.className = "reward"; price.textContent = item.sale_status === "award_only" ? "Только награда" : (item.price ? item.price + " ✦ · ориентир" : "Цена настраивается");
       var arrow = document.createElement("span"); arrow.className = "btn round small"; arrow.textContent = "↗"; bottom.append(price, arrow);
       card.append(photo, title, description, bottom); root.appendChild(card);
     });
@@ -32,6 +32,7 @@
     var item = itemsById[card.dataset.merchPreview]; if (!item) return;
     document.getElementById("merch-preview-title").textContent = item.title;
     document.getElementById("merch-preview-track").textContent = item.track_title || (item.sale_status === "award_only" ? "Награда колледжа" : "Общая коллекция 01:17");
+    document.getElementById("merch-preview-price").textContent = item.sale_status === "award_only" ? "Выдаётся как награда" : (item.price ? "Ориентировочная цена: " + item.price + " степов" : "Цена настраивается");
     document.getElementById("merch-preview-label").textContent = item.label || "Макет и параметры выдачи согласуются";
     document.getElementById("merch-preview-media").innerHTML = imageMarkup(item); dialog.showModal();
   });

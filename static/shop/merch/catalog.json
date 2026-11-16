@@ -1,5 +1,5 @@
 {
-  "note": "Концептуальные PNG-макеты 01:17, собраны в WebP для интерфейса. Это не утверждённые производственные файлы. Цены, квоты, размеры партий и остатки не заданы.",
+  "note": "Концептуальные макеты 01:17. Цены указаны ориентировочно в степах; остатки и квоты настраивает администратор.",
   "items": [
     {
       "id": "it-support-shopper",
@@ -12,7 +12,7 @@
       "image": "shop/merch/01-it-support.webp",
       "asset_status": "ready",
       "sale_status": "draft",
-      "price": null,
+      "price": 30,
       "stock": null
     },
     {
@@ -26,7 +26,7 @@
       "image": "shop/merch/01-it-support-pin.webp",
       "asset_status": "ready",
       "sale_status": "draft",
-      "price": null,
+      "price": 10,
       "stock": null
     },
     {
@@ -40,7 +40,7 @@
       "image": "shop/merch/01-it-support-ribbon.webp",
       "asset_status": "ready",
       "sale_status": "draft",
-      "price": null,
+      "price": 10,
       "stock": null
     },
     {
@@ -54,7 +54,7 @@
       "image": "shop/merch/02-ai.webp",
       "asset_status": "ready",
       "sale_status": "draft",
-      "price": null,
+      "price": 30,
       "stock": null
     },
     {
@@ -68,7 +68,7 @@
       "image": "shop/merch/02-ai-pin.webp",
       "asset_status": "ready",
       "sale_status": "draft",
-      "price": null,
+      "price": 10,
       "stock": null
     },
     {
@@ -82,7 +82,7 @@
       "image": "shop/merch/02-ai-ribbon.webp",
       "asset_status": "ready",
       "sale_status": "draft",
-      "price": null,
+      "price": 10,
       "stock": null
     },
     {
@@ -96,7 +96,7 @@
       "image": "shop/merch/03-development.webp",
       "asset_status": "ready",
       "sale_status": "draft",
-      "price": null,
+      "price": 30,
       "stock": null
     },
     {
@@ -110,7 +110,7 @@
       "image": "shop/merch/03-development-pin.webp",
       "asset_status": "ready",
       "sale_status": "draft",
-      "price": null,
+      "price": 10,
       "stock": null
     },
     {
@@ -124,7 +124,7 @@
       "image": "shop/merch/03-development-ribbon.webp",
       "asset_status": "ready",
       "sale_status": "draft",
-      "price": null,
+      "price": 10,
       "stock": null
     },
     {
@@ -138,7 +138,7 @@
       "image": "shop/merch/04-design.webp",
       "asset_status": "ready",
       "sale_status": "draft",
-      "price": null,
+      "price": 30,
       "stock": null
     },
     {
@@ -152,7 +152,7 @@
       "image": "shop/merch/04-design-pin.webp",
       "asset_status": "ready",
       "sale_status": "draft",
-      "price": null,
+      "price": 10,
       "stock": null
     },
     {
@@ -166,7 +166,7 @@
       "image": "shop/merch/04-design-ribbon.webp",
       "asset_status": "ready",
       "sale_status": "draft",
-      "price": null,
+      "price": 10,
       "stock": null
     },
     {
@@ -180,7 +180,7 @@
       "image": "shop/merch/05-animation.webp",
       "asset_status": "ready",
       "sale_status": "draft",
-      "price": null,
+      "price": 30,
       "stock": null
     },
     {
@@ -194,7 +194,7 @@
       "image": "shop/merch/05-animation-pin.webp",
       "asset_status": "ready",
       "sale_status": "draft",
-      "price": null,
+      "price": 10,
       "stock": null
     },
     {
@@ -208,7 +208,7 @@
       "image": "shop/merch/05-animation-ribbon.webp",
       "asset_status": "ready",
       "sale_status": "draft",
-      "price": null,
+      "price": 10,
       "stock": null
     },
     {
@@ -222,7 +222,7 @@
       "image": "shop/merch/06-finance.webp",
       "asset_status": "ready",
       "sale_status": "draft",
-      "price": null,
+      "price": 30,
       "stock": null
     },
     {
@@ -236,7 +236,7 @@
       "image": "shop/merch/06-finance-pin.webp",
       "asset_status": "ready",
       "sale_status": "draft",
-      "price": null,
+      "price": 10,
       "stock": null
     },
     {
@@ -250,7 +250,7 @@
       "image": "shop/merch/06-finance-ribbon.webp",
       "asset_status": "ready",
       "sale_status": "draft",
-      "price": null,
+      "price": 10,
       "stock": null
     },
     {
@@ -264,7 +264,7 @@
       "image": "shop/merch/07-cooking.webp",
       "asset_status": "ready",
       "sale_status": "draft",
-      "price": null,
+      "price": 30,
       "stock": null
     },
     {
@@ -278,7 +278,7 @@
       "image": "shop/merch/07-cooking-pin.webp",
       "asset_status": "ready",
       "sale_status": "draft",
-      "price": null,
+      "price": 10,
       "stock": null
     },
     {
@@ -292,7 +292,7 @@
       "image": "shop/merch/07-cooking-ribbon.webp",
       "asset_status": "ready",
       "sale_status": "draft",
-      "price": null,
+      "price": 10,
       "stock": null
     },
     {
@@ -306,7 +306,7 @@
       "image": "shop/merch/08-transport.webp",
       "asset_status": "ready",
       "sale_status": "draft",
-      "price": null,
+      "price": 30,
       "stock": null
     },
     {
@@ -320,7 +320,7 @@
       "image": "",
       "asset_status": "missing",
       "sale_status": "draft",
-      "price": null,
+      "price": 10,
       "stock": null
     },
     {
@@ -334,7 +334,7 @@
       "image": "",
       "asset_status": "missing",
       "sale_status": "draft",
-      "price": null,
+      "price": 10,
       "stock": null
     },
     {
@@ -348,7 +348,7 @@
       "image": "shop/merch/09-hospitality.webp",
       "asset_status": "ready",
       "sale_status": "draft",
-      "price": null,
+      "price": 30,
       "stock": null
     },
     {
@@ -362,7 +362,7 @@
       "image": "shop/merch/09-hospitality-pin.webp",
       "asset_status": "ready",
       "sale_status": "draft",
-      "price": null,
+      "price": 10,
       "stock": null
     },
     {
@@ -376,7 +376,35 @@
       "image": "shop/merch/09-hospitality-ribbon.webp",
       "asset_status": "ready",
       "sale_status": "draft",
-      "price": null,
+      "price": 10,
+      "stock": null
+    },
+    {
+      "id": "base-keychain",
+      "title": "Брелок 01:17",
+      "type": "merch",
+      "category": "accessories",
+      "track": "",
+      "track_title": "",
+      "label": "Брелок с символикой колледжа",
+      "image": "shop/merch/base-puller.webp",
+      "asset_status": "ready",
+      "sale_status": "draft",
+      "price": 30,
+      "stock": null
+    },
+    {
+      "id": "base-stickers",
+      "title": "Стикерпак 01:17",
+      "type": "merch",
+      "category": "accessories",
+      "track": "",
+      "track_title": "",
+      "label": "Набор стикеров 01:17",
+      "image": "shop/merch/base-stickers.webp",
+      "asset_status": "ready",
+      "sale_status": "draft",
+      "price": 20,
       "stock": null
     },
     {
@@ -390,7 +418,7 @@
       "image": "shop/merch/base-shopper.webp",
       "asset_status": "ready",
       "sale_status": "draft",
-      "price": null,
+      "price": 30,
       "stock": null
     },
     {
@@ -404,7 +432,7 @@
       "image": "shop/merch/base-sweatshirt.webp",
       "asset_status": "ready",
       "sale_status": "draft",
-      "price": null,
+      "price": 100,
       "stock": null
     },
     {
@@ -418,7 +446,7 @@
       "image": "shop/merch/base-bomber.webp",
       "asset_status": "ready",
       "sale_status": "draft",
-      "price": null,
+      "price": 160,
       "stock": null
     },
     {
@@ -432,7 +460,7 @@
       "image": "shop/merch/base-hoodie.webp",
       "asset_status": "ready",
       "sale_status": "draft",
-      "price": null,
+      "price": 130,
       "stock": null
     },
     {
@@ -446,7 +474,7 @@
       "image": "shop/merch/base-cap.webp",
       "asset_status": "ready",
       "sale_status": "draft",
-      "price": null,
+      "price": 40,
       "stock": null
     },
     {
@@ -460,7 +488,7 @@
       "image": "shop/merch/base-organizer.webp",
       "asset_status": "ready",
       "sale_status": "draft",
-      "price": null,
+      "price": 60,
       "stock": null
     },
     {
@@ -474,7 +502,7 @@
       "image": "shop/merch/base-pin-round.webp",
       "asset_status": "ready",
       "sale_status": "draft",
-      "price": null,
+      "price": 10,
       "stock": null
     },
     {
@@ -488,7 +516,7 @@
       "image": "shop/merch/base-pin-rectangle.webp",
       "asset_status": "ready",
       "sale_status": "draft",
-      "price": null,
+      "price": 10,
       "stock": null
     },
     {
