@@ -6,7 +6,7 @@ from . import services as career_services
 
 from .models import (
     DiagOption, DiagOptionWeight, DiagQuestion, DiagResult, DiagScale, DiagTest, Employer, ExternalAchievement, FundIssue, FundItem,
-    MentorBooking, MentorSlot, Resume, RouteStage, StageCondition, Track, TrackEnrollment, TrackItem,
+    MentorBooking, MentorSlot, Resume, RouteStage, StageCondition, Track, TrackEnrollment, TrackItem, Vacancy,
 )
 
 
@@ -22,7 +22,18 @@ class TrackAdmin(AuditedAdmin):
     list_editable = ["order", "is_active"]
     prepopulated_fields = {"slug": ["title"]}
     search_fields = ["title"]
+    fieldsets = (
+        (None, {"fields": ("title", "slug", "tagline", "description", "position_title", "is_active", "order", "color", "cover")}),
+        ("Профиль должности", {"fields": ("duties", "knowledge", "skills", "specialties")}),
+    )
     inlines = [TrackItemInline]
+
+
+@admin.register(Vacancy)
+class VacancyAdmin(AuditedAdmin):
+    list_display = ["title", "employer", "track", "location", "closes_at", "is_active"]
+    list_filter = ["track", "employer", "is_active"]
+    search_fields = ["title", "employer__name", "description"]
 
 
 @admin.register(TrackEnrollment)

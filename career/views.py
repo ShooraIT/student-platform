@@ -23,6 +23,24 @@ from .models import (
 User = get_user_model()
 
 
+def _tracks_for(user, queryset=None):
+    """Limit student career options to the specialty imported for their study group."""
+    queryset = queryset or Track.objects.filter(is_active=True)
+    if user.is_staff_role:
+        return queryset
+    specialty = (getattr(user.group, "specialty", "") if user.group_id else "").strip().lower()
+    if not specialty:
+        return queryset.none()
+    # Imported specialty values are codes (e.g. 09.02.07). Compare complete
+    # codes so 09.02.1 cannot accidentally match 09.02.11.
+    code = specialty.split()[0].strip(" ,;")
+    allowed = [
+        track.pk for track in queryset
+        if code in {v.strip().lower() for v in track.specialties.split(",") if v.strip()}
+    ]
+    return queryset.filter(pk__in=allowed)
+
+
 def _fail(request, e):
     messages.error(request, str(e))
 
@@ -45,6 +63,7 @@ def my_path(request):
     upcoming = MentorBooking.objects.filter(user=u, status=MentorBooking.Status.BOOKED, slot__start__gte=timezone.now()).select_related("slot__mentor", "slot__track")
     return render(request, "career/path.html", {
         "route": route, "tracks": tracks, "diag": last, "suggest": suggest, "test": DiagTest.objects.filter(is_active=True).first(),
+        "diag_tests": DiagTest.objects.filter(is_active=True),
         "meetings": upcoming,
     })
 
@@ -56,13 +75,13 @@ def tracks(request):
     last = request.user.diag_results.first()
     if last:
         rec = set(last.recommended.values_list("pk", flat=True))
-    items = Track.objects.filter(is_active=True).annotate(n=Count("enrollments", distinct=True))
+    items = _tracks_for(request.user, Track.objects.filter(is_active=True).annotate(n=Count("enrollments", distinct=True)))
     return render(request, "career/tracks.html", {"tracks": items, "mine": mine, "rec": rec})
 
 
 @login_required
 def track_detail(request, slug):
-    t = get_object_or_404(Track, slug=slug, is_active=True)
+    t = get_object_or_404(_tracks_for(request.user), slug=slug)
     en = request.user.track_enrollments.filter(track=t).first()
     now = timezone.now()
     related_events = Event.visible_to(
@@ -79,6 +98,7 @@ def track_detail(request, slug):
         "related_events": related_events, "related_tasks": related_tasks, "related_surveys": related_surveys,
         "slots": t.slots.filter(start__gte=timezone.now(), is_cancelled=False).select_related("mentor")[:6],
         "employers": t.employers.filter(is_active=True),
+        "vacancies": t.vacancies.filter(is_active=True).select_related("employer"),
         "mentors": t.mentors.filter(is_active=True),
     })
 
@@ -86,7 +106,7 @@ def track_detail(request, slug):
 @login_required
 @require_POST
 def track_action(request, slug, action):
-    t = get_object_or_404(Track, slug=slug)
+    t = get_object_or_404(_tracks_for(request.user), slug=slug)
     try:
         if action == "enroll":
             career.enroll(request.user, t)
@@ -124,7 +144,7 @@ def diag_result(request, pk):
     if r.user_id != request.user.pk and not request.user.is_staff_role:
         raise PermissionDenied
     mine = set(request.user.track_enrollments.values_list("track_id", flat=True))
-    return render(request, "career/diag_result.html", {"r": r, "scales": r.test.scales.all(), "mine": mine})
+    return render(request, "career/diag_result.html", {"r": r, "test": r.test, "scales": r.test.scales.all(), "mine": mine})
 
 
 # ---------- встречи с наставниками ----------
@@ -319,6 +339,12 @@ def resume_edit(request):
 @login_required
 def resume_print(request):
     return render(request, "career/resume_print.html", _portfolio_ctx(request.user))
+
+
+@staff_required
+def staff_resume(request, user_id):
+    student = get_object_or_404(User, pk=user_id, role=User.Role.STUDENT)
+    return render(request, "career/resume_print.html", _portfolio_ctx(student))
 
 
 @login_required

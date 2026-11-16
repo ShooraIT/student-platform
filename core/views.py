@@ -5,7 +5,8 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.db.models import Count, Q, Sum
 from django.http import HttpResponse
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
+from django.urls import reverse
 from django.utils import timezone
 
 from accounts import importer
@@ -52,7 +53,6 @@ def home(request):
         surveys = []
     month_start = timezone.localdate().replace(day=1)
     earned_month = Transaction.objects.filter(user=u, kind__in=Transaction.EARNING_KINDS, created_at__date__gte=month_start).aggregate(s=Sum("amount"))["s"] or 0
-    from career.models import TrackEnrollment
     my_tracks = TrackEnrollment.objects.filter(user=u).select_related("track") if u.can_access("career") else []
     from achievements.models import UserAchievement
     badges = UserAchievement.objects.filter(user=u).select_related("achievement").order_by("-created_at")[:3]
@@ -77,7 +77,62 @@ def staff_dashboard(request):
         "upcoming": Event.objects.filter(end__gte=now).exclude(status=Event.Status.CANCELLED).order_by("start")[:8],
         "on_hands": students.aggregate(s=Sum("balance"))["s"] or 0,
     }
+    q = request.GET.get("student", "").strip()
+    ctx["student_query"] = q
+    ctx["student_matches"] = (
+        students.filter(Q(last_name__icontains=q) | Q(first_name__icontains=q) | Q(username__icontains=q))
+        .select_related("group")[:20] if q else []
+    )
     return render(request, "core/staff_dashboard.html", ctx)
+
+
+@staff_required
+def staff_student_profile(request, student_id):
+    """Read-only student overview for staff; mutations live behind audited actions."""
+    from achievements.models import UserAchievement
+    from career import services as career_services
+    from career.models import TrackEnrollment
+
+    student = get_object_or_404(User, pk=student_id, role=User.Role.STUDENT)
+    if request.method == "POST" and request.POST.get("action") == "adjust_steps":
+        try:
+            amount = int(request.POST.get("amount", "0"))
+        except ValueError:
+            amount = 0
+        try:
+            wallet.manual_adjust(student, amount, request.POST.get("reason", ""), request.user)
+            messages.success(request, f"Баланс изменён на {amount:+d} степов")
+        except wallet.WalletError as e:
+            messages.error(request, str(e))
+        return redirect("core:staff_student_profile", student_id=student.pk)
+    earned = Transaction.objects.filter(user=student, amount__gt=0).aggregate(total=Sum("amount"))["total"] or 0
+    track_rows = career_services.my_tracks(student)
+    achievements = UserAchievement.objects.filter(user=student).select_related("achievement")
+    registrations = Registration.objects.filter(user=student).select_related("event", "event__category").order_by("-event__start")[:12]
+    orders = Order.objects.filter(user=student).select_related("variant__product").order_by("-created_at")[:12]
+    transactions = Transaction.objects.filter(user=student).select_related("author")[:12]
+
+    def place(queryset):
+        scores = list(queryset.annotate(score=Sum("transactions__amount", filter=Q(transactions__kind__in=Transaction.EARNING_KINDS)))
+                      .filter(score__gt=0).order_by("-score", "last_name").values_list("id", "score"))
+        return next((index for index, (pk, score) in enumerate(scores, 1) if pk == student.pk), None)
+
+    students = User.objects.filter(role=User.Role.STUDENT, expelled=False)
+    overall_place = place(students)
+    group_place = place(students.filter(group_id=student.group_id)) if student.group_id else None
+    direction_place = place(students.filter(group__specialty=student.group.specialty)) if student.group_id and student.group.specialty else None
+    track_places = []
+    for row in track_rows:
+        track_places.append({"track": row["track"], "place": place(students.filter(track_enrollments__track=row["track"]))})
+    return render(request, "core/staff_student_profile.html", {
+        "student": student, "earned": earned, "achievements": achievements,
+        "achievement_count": achievements.count(), "registrations": registrations,
+        "orders": orders, "transactions": transactions, "tracks": track_rows,
+        "overall_place": overall_place, "group_place": group_place,
+        "direction_place": direction_place, "track_places": track_places,
+        "portfolio_items": career_services.portfolio_items(student),
+        "resume_url": reverse("career:staff_resume", args=[student.pk]),
+    })
 
 
 @staff_required

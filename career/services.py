@@ -68,6 +68,12 @@ def my_tracks(user):
     done = _done_sets(user)
     out = []
     for en in user.track_enrollments.select_related("track"):
+        if user.is_student:
+            specialty = (getattr(user.group, "specialty", "") if user.group_id else "").strip().lower()
+            code = specialty.split()[0].strip(" ,;") if specialty else ""
+            allowed = {value.strip().lower() for value in en.track.specialties.split(",") if value.strip()}
+            if not code or code not in allowed:
+                continue
         p = track_progress(user, en.track, done)
         p["enrollment"] = en
         out.append(p)

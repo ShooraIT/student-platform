@@ -5,7 +5,7 @@
 <div class="pill-tabs"><a class="active" href="{% url 'achievements:rating' %}">Студенты</a><a href="{% url 'achievements:groups' %}">Группы</a><a href="{% url 'achievements:list' %}">Достижения</a></div>
 <div class="spread">
   <div class="pill-tabs ink">{% for k, l in periods %}<a href="?period={{ k }}&scope={{ scope }}" class="{% if k == period %}active{% endif %}">{{ l }}</a>{% endfor %}</div>
-  <div class="pill-tabs ink"><a href="?period={{ period }}&scope=all" class="{% if scope == 'all' %}active{% endif %}">Колледж</a><a href="?period={{ period }}&scope=course" class="{% if scope == 'course' %}active{% endif %}">Мой курс</a><a href="?period={{ period }}&scope=group" class="{% if scope == 'group' %}active{% endif %}">Моя группа</a></div>
+  {% if user.is_staff_role %}<div class="pill-tabs ink"><a href="?period={{ period }}&scope=all" class="{% if scope == 'all' %}active{% endif %}">Колледж</a><a href="?period={{ period }}&scope=course" class="{% if scope == 'course' %}active{% endif %}">Мой курс</a><a href="?period={{ period }}&scope=group" class="{% if scope == 'group' %}active{% endif %}">Моя группа</a></div>{% else %}<div class="pill-tabs ink"><span class="active">Моя группа</span></div>{% endif %}
 </div>
 {% if user.is_student %}
 <div class="place-banner">

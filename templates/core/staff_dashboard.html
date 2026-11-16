@@ -24,6 +24,12 @@
   <a href="/admin/">⚙️ Админка</a>
 </div>
 
+<section class="card">
+  <div class="card-head"><div><span class="eyebrow">СТУДЕНТЫ</span><h2>Найти профиль</h2></div></div>
+  <form method="get" class="row"><input type="search" name="student" value="{{ student_query }}" placeholder="Фамилия, имя или логин" aria-label="Найти студента" style="flex:1"><button class="btn secondary">Найти</button></form>
+  {% if student_query %}<div class="table-wrap"><table><thead><tr><th>Студент</th><th>Группа</th><th>Направление обучения</th></tr></thead><tbody>{% for s in student_matches %}<tr><td><a href="{% url 'core:staff_student_profile' s.pk %}">{{ s.full_name|default:s.username }}</a></td><td>{{ s.group|default:"—" }}</td><td>{{ s.group.specialty|default:"—" }}</td></tr>{% empty %}<tr><td colspan="3">Совпадений не найдено.</td></tr>{% endfor %}</tbody></table></div>{% endif %}
+</section>
+
 <div class="grid-2">
   <div class="card"><h2 style="margin-top:0">Ближайшие мероприятия</h2>
     {% for e in upcoming %}

@@ -42,7 +42,12 @@ def rating(request):
     scope = request.GET.get("scope", "all")
     students = User.objects.filter(role=User.Role.STUDENT, expelled=False)
     me = request.user
-    if scope == "course" and me.group_id:
+    if me.is_student:
+        # Individual student rankings are private to the student's own group.
+        # Do not trust the query-string scope to widen this boundary.
+        scope = "group"
+        students = students.filter(group_id=me.group_id) if me.group_id else students.none()
+    elif scope == "course" and me.group_id:
         students = students.filter(group__course=me.group.course)
     elif scope == "group" and me.group_id:
         students = students.filter(group=me.group)

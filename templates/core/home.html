@@ -9,7 +9,6 @@
     </div>
     <div class="dashboard-hero-actions">
       {% if show_balance %}<div class="dashboard-balance"><span>Твой баланс</span><strong>{{ user.balance|steps }} <i>✦</i></strong><small>+{{ earned_month }} за этот месяц</small></div>{% endif %}
-      <a class="btn light" href="/events/">Смотреть активности <span aria-hidden="true">→</span></a>
       {% if user.is_student %}<button class="btn light" type="button" data-qr-scan data-checkin-prefix="{% url 'events:calendar' %}">▦ Отсканировать QR</button>{% endif %}
     </div>
   </div>

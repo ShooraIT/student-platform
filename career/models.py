@@ -18,6 +18,10 @@ class Track(models.Model):
     slug = models.SlugField("Код", max_length=40, unique=True)
     tagline = models.CharField("Фраза линейки", max_length=120, blank=True, help_text="Например, «Спокойно, я уже подключился.»")
     description = models.TextField("Описание", blank=True)
+    position_title = models.CharField("Пример должности", max_length=120, blank=True)
+    duties = models.TextField("Типовые задачи специалиста", blank=True)
+    knowledge = models.TextField("Необходимые знания", blank=True)
+    skills = models.TextField("Необходимые навыки", blank=True)
     cover = models.ImageField("Обложка", upload_to="tracks/", blank=True)
     color = models.CharField("Цвет", max_length=7, default="#cb563d")
     specialties = models.CharField("Специальности", max_length=200, blank=True, help_text="Коды через запятую, например 09.02.07")
@@ -31,6 +35,27 @@ class Track(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class Vacancy(models.Model):
+    """A college-curated opportunity associated with a professional track."""
+    employer = models.ForeignKey("career.Employer", on_delete=models.CASCADE, related_name="vacancies", verbose_name="Работодатель")
+    track = models.ForeignKey(Track, on_delete=models.CASCADE, related_name="vacancies", verbose_name="Трек")
+    title = models.CharField("Должность / возможность", max_length=150)
+    description = models.TextField("Описание", blank=True)
+    location = models.CharField("Место / формат", max_length=150, blank=True)
+    url = models.URLField("Ссылка", blank=True)
+    closes_at = models.DateField("Приём заявок до", null=True, blank=True)
+    is_active = models.BooleanField("Показывать", default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = "Вакансия / возможность"
+        verbose_name_plural = "Вакансии и возможности"
+        ordering = ["closes_at", "employer__name", "title"]
+
+    def __str__(self):
+        return f"{self.title} · {self.employer.name}"
 
 
 class TrackItem(models.Model):

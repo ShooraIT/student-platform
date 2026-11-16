@@ -19,5 +19,6 @@ urlpatterns = [
     path("employers/<int:pk>/", views.employer_detail, name="employer"),
     path("staff/portfolio/", views.staff_external, name="staff_external"),
     path("staff/route/", views.staff_route, name="staff_route"),
+    path("staff/students/<int:user_id>/resume/", views.staff_resume, name="staff_resume"),
     path("files/<int:pk>/", views.external_file, name="external_file"),
 ]

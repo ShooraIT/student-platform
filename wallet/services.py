@@ -4,6 +4,7 @@ from datetime import timedelta
 from django.contrib.auth import get_user_model
 from django.db import IntegrityError, transaction
 from django.db.models import Sum
+from django.db.models.functions import Abs
 from django.utils import timezone
 
 from core.models import AuditLog, SiteSettings
@@ -81,6 +82,27 @@ def manual_credit(user, amount, reason, author):
             raise WalletError(f"Превышен суточный лимит ручных начислений ({s.manual_daily_limit})")
     tx = _apply(user.pk, amount, Transaction.Kind.MANUAL, reason, author=author)
     AuditLog.log(author, "Ручное начисление", user, amount=amount, reason=reason)
+    return tx
+
+
+def manual_adjust(user, amount, reason, author):
+    """Audited staff adjustment that can credit or debit without bypassing the ledger."""
+    if amount == 0:
+        raise WalletError("Сумма должна быть ненулевой")
+    if not reason.strip():
+        raise WalletError("Укажите причину операции")
+    s = SiteSettings.get()
+    magnitude = abs(amount)
+    if not author.is_superuser:
+        if magnitude > s.manual_credit_limit:
+            raise WalletError(f"Превышен лимит одной операции ({s.manual_credit_limit})")
+        today = Transaction.objects.filter(
+            author=author, kind=Transaction.Kind.MANUAL, created_at__gte=timezone.now() - timedelta(days=1)
+        ).aggregate(s=Sum(Abs("amount")))["s"] or 0
+        if today + magnitude > s.manual_daily_limit:
+            raise WalletError(f"Превышен суточный лимит ручных операций ({s.manual_daily_limit})")
+    tx = _apply(user.pk, amount, Transaction.Kind.MANUAL, reason, author=author)
+    AuditLog.log(author, "Ручная корректировка степов", user, amount=amount, reason=reason)
     return tx
 
 

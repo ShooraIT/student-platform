@@ -1,0 +1,27 @@
+{% extends "base.html" %}{% load platform %}
+{% block title %}Профиль студента · {{ student.full_name }}{% endblock %}
+{% block content %}
+<section class="profile-hero">
+  <div class="profile-identity"><span class="avatar lg">{{ student.first_name|default:student.username|first|upper }}</span><div><span class="eyebrow">ЛИЧНЫЙ КАБИНЕТ · ПРОСМОТР АДМИНИСТРАТОРА</span><h1>{{ student.full_name|default:student.username }}</h1><p>{{ student.group|default:"Группа не указана" }} · {{ student.course }} курс{% if student.group.specialty %} · {{ student.group.specialty }}{% endif %}</p></div></div>
+  <div class="profile-balance"><span>Баланс</span><strong>{{ student.balance }} <i>✦</i></strong><small>Всего заработано {{ earned }}</small></div>
+</section>
+<section class="profile-stats" aria-label="Показатели студента">
+  <div class="profile-stat"><span>Достижения</span><strong>{{ achievement_count }}</strong><small>в коллекции</small></div>
+  <div class="profile-stat"><span>Рейтинг группы</span><strong>{% if group_place %}{{ group_place }} место{% else %}—{% endif %}</strong><small>{{ student.group|default:"Группа не указана" }}</small></div>
+  <div class="profile-stat"><span>Рейтинг направления</span><strong>{% if direction_place %}{{ direction_place }} место{% else %}—{% endif %}</strong><small>{{ student.group.specialty|default:"Направление не указано" }}</small></div>
+  <div class="profile-stat"><span>Общий рейтинг</span><strong>{% if overall_place %}{{ overall_place }} место{% else %}—{% endif %}</strong><small>по колледжу</small></div>
+</section>
+<section class="card">
+  <div class="card-head"><div><span class="eyebrow">ДЕЙСТВИЯ</span><h2>Управление профилем</h2></div></div>
+  <div class="row"><a class="btn primary" href="?adjust=1#adjust">Начислить/списать степы</a><a class="btn secondary" href="{{ resume_url }}" target="_blank" rel="noopener">Выгрузить портфолио/резюме ↗</a></div>
+  {% if request.GET.adjust %}<form id="adjust" method="post" class="card" style="margin-top:1rem">{% csrf_token %}<input type="hidden" name="action" value="adjust_steps"><h3>Корректировка баланса</h3><label>Сумма степов (отрицательное число — списание)</label><input type="number" name="amount" min="-{{ site.manual_credit_limit }}" max="{{ site.manual_credit_limit }}" required><label>Причина</label><input name="reason" maxlength="200" required><button class="btn primary">Применить</button></form>{% endif %}
+</section>
+<section class="profile-panels">
+  <div class="card"><div class="card-head"><div><span class="eyebrow">МОИ ТРЕКИ</span><h2>Профессиональный путь</h2></div></div>{% for t in tracks %}<div class="list-item"><div style="flex:1"><strong>{{ t.track.title }}</strong><div class="progress"><div style="width:{{ t.percent }}%"></div></div><small>{{ t.percent }}% · {{ t.required_done }}/{{ t.required }} обязательных активностей</small></div>{% for r in track_places %}{% if r.track.pk == t.track.pk %}<span class="badge">{{ r.place|default:"—" }} место в треке</span>{% endif %}{% endfor %}</div>{% empty %}<p class="muted">Нет выбранных треков.</p>{% endfor %}</div>
+  <div class="card"><div class="card-head"><div><span class="eyebrow">КОЛЛЕКЦИЯ</span><h2>Достижения</h2></div></div><div class="profile-badges">{% for ua in achievements %}<div class="profile-badge"><span>{{ ua.achievement.icon }}</span><strong>{{ ua.achievement.title }}</strong><small>{{ ua.created_at|date:"d.m.Y" }}</small></div>{% empty %}<p class="muted">Достижений пока нет.</p>{% endfor %}</div></div>
+</section>
+<section class="profile-panels">
+  <div class="card"><div class="card-head"><div><span class="eyebrow">ИСТОРИЯ</span><h2>Последние операции</h2></div></div>{% for t in transactions %}<div class="list-item"><div style="flex:1"><strong>{{ t.reason }}</strong><div class="muted small">{{ t.created_at|date:"d.m.Y H:i" }} · {{ t.get_kind_display }}{% if t.author %} · {{ t.author.full_name }}{% endif %}</div></div><b>{% if t.amount > 0 %}+{% endif %}{{ t.amount }}</b></div>{% empty %}<p class="muted">Операций пока нет.</p>{% endfor %}</div>
+  <div class="card"><div class="card-head"><div><span class="eyebrow">РЕГИСТРАЦИИ</span><h2>События и заказы</h2></div></div>{% for r in registrations %}<div class="list-item"><div style="flex:1"><strong>{{ r.event.title }}</strong><div class="muted small">{{ r.event.start|date:"d.m.Y H:i" }} · {{ r.get_status_display }}</div></div></div>{% empty %}<p class="muted">Регистраций на события нет.</p>{% endfor %}{% for o in orders %}<div class="list-item"><div style="flex:1"><strong>{{ o.item_title }}</strong><div class="muted small">{{ o.created_at|date:"d.m.Y H:i" }} · {{ o.get_status_display }}</div></div></div>{% empty %}<p class="muted">Заказов в магазине нет.</p>{% endfor %}</div>
+</section>
+{% endblock %}
