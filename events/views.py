@@ -28,6 +28,21 @@ User = get_user_model()
 MONTHS = ["", "Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"]
 
 
+def _visible_track_ids(user):
+    """Return career tracks matching a student's imported specialty."""
+    if user.is_staff_role:
+        return None
+    if not user.group_id or not user.group.specialty:
+        return set()
+    from career.models import Track
+
+    code = user.group.specialty.strip().lower().split()[0].strip(" ,;")
+    return {
+        track.pk for track in Track.objects.filter(is_active=True)
+        if code in {value.strip().lower() for value in track.specialties.split(",") if value.strip()}
+    }
+
+
 def _visible(user):
     qs = Event.objects.select_related("category").prefetch_related("tracks")
     if user.is_staff_role:
@@ -48,7 +63,11 @@ def calendar_view(request):
         view = "month"
     cat = request.GET.get("cat")
     mine = request.GET.get("mine") == "1"
-    qs = _visible(request.user)
+    user = request.user
+    visible_track_ids = _visible_track_ids(user)
+    qs = _visible(user)
+    if visible_track_ids is not None:
+        qs = qs.filter(tracks__in=visible_track_ids).distinct() if visible_track_ids else qs.none()
     if cat:
         qs = qs.filter(category_id=cat)
     if mine:
@@ -79,7 +98,6 @@ def calendar_view(request):
         ctx.update(weeks=weeks, title=f"{MONTHS[month]} {year}", prev=(prev_m.year, prev_m.month), next=(next_m.year, next_m.month))
     else:
         now = timezone.now()
-        user = request.user
         activities = []
         reg_status = dict(Registration.objects.filter(user=user).values_list("event_id", "status"))
         events = qs.filter(status=Event.Status.PUBLISHED, end__gte=now).order_by("start")
@@ -88,7 +106,7 @@ def calendar_view(request):
         for event in events:
             state = reg_status.get(event.pk)
             activities.append({
-                "kind": "Событие", "title": event.title, "when": event.start,
+                "kind": "Событие", "type_key": "event", "icon": "▦", "title": event.title, "when": event.start,
                 "detail": f"{timezone.localtime(event.start):%H:%M} · {event.location}",
                 "href": reverse("events:detail", args=[event.pk]),
                 "status": {
@@ -98,7 +116,7 @@ def calendar_view(request):
                 }.get(state, "Запись открыта" if event.registration_open else "Скоро"),
                 "status_class": "ok" if state in Registration.ACTIVE else "",
                 "reward": event.reward,
-                "tracks": list(event.tracks.all()),
+                "tracks": [track for track in event.tracks.all() if visible_track_ids is None or track.pk in visible_track_ids],
             })
 
         if user.can_access("tasks"):
@@ -106,6 +124,8 @@ def calendar_view(request):
             tasks = Task.visible_to(user, Task.objects.filter(
                 status=Task.Status.PUBLISHED, starts_at__lte=now, deadline__gte=now,
             ).prefetch_related("tracks")).order_by("deadline")
+            if visible_track_ids is not None:
+                tasks = tasks.filter(tracks__in=visible_track_ids).distinct() if visible_track_ids else tasks.none()
             if mine:
                 tasks = tasks.filter(pk__in=submissions)
             for task in tasks:
@@ -118,12 +138,12 @@ def calendar_view(request):
                     Submission.Status.REJECTED: "Можно попробовать снова",
                 }.get(state, "Доступно")
                 activities.append({
-                    "kind": "Задание", "title": task.title, "when": task.deadline,
+                    "kind": "Задание", "type_key": "task", "icon": "✓", "title": task.title, "when": task.deadline,
                     "detail": f"До {timezone.localtime(task.deadline):%d.%m · %H:%M} · {task.get_kind_display()}",
                     "href": reverse("assignments:detail", args=[task.pk]), "status": status,
                     "status_class": "ok" if state == Submission.Status.APPROVED else "",
                     "reward": task.reward,
-                    "tracks": list(task.tracks.all()),
+                    "tracks": [track for track in task.tracks.all() if visible_track_ids is None or track.pk in visible_track_ids],
                 })
 
         if user.can_access("surveys"):
@@ -131,6 +151,8 @@ def calendar_view(request):
             surveys = Survey.visible_to(user, Survey.objects.filter(
                 status=Survey.Status.PUBLISHED, closes_at__gte=now,
             ).prefetch_related("tracks")).order_by("closes_at")
+            if visible_track_ids is not None:
+                surveys = surveys.filter(tracks__in=visible_track_ids).distinct() if visible_track_ids else surveys.none()
             if mine:
                 surveys = surveys.filter(pk__in=completed)
             for survey in surveys:
@@ -138,13 +160,15 @@ def calendar_view(request):
                 opens_later = survey.opens_at > now
                 activities.append({
                     "kind": "Опрос" if survey.kind == Survey.Kind.SURVEY else "Голосование",
+                    "type_key": "survey" if survey.kind == Survey.Kind.SURVEY else "vote",
+                    "icon": "▤" if survey.kind == Survey.Kind.SURVEY else "◉",
                     "title": survey.title, "when": survey.closes_at,
                     "detail": f"До {timezone.localtime(survey.closes_at):%d.%m · %H:%M}",
                     "href": reverse("surveys:detail", args=[survey.pk]),
                     "status": "Пройдено" if done else "Скоро откроется" if opens_later else "Доступно",
                     "status_class": "ok" if done else "",
                     "reward": survey.reward,
-                    "tracks": list(survey.tracks.all()),
+                    "tracks": [track for track in survey.tracks.all() if visible_track_ids is None or track.pk in visible_track_ids],
                 })
         activities.sort(key=lambda item: item["when"])
         ctx["activities"] = activities

@@ -34,15 +34,15 @@
 </div>
 {% else %}
 <div class="spread activity-filters" style="margin-bottom:1rem">
-  <div class="muted">Все доступные события, задания и опросы</div>
+  <div class="muted">События, задания и опросы по направлению твоей группы</div>
   <form method="get" data-demo-filter="activities"><input type="hidden" name="view" value="activities"><label class="choice" style="margin:0;background:#fff;border-radius:999px;padding:.45rem 1rem"><input type="checkbox" name="mine" value="1" {% if mine %}checked{% endif %} onchange="this.form.submit()"> Только мои записи</label></form>
 </div>
 <div class="activity-list">
 {% for a in activities %}
-  <article class="activity-card" data-demo-mine="{% if a.status_class == 'ok' or a.status == 'Записан' or a.status == 'Лист ожидания' or a.status == 'На проверке' or a.status == 'Нужна доработка' or a.status == 'Не пройдено' or a.status == 'Можно попробовать снова' %}true{% else %}false{% endif %}">
+  <article class="activity-card activity-card--{{ a.type_key }}" data-demo-mine="{% if a.status_class == 'ok' or a.status == 'Записан' or a.status == 'Лист ожидания' or a.status == 'На проверке' or a.status == 'Нужна доработка' or a.status == 'Не пройдено' or a.status == 'Можно попробовать снова' %}true{% else %}false{% endif %}">
     <div class="activity-date"><b>{{ a.when|date:"j" }}</b><span>{{ a.when|date:"M"|slice:":3" }}</span></div>
     <div class="activity-copy">
-      <div class="activity-meta"><span class="activity-kind">{{ a.kind }}</span><time datetime="{{ a.when|date:'c' }}">{{ a.detail }}</time></div>
+      <div class="activity-meta"><span class="activity-kind-icon" aria-hidden="true">{{ a.icon }}</span><span class="activity-kind">{{ a.kind }}</span><time datetime="{{ a.when|date:'c' }}">{{ a.detail }}</time></div>
       <a class="activity-title" href="{{ a.href }}">{{ a.title }}</a>
       {% if a.tracks %}<div class="track-tags activity-tracks">{% for track in a.tracks|slice:":3" %}<span>{{ track.title }}</span>{% endfor %}{% if a.tracks|length > 3 %}<span>+{{ a.tracks|length|add:"-3" }}</span>{% endif %}</div>{% endif %}
     </div>

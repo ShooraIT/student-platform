@@ -53,22 +53,19 @@ class Command(BaseCommand):
                 [("Спорт", "#2e7d4f"), ("Творчество", "#cb563d"), ("Учёба", "#f1a627"), ("Волонтёрство", "#cb563d"), ("Профориентация", "#1d1f27")]}
         all_track_slugs = list(Track.objects.filter(is_active=True).values_list("slug", flat=True))
         employers = [
-            Employer.objects.create(name="ТехноПульс", industry="ИТ", description="Поддержка цифровых сервисов и инженерные команды."),
-            Employer.objects.create(name="Студия «Форма»", industry="Креатив", description="Дизайн, анимация и визуальные коммуникации."),
-            Employer.objects.create(name="Отель «Полюс»", industry="Гостиницы и сервис", description="Гостиничный сервис и работа с гостями."),
+            Employer.objects.get(name="ВР Концепт"),
+            Employer.objects.get(name="Код безопасности"),
+            Employer.objects.get(name="Stella Di Mosca"),
         ]
-        employers[0].tracks.set(Track.objects.filter(slug__in=["it-support", "it-ai", "it-development", "finance"]))
-        employers[1].tracks.set(Track.objects.filter(slug__in=["creative-design", "creative-animation"]))
-        employers[2].tracks.set(Track.objects.filter(slug__in=["cooks", "transport-service", "hospitality"]))
         today = timezone.localtime(now).replace(hour=0, minute=0, second=0, microsecond=0)
         ev_specs = [
-            ("Экскурсия в отель «Полюс»: как устроена работа изнутри", "Профориентация", -10, 15, "Отель «Полюс»", 10, 2, ["hospitality"]),
+            ("Экскурсия в Stella Di Mosca: как устроена работа отеля", "Профориентация", -10, 15, "Stella Di Mosca", 10, 2, ["hospitality"]),
             ("Разговор со старшекурсниками: как выбрать профессиональный трек", "Профориентация", -5, 16, "Ауд. 204", 10, None, all_track_slugs),
-            ("Профпроба в студии «Форма»: один день дизайнера", "Профориентация", -2, 10, "Студия «Форма»", 10, 1, ["creative-design", "creative-animation"]),
-            ("Встреча с HR «ТехноПульс»: резюме и первое собеседование", "Профориентация", 0, timezone.localtime(now).hour, "Актовый зал", 10, 0, ["it-support", "it-ai", "it-development", "finance"]),
-            ("Экскурсия в ИТ-компанию «ТехноПульс»", "Профориентация", 2, 14, "Офис «ТехноПульс»", 10, 0, ["it-support", "it-ai", "it-development", "finance"]),
-            ("Встреча с действующими специалистами студии «Форма»", "Профориентация", 5, 17, "Студия «Форма»", 10, 1, ["creative-design", "creative-animation"]),
-            ("Экскурсия и проба профессий в отеле «Полюс»", "Профориентация", 9, 15, "Отель «Полюс»", 10, 2, ["cooks", "transport-service", "hospitality"]),
+            ("Профпроба: один день в дизайн-мастерской", "Профориентация", -2, 10, "Дизайн-лаборатория колледжа", 10, None, ["creative-design", "creative-animation"]),
+            ("Встреча с HR компании «Код безопасности»: резюме и первое собеседование", "Профориентация", 0, timezone.localtime(now).hour, "Актовый зал", 10, 1, ["it-support", "it-ai", "it-development"]),
+            ("Экскурсия в компанию «ВР Концепт»: VR-разработка и 3D", "Профориентация", 2, 14, "Офис «ВР Концепт»", 10, 0, ["it-support", "it-ai", "it-development"]),
+            ("Встреча с дизайнером: разбор портфолио", "Профориентация", 5, 17, "Дизайн-лаборатория колледжа", 10, None, ["creative-design", "creative-animation"]),
+            ("Экскурсия и проба профессий в Stella Di Mosca", "Профориентация", 9, 15, "Stella Di Mosca", 10, 2, ["hospitality"]),
             ("Встреча с выпускниками: первый год работы после колледжа", "Профориентация", 20, 18, "Актовый зал", 10, None, all_track_slugs),
         ]
         events = []
@@ -139,7 +136,7 @@ class Command(BaseCommand):
         # Каталог макетов и черновики товаров импортированы миграцией shop.0006_seed_merch_catalog.
         FundItem.objects.get_or_create(name="Велком-набор (стикерпак, пуллер, упаковка)", defaults={"kind": FundItem.Kind.WELCOME, "stock": 0})
         FundItem.objects.get_or_create(name="Поло наставника / преподавателя", defaults={"kind": FundItem.Kind.LOAN, "stock": 0})
-        experience = Product.objects.create(title="Экскурсия в ИТ-компанию «ТехноПульс» — ограниченные места", description="Место на экскурсию и встречу с командой работодателя. Покупка записывает на мероприятие.",
+        experience = Product.objects.create(title="Экскурсия в компанию «ВР Концепт» — ограниченные места", description="Место на экскурсию и встречу с командой работодателя. Покупка записывает на мероприятие.",
                                             kind=Product.Kind.EXPERIENCE, category=Product.Category.EXPERIENCE, event=events[4], price=40, per_user_limit=1, status=Product.Status.ON_SALE)
         ProductVariant.objects.create(product=experience, name="Место", stock=8)
 
