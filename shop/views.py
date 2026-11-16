@@ -14,7 +14,7 @@ User = get_user_model()
 
 @login_required
 def catalog(request):
-    products = Product.objects.filter(status=Product.Status.ON_SALE).exclude(kind=Product.Kind.REWARD).prefetch_related("variants")
+    products = services.products_for_user(request.user).filter(status=Product.Status.ON_SALE).exclude(kind=Product.Kind.REWARD).prefetch_related("variants", "tracks")
     category = request.GET.get("category", "")
     if category in {choice[0] for choice in Product.Category.choices}:
         products = products.filter(category=category)
@@ -23,7 +23,8 @@ def catalog(request):
 
 @login_required
 def product_detail(request, pk):
-    product = get_object_or_404(Product.objects.exclude(kind=Product.Kind.REWARD).prefetch_related("variants"), pk=pk, status=Product.Status.ON_SALE)
+    products = services.products_for_user(request.user).exclude(kind=Product.Kind.REWARD).prefetch_related("variants", "tracks")
+    product = get_object_or_404(products, pk=pk, status=Product.Status.ON_SALE)
     return render(request, "shop/product.html", {"product": product})
 
 

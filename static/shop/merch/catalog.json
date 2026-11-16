@@ -1,5 +1,5 @@
 {
-  "note": "Концептуальные макеты 01:17. Цены указаны ориентировочно в степах; остатки и квоты настраивает администратор.",
+  "note": "Концептуальные макеты 01:17. Цены указаны ориентировочно в степах; остатки и квоты настраивает администратор. 3D- и голографический эффекты показаны как концепты.",
   "items": [
     {
       "id": "it-support-shopper",
@@ -406,6 +406,36 @@
       "sale_status": "draft",
       "price": 20,
       "stock": null
+    },
+    {
+      "id": "sticker-3d",
+      "title": "Стикеры 3D · набор 01:17",
+      "type": "merch",
+      "category": "accessories",
+      "track": "",
+      "track_title": "",
+      "label": "Объёмный эффект · концепт",
+      "image": "shop/merch/sticker-3d.svg",
+      "asset_status": "ready",
+      "sale_status": "draft",
+      "price": 15,
+      "stock": null,
+      "finish": "3d"
+    },
+    {
+      "id": "sticker-holographic",
+      "title": "Стикеры голографические · набор 01:17",
+      "type": "merch",
+      "category": "accessories",
+      "track": "",
+      "track_title": "",
+      "label": "Радужный голографический эффект · концепт",
+      "image": "shop/merch/sticker-holographic.svg",
+      "asset_status": "ready",
+      "sale_status": "draft",
+      "price": 20,
+      "stock": null,
+      "finish": "holographic"
     },
     {
       "id": "base-shopper",

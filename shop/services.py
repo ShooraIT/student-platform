@@ -2,14 +2,14 @@ from datetime import timedelta
 
 from django.contrib.auth import get_user_model
 from django.db import transaction
-from django.db.models import F
+from django.db.models import F, Q
 from django.utils import timezone
 
 from core.models import AuditLog, SiteSettings
 from notifications.services import notify, notify_many
 from wallet import services as wallet
 
-from .models import Order, ProductVariant
+from .models import Order, Product, ProductVariant
 
 User = get_user_model()
 
@@ -18,12 +18,33 @@ class ShopError(Exception):
     pass
 
 
+def products_for_user(user, queryset=None):
+    """Show track-tagged goods only when they match the student's group specialty."""
+    queryset = Product.objects.all() if queryset is None else queryset
+    if not user.is_student:
+        return queryset
+    specialty = (getattr(user.group, "specialty", "") if user.group_id else "").strip().lower()
+    code = specialty.split()[0].strip(" ,;") if specialty else ""
+    if not code:
+        return queryset.filter(tracks__isnull=True).distinct()
+
+    from career.models import Track
+
+    allowed_ids = [
+        track.pk for track in Track.objects.filter(is_active=True)
+        if code in {value.strip().lower() for value in track.specialties.split(",") if value.strip()}
+    ]
+    return queryset.filter(Q(tracks__isnull=True) | Q(tracks__in=allowed_ids)).distinct()
+
+
 def purchase(user, variant_id):
     with transaction.atomic():
         variant = ProductVariant.objects.select_for_update().select_related("product").get(pk=variant_id)
         product = variant.product
         if product.status != product.Status.ON_SALE or product.kind == product.Kind.REWARD:
             raise ShopError("Товар не продаётся")
+        if not products_for_user(user).filter(pk=product.pk).exists():
+            raise ShopError("Товар недоступен для направления вашей группы")
         if product.kind == product.Kind.EXPERIENCE:
             _check_experience(product, user)
         if variant.stock < 1:

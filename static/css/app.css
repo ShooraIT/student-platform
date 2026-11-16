@@ -452,6 +452,10 @@ th { font-size: .72rem; color: var(--muted); font-weight: 800; text-transform: u
 .merch-preview-media { height:clamp(180px,36vh,320px); display:flex; align-items:center; justify-content:center; background:#f0f1f4; border-radius:14px; overflow:hidden; }
 .merch-preview-media img { display:block; width:100%; height:100%; object-fit:contain; }
 #merch-preview-price { margin:.75rem 0 0; color:var(--terra); font-weight:800; }
+[data-sticker-finish="3d"] img { filter:drop-shadow(0 12px 8px #1d1f2755); transform:perspective(700px) rotateY(-7deg) rotateX(3deg) scale(.9); }
+[data-sticker-finish="holographic"] { position:relative; isolation:isolate; }
+[data-sticker-finish="holographic"]::after { content:""; position:absolute; inset:0; z-index:1; pointer-events:none; border-radius:inherit; background:linear-gradient(128deg,transparent 17%,#ff83c355 28%,#ffe66e66 39%,#70ffe177 50%,#71bfff77 62%,#c68aff66 73%,transparent 86%); mix-blend-mode:screen; }
+[data-sticker-finish] .sticker { z-index:2; }
 @media (max-width:600px) {
   #merch-preview-dialog { width:calc(100vw - 1rem); max-height:calc(100dvh - 1rem); padding:1rem; border-radius:16px; }
   #merch-preview-dialog .activity-dialog-head h2 { font-size:1.1rem; }
