@@ -443,6 +443,21 @@ th { font-size: .72rem; color: var(--muted); font-weight: 800; text-transform: u
   .profile-badges { grid-template-columns: 1fr 1fr; }
 }
 
+/* Product preview sizing and styling shared with the Pages demo. */
+#merch-preview-dialog { box-sizing:border-box; width:min(760px,calc(100vw - 2rem)); max-width:none; max-height:calc(100dvh - 2rem); margin:auto; padding:1.25rem; border:0; border-radius:20px; color:var(--ink); background:var(--card); box-shadow:0 24px 80px #17192355; overflow:auto; }
+#merch-preview-dialog::backdrop { background:#171923aa; backdrop-filter:blur(3px); }
+#merch-preview-dialog .activity-form { width:100%; max-width:none; padding:0; border:0; border-radius:0; background:transparent; }
+#merch-preview-dialog .activity-dialog-head { display:flex; justify-content:space-between; align-items:flex-start; gap:1rem; margin-bottom:.75rem; }
+#merch-preview-dialog .activity-dialog-head h2 { margin:.25rem 0 0; font-size:1.3rem; }
+.merch-preview-media { height:clamp(180px,36vh,320px); display:flex; align-items:center; justify-content:center; background:#f0f1f4; border-radius:14px; overflow:hidden; }
+.merch-preview-media img { display:block; width:100%; height:100%; object-fit:contain; }
+#merch-preview-price { margin:.75rem 0 0; color:var(--terra); font-weight:800; }
+@media (max-width:600px) {
+  #merch-preview-dialog { width:calc(100vw - 1rem); max-height:calc(100dvh - 1rem); padding:1rem; border-radius:16px; }
+  #merch-preview-dialog .activity-dialog-head h2 { font-size:1.1rem; }
+  .merch-preview-media { height:min(34vh,260px); min-height:170px; }
+}
+
 /* ---------- дополнительные правила адаптивности ---------- */
 html { width: 100%; }
 body { width: 100%; min-width: 320px; overflow-x: hidden; }

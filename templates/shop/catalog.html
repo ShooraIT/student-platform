@@ -20,6 +20,7 @@
   <a data-demo-shop-filter="accessories" class="{% if selected_category == 'accessories' %}active{% endif %}" href="{% url 'shop:catalog' %}?category=accessories">Аксессуары</a>
   <a data-demo-shop-filter="experience" class="{% if selected_category == 'experience' %}active{% endif %}" href="{% url 'shop:catalog' %}?category=experience">Впечатления</a>
 </div>
+<p class="muted small">Цены указаны ориентировочно в степах и могут быть изменены администратором перед продажей.</p>
 <div class="grid shop-grid">
 {% for p in products %}{% with s=p.total_stock %}
   <a class="card product-card" data-demo-shop-category="{{ p.category }}" href="{% url 'shop:product' p.pk %}">
