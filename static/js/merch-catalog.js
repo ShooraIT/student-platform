@@ -5,18 +5,32 @@
   var base = (script && script.dataset.base) || "";
   var dialog = document.getElementById("merch-preview-dialog");
   var itemsById = {};
+  var trackSpecialties = {
+    "it-support": ["09.02.07", "09.02.12"],
+    "it-ai": ["09.02.13"],
+    "it-development": ["09.02.07", "09.02.09", "09.02.11"],
+    "creative-design": ["54.01.20", "54.02.01"],
+    "creative-animation": ["55.02.02"],
+    finance: ["38.02.06"], cooks: ["43.02.15"],
+    "transport-service": ["43.02.06"], hospitality: ["43.02.16"]
+  };
+  var studentSpecialty = root.dataset.studentSpecialty || "";
+  function isForStudent(item) {
+    if (!item.track) return true;
+    return !!studentSpecialty && (trackSpecialties[item.track] || []).indexOf(studentSpecialty) !== -1;
+  }
   function imageMarkup(item) {
     if (!item.image) return '<div class="merch-art-missing"><span>макет ожидается</span><b>01:17</b></div>';
     return '<img src="' + base + "/static/" + item.image + '" alt="" loading="lazy">';
   }
   function render(items) {
     root.innerHTML = "";
-    items.forEach(function (item) {
+    items.filter(isForStudent).forEach(function (item) {
       itemsById[item.id] = item;
       var card = document.createElement("button");
       card.type = "button"; card.className = "card product-card merch-card";
       card.dataset.demoShopCategory = item.category || "accessories"; card.dataset.merchPreview = item.id;
-      var photo = document.createElement("span"); photo.className = "product-photo merch-photo"; photo.innerHTML = imageMarkup(item);
+      var photo = document.createElement("span"); photo.className = "product-photo merch-photo"; photo.dataset.stickerFinish = item.finish || ""; photo.innerHTML = imageMarkup(item);
       var status = document.createElement("span"); status.className = "sticker terra"; status.textContent = item.sale_status === "award_only" ? "НАГРАДА" : "МАКЕТ"; photo.appendChild(status);
       var title = document.createElement("strong"); title.textContent = item.title;
       var description = document.createElement("span"); description.className = "muted small"; description.textContent = item.track_title || (item.type === "reward" ? "Выдаётся как награда колледжа" : "Каталог 01:17");
@@ -34,7 +48,9 @@
     document.getElementById("merch-preview-track").textContent = item.track_title || (item.sale_status === "award_only" ? "Награда колледжа" : "Общая коллекция 01:17");
     document.getElementById("merch-preview-price").textContent = item.sale_status === "award_only" ? "Выдаётся как награда" : (item.price ? "Ориентировочная цена: " + item.price + " степов" : "Цена настраивается");
     document.getElementById("merch-preview-label").textContent = item.label || "Макет и параметры выдачи согласуются";
-    document.getElementById("merch-preview-media").innerHTML = imageMarkup(item); dialog.showModal();
+    var media = document.getElementById("merch-preview-media");
+    media.dataset.stickerFinish = item.finish || "";
+    media.innerHTML = imageMarkup(item); dialog.showModal();
   });
   document.addEventListener("click", function (event) { if (event.target.closest("[data-merch-close]") && dialog) dialog.close(); });
   if (dialog) dialog.addEventListener("click", function (event) { if (event.target === dialog) dialog.close(); });
