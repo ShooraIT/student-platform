@@ -530,3 +530,14 @@ main > *, .card, .grid > *, .grid-2 > *, .grid-main > *, .dashboard-columns > *,
   #merch-preview-dialog .activity-dialog-head h2 { font-size:1.1rem; }
   .merch-preview-media { height:min(34vh,260px); min-height:170px; }
 }
+/* Activity format colors: shared between the home cards and calendar. */
+.event-feature[data-event-kind="excursion"] { --event-color: #2e7d4f; color: #fff !important; }
+.event-feature[data-event-kind="meeting"] { --event-color: #cb563d; color: #fff !important; }
+.event-feature[data-event-kind="trial"] { --event-color: #f1a627; color: #1d1f27 !important; }
+.event-feature[data-event-kind="excursion"] .event-feature-date, .event-feature[data-event-kind="excursion"] .event-feature-kind, .event-feature[data-event-kind="excursion"] .event-feature-foot, .event-feature[data-event-kind="meeting"] .event-feature-date, .event-feature[data-event-kind="meeting"] .event-feature-kind, .event-feature[data-event-kind="meeting"] .event-feature-foot { color: #fff; }
+.event-feature[data-event-kind="trial"] .event-feature-date, .event-feature[data-event-kind="trial"] .event-feature-kind, .event-feature[data-event-kind="trial"] .event-feature-foot, .event-feature[data-event-kind="trial"] .event-feature-tracks span { color: #1d1f27; }
+.event-feature[data-event-kind="trial"] .event-feature-tracks span { background: rgba(29,31,39,.12); }
+.cal .ev[data-event-kind="excursion"] { background: #2e7d4f; color: #fff; }
+.cal .ev[data-event-kind="meeting"] { background: #cb563d; color: #fff; }
+.cal .ev[data-event-kind="trial"] { background: #f1a627; color: #1d1f27; }
+
