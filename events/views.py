@@ -88,7 +88,31 @@ def calendar_view(request):
         by_day = {}
         for e in events:
             d = timezone.localtime(e.start).date()
-            by_day.setdefault(d, []).append(e)
+            event_kind = "excursion" if "Экскурсия" in e.title else "trial" if "Профпроба" in e.title or "проба профессий" in e.title else "meeting"
+            by_day.setdefault(d, []).append({"item": e, "date": e.start, "title": e.title, "href": reverse("events:detail", args=[e.pk]), "kind": event_kind})
+        # The month calendar represents the same activity stream as the list:
+        # tasks and surveys are placed on their deadline/closing date.
+        range_start = timezone.make_aware(datetime.combine(first, datetime.min.time()), tz)
+        range_end = timezone.make_aware(datetime.combine(last + timedelta(days=1), datetime.min.time()), tz)
+        if user.can_access("tasks"):
+            tasks = Task.visible_to(user, Task.objects.filter(status=Task.Status.PUBLISHED, deadline__gte=range_start, deadline__lt=range_end))
+            if visible_track_ids is not None:
+                tasks = tasks.filter(tracks__in=visible_track_ids).distinct() if visible_track_ids else tasks.none()
+            if mine:
+                tasks = tasks.filter(submissions__user=user)
+            for task in tasks:
+                by_day.setdefault(timezone.localtime(task.deadline).date(), []).append({"item": task, "date": task.deadline, "title": task.title, "href": reverse("assignments:detail", args=[task.pk]), "kind": "task"})
+        if user.can_access("surveys"):
+            surveys = Survey.visible_to(user, Survey.objects.filter(status=Survey.Status.PUBLISHED, closes_at__gte=range_start, closes_at__lt=range_end))
+            if visible_track_ids is not None:
+                surveys = surveys.filter(tracks__in=visible_track_ids).distinct() if visible_track_ids else surveys.none()
+            if mine:
+                surveys = surveys.filter(completions__user=user)
+            for survey in surveys:
+                kind = "vote" if survey.kind == Survey.Kind.VOTE else "survey"
+                by_day.setdefault(timezone.localtime(survey.closes_at).date(), []).append({"item": survey, "date": survey.closes_at, "title": survey.title, "href": reverse("surveys:detail", args=[survey.pk]), "kind": kind})
+        for day_items in by_day.values():
+            day_items.sort(key=lambda activity: activity["date"])
         weeks = [
             [{"date": d, "in_month": d.month == month, "events": by_day.get(d, []), "today": d == today} for d in week]
             for week in calendar.Calendar(firstweekday=0).monthdatescalendar(year, month)
@@ -312,3 +336,4 @@ def staff_attendees(request, pk):
         waitlist=Count("id", filter=Q(status=Registration.Status.WAITLIST)),
     )
     return render(request, "events/staff_attendees.html", {"event": event, "regs": regs, "q": q, "found": found, "stats": stats})
+
