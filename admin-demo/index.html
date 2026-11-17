@@ -136,6 +136,18 @@
     .admin-detail-window[open] > summary { position:sticky; top:0; z-index:2; margin:-.25rem -.25rem .75rem; background:var(--ink); color:#fff; }
     .admin-detail-window[open] > summary::after { content:"Закрыть ×"; color:var(--yellow); }
     @media(max-width:600px) { .admin-detail-window[open] { inset:1vh 2vw; max-height:98vh; padding:.65rem; } .admin-detail-window > summary { align-items:flex-start; flex-direction:column; gap:.25rem; } }
+    .admin-detail-window { display:none !important; }
+    .admin-detail-opener { width:100%; display:flex; justify-content:space-between; align-items:center; gap:1rem; margin:.55rem 0; padding:.85rem 1rem; border:1px solid var(--line); border-radius:14px; background:var(--card); color:var(--ink); box-shadow:var(--shadow); font:inherit; font-weight:800; text-align:left; cursor:pointer; }
+    .admin-detail-opener b { color:var(--terra); font-size:.82rem; white-space:nowrap; }
+    .admin-detail-opener:hover { border-color:var(--terra); transform:translateY(-1px); }
+    .admin-detail-dialog { width:min(1080px,94vw); max-width:none; max-height:90vh; overflow:auto; padding:1rem; border:0; border-radius:18px; color:var(--ink); background:var(--page); box-shadow:0 24px 70px #17192355; }
+    .admin-detail-dialog::backdrop { background:#171923d9; backdrop-filter:blur(3px); }
+    .admin-detail-dialog-head { position:sticky; top:-1rem; z-index:4; display:flex; justify-content:space-between; align-items:center; gap:1rem; margin:-1rem -1rem .85rem; padding:.8rem 1rem; border-radius:18px 18px 0 0; background:var(--ink); color:#fff; }
+    .admin-detail-dialog-head h2 { margin:0; font-size:1.05rem; }
+    .admin-detail-dialog > .admin-card, .admin-detail-dialog > .admin-grid { margin:0; }
+    .admin-detail-dialog > .admin-grid { grid-template-columns:1fr; gap:.65rem; }
+    .admin-detail-dialog .admin-card { box-shadow:none; border:1px solid var(--line); }
+    @media(max-width:600px) { .admin-detail-opener { align-items:flex-start; flex-direction:column; gap:.3rem; } .admin-detail-dialog { width:96vw; max-height:94vh; padding:.65rem; } .admin-detail-dialog-head { margin:-.65rem -.65rem .65rem; } }
 </style>
   <script src="/student-platform/static/js/demo-interactions.js" data-base="/student-platform" defer></script>
 </head>
@@ -452,9 +464,14 @@
     </form>
   </dialog>
 <script>
-(() => { const targets=[['#analytics-title','Подробная аналитика групп и направлений'],['#activities','Проверка и маршрут первого курса'],['#students','Список студентов и их активность'],['#manual-review','Работы и достижения на проверке'],['#shop-management','Каталог и остатки магазина'],['#shop-orders','Заказы студентов и выдача']]; const init=()=>targets.forEach(([selector,label])=>{const node=document.querySelector(selector);const panel=selector==='#analytics-title'?node?.closest('section'):node;if(!panel||panel.closest('.admin-detail-window'))return;const fold=document.createElement('details');fold.className='admin-detail-window';const summary=document.createElement('summary');summary.textContent=label;panel.parentNode.insertBefore(fold,panel);fold.append(summary,panel)}); if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();document.addEventListener('keydown',e=>{if(e.key==='Escape')document.querySelectorAll('.admin-detail-window[open]').forEach(p=>p.open=false)})})();
+(() => {
+ const targets=[['#analytics-title','Подробная аналитика групп и направлений'],['#activities','Проверка и маршрут первого курса'],['#students','Список студентов и их активность'],['#manual-review','Работы и достижения на проверке'],['#shop-management','Каталог и остатки магазина'],['#shop-orders','Заказы студентов и выдача']];
+ const init=()=>targets.forEach(([selector,label])=>{const node=document.querySelector(selector);const panel=selector==='#analytics-title'?node?.closest('section'):node;if(!panel||panel.dataset.detailWindowReady)return;panel.dataset.detailWindowReady='1';const opener=document.createElement('button');opener.type='button';opener.className='admin-detail-opener';opener.innerHTML='<span>'+label+'</span><b>Открыть подробно →</b>';panel.parentNode.insertBefore(opener,panel);const placeholder=document.createComment('admin detail location');panel.parentNode.insertBefore(placeholder,panel);const dialog=document.createElement('dialog');dialog.className='admin-detail-dialog';const head=document.createElement('header');head.className='admin-detail-dialog-head';const title=document.createElement('h2');title.textContent=label;const close=document.createElement('button');close.type='button';close.className='btn secondary small';close.textContent='Закрыть';head.append(title,close);dialog.append(head,panel);document.body.append(dialog);const restore=()=>{if(!placeholder.isConnected)return;placeholder.parentNode.insertBefore(panel,placeholder);placeholder.remove();dialog.remove()};opener.addEventListener('click',()=>dialog.showModal());close.addEventListener('click',()=>dialog.close());dialog.addEventListener('close',restore,{once:true});});
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
+})();
 </script>
 </body>
 </html>
+
 
 
