@@ -1,6 +1,7 @@
 {% extends "base.html" %}{% load platform %}
 {% block title %}Панель администратора{% endblock %}
 {% block content %}
+<div class="staff-dashboard">
 <h1>Панель администратора</h1>
 <div class="grid">
   <div class="card"><div class="muted">Студентов</div><div class="stat">{{ students }}</div><div class="muted small">активны за 7 дней: {{ active7 }} · за 30: {{ active30 }}</div></div>
@@ -42,4 +43,6 @@
     {% empty %}<p class="muted">Нет запланированных мероприятий</p>{% endfor %}
   </div>
 </div>
+</div>
 {% endblock %}
+
