@@ -206,6 +206,14 @@ th { font-size: .72rem; color: var(--muted); font-weight: 800; text-transform: u
 .dashboard-section-head > a { font-size: .88rem; white-space: nowrap; }
 .event-rail { display: grid; grid-auto-columns: minmax(240px, 1fr); grid-auto-flow: column; gap: .8rem; overflow-x: auto; padding: 2px 2px .7rem; scroll-snap-type: x mandatory; }
 .event-feature { min-height: 178px; display: flex; flex-direction: column; align-items: flex-start; gap: .55rem; padding: 1.05rem 1.1rem; border-radius: 16px; color: #fff !important; text-decoration: none !important; background: linear-gradient(135deg, color-mix(in srgb, var(--event-color) 82%, var(--ink)), var(--event-color)); position: relative; overflow: hidden; scroll-snap-align: start; }
+.event-feature[data-event-tracks~="it-support"], .event-feature[data-event-tracks~="it-ai"], .event-feature[data-event-tracks~="it-development"] { --event-color: #3478c5; }
+.event-feature[data-event-tracks~="creative-design"] { --event-color: #b565c7; }
+.event-feature[data-event-tracks~="creative-animation"] { --event-color: #d45783; }
+.event-feature[data-event-tracks~="finance"] { --event-color: #368e68; }
+.event-feature[data-event-tracks~="cooks"] { --event-color: #d17a18; }
+.event-feature[data-event-tracks~="transport-service"] { --event-color: #168b91; }
+.event-feature[data-event-tracks~="hospitality"] { --event-color: #a9533b; }
+.event-feature[data-event-tracks~="all"] { --event-color: #6672c7; }
 .event-feature::after { content: ""; position: absolute; width: 112px; height: 112px; right: -38px; top: -52px; border: 18px solid rgba(255,255,255,.18); border-radius: 24px; transform: rotate(20deg); }
 .event-feature-date { display: flex; align-items: baseline; gap: .3rem; color: #fff; }
 .event-feature-date b { font-size: 1.35rem; }
@@ -317,7 +325,15 @@ th { font-size: .72rem; color: var(--muted); font-weight: 800; text-transform: u
 .cal .day.out { background: transparent; color: #b5b7c0; }
 .cal .day.today { outline: 2px solid var(--yellow); }
 .cal .num { font-weight: 800; font-size: .8rem; }
-.cal .ev { display: block; margin-top: 4px; padding: 3px 6px; border-radius: 6px; color: #fff; font-size: .7rem; font-weight: 600; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; text-decoration: none !important; }
+.cal .ev { --event-color: var(--terra); display: block; margin-top: 4px; padding: 3px 6px; border-radius: 6px; color: #fff; background: var(--event-color); font-size: .7rem; font-weight: 600; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; text-decoration: none !important; }
+.cal .ev[data-event-tracks~="it-support"], .cal .ev[data-event-tracks~="it-ai"], .cal .ev[data-event-tracks~="it-development"] { --event-color: #3478c5; }
+.cal .ev[data-event-tracks~="creative-design"] { --event-color: #b565c7; }
+.cal .ev[data-event-tracks~="creative-animation"] { --event-color: #d45783; }
+.cal .ev[data-event-tracks~="finance"] { --event-color: #368e68; }
+.cal .ev[data-event-tracks~="cooks"] { --event-color: #d17a18; }
+.cal .ev[data-event-tracks~="transport-service"] { --event-color: #168b91; }
+.cal .ev[data-event-tracks~="hospitality"] { --event-color: #a9533b; }
+.cal .ev[data-event-tracks~="all"] { --event-color: #6672c7; }
 .cal .ev.mine { box-shadow: inset 0 0 0 2px rgba(255,255,255,.7); }
 
 /* ---------- задания ---------- */
