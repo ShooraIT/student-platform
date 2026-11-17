@@ -28,7 +28,7 @@
   {% for w in weeks %}{% for d in w %}
   <div class="day {% if not d.in_month %}out{% endif %} {% if d.today %}today{% endif %}">
     <div class="num">{{ d.date.day }}</div>
-    {% for e in d.events %}<a class="ev {% if my_regs|get_item:e.pk %}mine{% endif %}" data-event-kind="{% if 'Экскурсия' in e.title %}excursion{% elif 'Профпроба' in e.title or 'проба профессий' in e.title %}trial{% else %}meeting{% endif %}" data-demo-category="{{ e.category_id }}" data-demo-mine="{% if my_regs|get_item:e.pk %}true{% else %}false{% endif %}" data-event-tracks="{% for track in e.tracks.all %}{{ track.slug }} {% endfor %}" href="{% url 'events:detail' e.pk %}" title="{{ e.start|date:'H:i' }} {{ e.title }}">{{ e.start|date:"H:i" }} · {{ e.title }}</a>{% endfor %}
+    {% for activity in d.events %}<a class="ev {{ activity.kind }}" data-event-kind="{{ activity.kind }}" href="{{ activity.href }}" title="{{ activity.date|date:'H:i' }} {{ activity.title }}">{{ activity.date|date:"H:i" }} · {{ activity.title }}</a>{% endfor %}
   </div>
   {% endfor %}{% endfor %}
 </div>
