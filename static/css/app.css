@@ -553,4 +553,10 @@ main > *, .card, .grid > *, .grid-2 > *, .grid-main > *, .dashboard-columns > *,
 .cal .ev[data-event-kind="task"] { background: #f1a627 !important; color: #1d1f27 !important; }
 .cal .ev[data-event-kind="vote"] { background: #1d1f27 !important; color: #fff !important; }
 .cal .ev[data-event-kind="survey"] { background: #2e7d4f !important; color: #fff !important; }
+.staff-dashboard > h1 { margin: .2rem 0 .7rem; }
+.staff-dashboard > .grid, .staff-dashboard > .grid-2 { gap: .65rem; margin-bottom: .75rem; }
+.staff-dashboard > .grid .card, .staff-dashboard > .grid-2 .card, .staff-dashboard > .card { padding: .8rem .95rem; }
+.staff-dashboard .pill-tabs { margin: .65rem 0; gap: .45rem; }
+.staff-dashboard .list-item { padding: .5rem 0; }
+.staff-dashboard table th, .staff-dashboard table td { padding: .5rem .45rem; }
 
