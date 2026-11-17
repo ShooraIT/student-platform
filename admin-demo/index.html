@@ -80,6 +80,20 @@
     .group-checks { display:grid; gap:.15rem; }
     .group-checks label { display:flex; align-items:center; gap:.55rem; padding:.5rem .25rem; border-bottom:1px solid var(--line); font-weight:600; cursor:pointer; }
     .group-checks label:last-child { border-bottom:0; }
+    /* Denser admin overview; every section remains visible. */
+    .admin-demo { padding-top: .8rem; }
+    .admin-top { margin-bottom: .8rem; }
+    .admin-hero { padding: 1.25rem 1.5rem; gap: 1rem; }
+    .admin-hero h1 { font-size: 1.55rem; margin-bottom: .3rem; }
+    .admin-stats { gap: .65rem; margin: .75rem 0 1.1rem; }
+    .admin-stat { padding: .85rem 1rem; }
+    .admin-stat strong { font-size: 1.55rem; }
+    .admin-grid { gap: .7rem; margin: .7rem 0 1.2rem; }
+    .admin-card { padding: .9rem 1rem; }
+    .admin-card h2 { margin-bottom: .65rem; }
+    .admin-row { padding: .6rem 0; gap: .7rem; }
+    .admin-analytics { gap: .7rem; }
+    .admin-table th, .admin-table td { padding: .55rem .45rem; }
     @media(max-width:960px) {
       .admin-stats { grid-template-columns:repeat(2,minmax(0,1fr)); }
       .admin-grid { grid-template-columns:1fr; }
@@ -431,3 +445,4 @@
   </dialog>
 </body>
 </html>
+
