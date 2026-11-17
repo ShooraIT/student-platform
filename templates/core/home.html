@@ -25,7 +25,7 @@
   <div class="dashboard-section-head"><div><span class="eyebrow">ВЫБИРАЙ СВОЁ</span><h2>Ближайшие события</h2></div><a href="/events/">Все активности →</a></div>
   <div class="event-rail">
     {% for e in upcoming %}
-    <a class="event-feature" href="{% url 'events:detail' e.pk %}" style="--event-color:{{ e.category.color }}">
+    <a class="event-feature" href="{% url 'events:detail' e.pk %}" data-event-tracks="{% for track in e.tracks.all %}{{ track.slug }} {% endfor %}">
       <span class="event-feature-date"><b>{{ e.start|date:"j" }}</b><small>{{ e.start|date:"M"|slice:":3" }}</small></span>
       <span class="event-feature-kind">{{ e.category.name }}</span>
       <strong>{{ e.title }}</strong>

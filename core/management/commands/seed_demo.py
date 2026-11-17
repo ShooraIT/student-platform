@@ -50,7 +50,7 @@ class Command(BaseCommand):
         students = list(User.objects.filter(username__startswith="demo-").select_related("group"))
 
         cats = {n: Category.objects.create(name=n, color=c) for n, c in
-                [("Спорт", "#2e7d4f"), ("Творчество", "#cb563d"), ("Учёба", "#f1a627"), ("Волонтёрство", "#cb563d"), ("Профориентация", "#1d1f27")]}
+                [("Спорт", "#2e7d4f"), ("Творчество", "#cb563d"), ("Учёба", "#f1a627"), ("Волонтёрство", "#cb563d"), ("Профориентация", "#cb563d")]}
         all_track_slugs = list(Track.objects.filter(is_active=True).values_list("slug", flat=True))
         employers = [
             Employer.objects.get(name="ВР Концепт"),
