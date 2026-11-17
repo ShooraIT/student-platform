@@ -530,3 +530,13 @@ main > *, .card, .grid > *, .grid-2 > *, .grid-main > *, .dashboard-columns > *,
   .profile-identity { align-items: flex-start; }
   .profile-identity .avatar { flex: none; }
 }
+.event-feature[data-event-tracks~="it-support"], .event-feature[data-event-tracks~="creative-design"], .event-feature[data-event-tracks~="hospitality"] { --event-color: var(--terra); }
+.event-feature[data-event-tracks~="it-ai"], .event-feature[data-event-tracks~="creative-animation"], .event-feature[data-event-tracks~="cooks"] { --event-color: var(--yellow); color: var(--ink) !important; }
+.event-feature[data-event-tracks~="it-development"], .event-feature[data-event-tracks~="finance"], .event-feature[data-event-tracks~="transport-service"] { --event-color: var(--green); }
+.event-feature[data-event-tracks~="all"] { --event-color: var(--terra); }
+.event-feature[data-event-tracks~="it-ai"] .event-feature-date, .event-feature[data-event-tracks~="creative-animation"] .event-feature-date, .event-feature[data-event-tracks~="cooks"] .event-feature-date { color: var(--ink); }
+.event-feature[data-event-tracks~="it-ai"] .event-feature-tracks span, .event-feature[data-event-tracks~="creative-animation"] .event-feature-tracks span, .event-feature[data-event-tracks~="cooks"] .event-feature-tracks span { color: var(--ink); background: rgba(29,31,39,.12); }
+.cal .ev[data-event-tracks~="it-support"], .cal .ev[data-event-tracks~="creative-design"], .cal .ev[data-event-tracks~="hospitality"] { --event-color: var(--terra); }
+.cal .ev[data-event-tracks~="it-ai"], .cal .ev[data-event-tracks~="creative-animation"], .cal .ev[data-event-tracks~="cooks"] { --event-color: var(--yellow); color: var(--ink); }
+.cal .ev[data-event-tracks~="it-development"], .cal .ev[data-event-tracks~="finance"], .cal .ev[data-event-tracks~="transport-service"] { --event-color: var(--green); }
+.cal .ev[data-event-tracks~="all"] { --event-color: var(--terra); }
