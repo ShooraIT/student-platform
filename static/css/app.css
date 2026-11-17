@@ -540,4 +540,11 @@ main > *, .card, .grid > *, .grid-2 > *, .grid-main > *, .dashboard-columns > *,
 .cal .ev[data-event-kind="excursion"] { background: #2e7d4f; color: #fff; }
 .cal .ev[data-event-kind="meeting"] { background: #cb563d; color: #fff; }
 .cal .ev[data-event-kind="trial"] { background: #f1a627; color: #1d1f27; }
+/* Activity format overrides the track palette on every calendar chip. */
+.cal .ev[data-event-kind="excursion"] { background: #2e7d4f !important; color: #fff !important; }
+.cal .ev[data-event-kind="meeting"] { background: #cb563d !important; color: #fff !important; }
+.cal .ev[data-event-kind="trial"] { background: #f1a627 !important; color: #1d1f27 !important; }
+.cal .ev[data-event-kind="task"] { background: #f1a627 !important; color: #1d1f27 !important; }
+.cal .ev[data-event-kind="vote"] { background: #1d1f27 !important; color: #fff !important; }
+.cal .ev[data-event-kind="survey"] { background: #2e7d4f !important; color: #fff !important; }
 
