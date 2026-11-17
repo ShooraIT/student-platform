@@ -128,7 +128,15 @@
       .admin-actions .btn { width:100%; }
       .activity-dialog-head { flex-direction:column; }
     }
-  </style>
+      .admin-detail-window { margin:.65rem 0; }
+    .admin-detail-window > summary { display:flex; justify-content:space-between; align-items:center; gap:1rem; list-style:none; cursor:pointer; padding:.8rem 1rem; border-radius:14px; background:var(--card); box-shadow:var(--shadow); font-weight:800; }
+    .admin-detail-window > summary::-webkit-details-marker { display:none; }
+    .admin-detail-window > summary::after { content:"Открыть подробно ↗"; color:var(--terra); font-size:.82rem; white-space:nowrap; }
+    .admin-detail-window[open] { position:fixed; z-index:1000; inset:5vh 5vw; max-height:90vh; overflow:auto; padding:1rem; border-radius:18px; background:var(--page); box-shadow:0 0 0 100vmax #171923aa,0 20px 70px #17192355; }
+    .admin-detail-window[open] > summary { position:sticky; top:0; z-index:2; margin:-.25rem -.25rem .75rem; background:var(--ink); color:#fff; }
+    .admin-detail-window[open] > summary::after { content:"Закрыть ×"; color:var(--yellow); }
+    @media(max-width:600px) { .admin-detail-window[open] { inset:1vh 2vw; max-height:98vh; padding:.65rem; } .admin-detail-window > summary { align-items:flex-start; flex-direction:column; gap:.25rem; } }
+</style>
   <script src="__BASE__/static/js/demo-interactions.js" data-base="__BASE__" defer></script>
 </head>
 <body>
@@ -381,6 +389,10 @@
       <div class="activity-form-actions"><button class="btn secondary" type="button" data-demo-close>Отмена</button><button class="btn primary" type="submit">Сохранить в демо</button></div>
     </form>
   </dialog>
+<script>
+(() => { const targets=[['#analytics-title','Подробная аналитика групп и направлений'],['#activities','Проверка и маршрут первого курса'],['#students','Список студентов и их активность'],['#manual-review','Работы и достижения на проверке'],['#shop-management','Каталог и остатки магазина'],['#shop-orders','Заказы студентов и выдача']]; const init=()=>targets.forEach(([selector,label])=>{const node=document.querySelector(selector);const panel=selector==='#analytics-title'?node?.closest('section'):node;if(!panel||panel.closest('.admin-detail-window'))return;const fold=document.createElement('details');fold.className='admin-detail-window';const summary=document.createElement('summary');summary.textContent=label;panel.parentNode.insertBefore(fold,panel);fold.append(summary,panel)}); if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();document.addEventListener('keydown',e=>{if(e.key==='Escape')document.querySelectorAll('.admin-detail-window[open]').forEach(p=>p.open=false)})})();
+</script>
 </body>
 </html>
+
 
